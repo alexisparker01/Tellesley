@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "tellesley",
+    "slug": "tellesley",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "tellesley"
+}
