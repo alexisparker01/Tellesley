@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import Inputs from './components/loginsignup';
-
+import Inputs from './components/loginSignupView';
+import EditProfile from './components/editProfile';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.appTitle}>
+        <Text style={styles.appTitle}>
         Tellesley
       </Text>
-      <Inputs />
+      <Inputs/>
+      <EditProfile/>
     </View>
+ 
   );
 }
 

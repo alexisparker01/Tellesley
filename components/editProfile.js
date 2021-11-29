@@ -1,51 +1,82 @@
 
 
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image } from 'react-native'
 
 // Need to make sign up button disappear when you click on login and vice-versa
 // Need to make submit button appear after clicking on either button
 
-class Inputs extends Component {
+class EditProfile extends Component {
    state = {
-      email: '',
-      password: '',
-      hidden: false
+      username: '',
+      firstname: '',
+      lastname: '',
+      bio: '',
+      profilePicture: '',
+
    }
  
-   handleEmail = (text) => {
-
-    this.setState({ email: text })
+   handleUsername = (input) => {
+       this.setState({username: input });
    }
 
-   handlePassword = (text) => {
-      this.setState({ password: text })
-   }
+   handleFirstname = (input) => {
+      this.setState({firstname: input });
+  }
 
-   handleSubmit = () => {
-       alert("Your email is: " + this.state.email + "\n and your password is: " + this.state.password);
-   }
+  handleLastname = (input) => {
+   this.setState({lastname: input });
+}
 
+  handleBio = (input) => {
+   this.setState({bio: input });
+}
+
+handleProfilePicture = (input) => {
+   this.setState({profilePicture: input });
+}
 
    render() {
       return (
          <View style = {styles.container}>
+
+<Image
+  source={{ uri: 'app_icon' }}
+  style={{ width: 40, height: 40 }}
+/>
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = " Email"
+               placeholder = "Username"
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handleEmail}
+               onChangeText = {this.handleUsername}
                />
             
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = " Password"
+               placeholder = "First Name"
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handlePassword}
+               onChangeText = {this.handleFirstname}
                />
 
+            <TextInput style = {styles.input}
+               underlineColorAndroid = "transparent"
+               placeholder = "Last Name"
+               placeholderTextColor = "#002776"
+               autoCapitalize = "none"
+               onChangeText = {this.handleLastname}
+               />
+
+            <TextInput style = {styles.input}
+               underlineColorAndroid = "transparent"
+               placeholder = "Bio"
+               placeholderTextColor = "#002776"
+               autoCapitalize = "none"
+               onChangeText = {this.handleBio}
+               />
+
+      
             <TouchableOpacity
                style = {styles.button}
                onPress = {
@@ -67,7 +98,7 @@ class Inputs extends Component {
       )
    }
 }
-export default Inputs
+export default EditProfile
 
 const styles = StyleSheet.create({
    container: {
