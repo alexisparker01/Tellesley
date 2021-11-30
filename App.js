@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
-import Inputs from './components/loginSignupView';
+import Login from './components/loginSignupView';
 import EditProfile from './components/editProfile';
+import { LoginScreen } from './components/newLogin';
 
 export default function App() {
   return (
@@ -10,8 +11,9 @@ export default function App() {
         <Text style={styles.appTitle}>
         Tellesley
       </Text>
-      <Inputs/>
+      <Login/>
       <EditProfile/>
+      <LoginScreen />
     </View>
  
   );

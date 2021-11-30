@@ -16,29 +16,37 @@ class EditProfile extends Component {
 
    }
  
-   handleUsername = (input) => {
+   handleUsernameChange = (input) => {
        this.setState({username: input });
    }
 
-   handleFirstname = (input) => {
+   handleFirstnameChange = (input) => {
       this.setState({firstname: input });
   }
 
-  handleLastname = (input) => {
+  handleLastnameChange = (input) => {
    this.setState({lastname: input });
 }
 
-  handleBio = (input) => {
+  handleBioChange = (input) => {
    this.setState({bio: input });
 }
 
-handleProfilePicture = (input) => {
+handleProfilePictureChange = (input) => {
    this.setState({profilePicture: input });
+}
+
+handleSubmit() {
+   this.handleFirstnameChange;
+   this.handleBioChange;
+   this.handleLastnameChange;
+   this.handleUsernameChange;
 }
 
    render() {
       return (
          <View style = {styles.container}>
+            <h2>Edit Profile</h2>
 
 <Image
   source={{ uri: 'app_icon' }}
@@ -46,34 +54,34 @@ handleProfilePicture = (input) => {
 />
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "Username"
+               placeholder = {this.state.username}
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handleUsername}
+               onChangeText = {this.handleUsernameChange}
                />
             
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "First Name"
+               placeholder = {this.state.firstname}
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handleFirstname}
+               onChangeText = {this.handleFirstnameChange}
                />
 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "Last Name"
+               placeholder = {this.state.lastname}
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handleLastname}
+               onChangeText = {this.handleLastnameChange}
                />
 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "Bio"
+               placeholder = {this.state.bio}
                placeholderTextColor = "#002776"
                autoCapitalize = "none"
-               onChangeText = {this.handleBio}
+               onChangeText = {this.handleBioChange}
                />
 
       
@@ -82,18 +90,8 @@ handleProfilePicture = (input) => {
                onPress = {
                   () => this.handleSubmit()
                }>
-               <Text style = {styles.submitButtonText}> Login </Text>
+               <Text style = {styles.submitButtonText}> Save Changes </Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-               style = {styles.button}
-               onPress = {
-                  () => this.handleSubmit()
-               }>
-               <Text style = {styles.submitButtonText}> Sign Up </Text>
-            </TouchableOpacity>
-            
-    
          </View>
       )
    }

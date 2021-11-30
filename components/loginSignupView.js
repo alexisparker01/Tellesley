@@ -6,7 +6,7 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-nativ
 // Need to make sign up button disappear when you click on login and vice-versa
 // Need to make submit button appear after clicking on either button
 
-class Inputs extends Component {
+class Login extends Component {
    state = {
       email: '',
       password: '',
@@ -66,7 +66,7 @@ class Inputs extends Component {
       )
    }
 }
-export default Inputs
+export default Login
 
 const styles = StyleSheet.create({
    container: {
