@@ -6,6 +6,7 @@ import EditProfile from './components/editProfile';
 import { LoginScreen } from './components/newLogin';
 import {Provider as PaperProvider, TextInput } from 'react-native-paper';
 import { loginStyle } from './components/loginStyle';
+import { SignUpScreen } from './components/signUp/signUpScreen';
 
 export default function App() {
   return (
@@ -13,7 +14,11 @@ export default function App() {
       <Text style={loginStyle.appTitle}>
         Tellesley
       </Text> 
+      <Text style = {loginStyle.littleText}>
+        Log in with your Wellesley email to access Tellesley 
+      </Text>
       <LoginScreen/>
+      {/* <SignUpScreen/> */}
     </View>
   );
 }

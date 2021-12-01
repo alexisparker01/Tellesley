@@ -2,13 +2,13 @@ import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
 import React, { Component } from 'react'
 
 export const loginStyle = StyleSheet.create({
-        button: {
+        loginButtons: {
            backgroundColor: "rgb(8,58,129)",
-           width: "30%",
-
-        },
-        submitButtonText:{
-           color: 'white'
+           marginBottom: 15,
+           marginTop: 0,
+           marginLeft: 0,
+           marginRight: 0,
+           padding: 5,
         },
     content: {
         display: "flex",
@@ -19,13 +19,13 @@ export const loginStyle = StyleSheet.create({
         backgroundColor: "rgb(6,12,51)",
     },
     textFields: {
-        margin: 5,
+        marginBottom: 15,
         height: 30,
-        borderColor: '#rgb(207, 208, 210)',
+        borderColor: 'rgb(207, 208, 210)',
         borderWidth: 1
     },
     view: {
-        width: "70%"
+       width: "180%",
     },
     appTitle: {
         margin: 24,
@@ -33,6 +33,15 @@ export const loginStyle = StyleSheet.create({
        fontFamily: "Times New Roman",
        textAlign: 'center',
        color: "white",
+     },
+     littleText:  {
+         color: "white",
+         fontFamily: "Times New Roman",
+         fontSize: 20,
+     },
+     accentText: {
+         color: 'rgb(6,12,51)',
+         textAlign: 'center'
      }
 })
 
