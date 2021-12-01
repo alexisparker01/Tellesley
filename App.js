@@ -7,19 +7,22 @@ import { LoginScreen } from './components/newLogin';
 import {Provider as PaperProvider, TextInput } from 'react-native-paper';
 import { loginStyle } from './components/loginStyle';
 import { SignUpScreen } from './components/signUp/signUpScreen';
+//import { theme } from './AppTheme';
 
 export default function App() {
   return (
-    <View style={loginStyle.content}>
-      <Text style={loginStyle.appTitle}>
-        Tellesley
-      </Text> 
-      <Text style = {loginStyle.littleText}>
-        Log in with your Wellesley email to access Tellesley 
-      </Text>
-      <LoginScreen/>
-      {/* <SignUpScreen/> */}
-    </View>
+//<View theme = {theme}>
+  <View style={loginStyle.content}>
+        <Text style={loginStyle.appTitle}>
+          Tellesley
+        </Text> 
+        <Text style = {loginStyle.littleText}>
+          Log in with your Wellesley email to access Tellesley 
+        </Text>
+        <LoginScreen/>
+      </View> 
+  //</View>
+    
   );
 }
 
