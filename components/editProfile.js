@@ -8,12 +8,11 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image } from 'reac
 
 class EditProfile extends Component {
    state = {
-      username: '',
+      username: '', 
       firstname: '',
       lastname: '',
       bio: '',
       profilePicture: '',
-
    }
  
    handleUsernameChange = (input) => {
