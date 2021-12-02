@@ -1,7 +1,6 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
 import { Appbar, Button, TextInput} from 'react-native-paper';
-import { signUpStyle } from './signUpStyle';
 
 export const SignUpScreen = () => {
 
@@ -25,4 +24,3 @@ export const SignUpScreen = () => {
             </SafeAreaView>
         )
 }
-

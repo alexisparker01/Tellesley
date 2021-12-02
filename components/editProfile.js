@@ -1,7 +1,6 @@
-
-
-import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image } from 'react-native'
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image } from 'react-native';
+import { loginStyle, editProfileStyle, signUpStyle } from './loginStyle';
 
 // Need to make sign up button disappear when you click on login and vice-versa
 // Need to make submit button appear after clicking on either button
@@ -44,14 +43,14 @@ handleSubmit() {
 
    render() {
       return (
-         <View style = {styles.container}>
-            <h2>Edit Profile</h2>
+         <View style = {editProfileStyle.container}>
+            <Text style = {loginStyle.pageTitle}>Edit Profile</Text>
 
 <Image
   source={{ uri: 'app_icon' }}
   style={{ width: 40, height: 40 }}
 />
-            <TextInput style = {styles.input}
+            <TextInput style = {editProfileStyle.input}
                underlineColorAndroid = "transparent"
                placeholder = {this.state.username}
                placeholderTextColor = "#002776"
@@ -59,7 +58,7 @@ handleSubmit() {
                onChangeText = {this.handleUsernameChange}
                />
             
-            <TextInput style = {styles.input}
+            <TextInput style = {editProfileStyle.input}
                underlineColorAndroid = "transparent"
                placeholder = {this.state.firstname}
                placeholderTextColor = "#002776"
@@ -67,7 +66,7 @@ handleSubmit() {
                onChangeText = {this.handleFirstnameChange}
                />
 
-            <TextInput style = {styles.input}
+            <TextInput style = {editProfileStyle.input}
                underlineColorAndroid = "transparent"
                placeholder = {this.state.lastname}
                placeholderTextColor = "#002776"
@@ -75,7 +74,7 @@ handleSubmit() {
                onChangeText = {this.handleLastnameChange}
                />
 
-            <TextInput style = {styles.input}
+            <TextInput style = {editProfileStyle.input}
                underlineColorAndroid = "transparent"
                placeholder = {this.state.bio}
                placeholderTextColor = "#002776"
@@ -85,11 +84,11 @@ handleSubmit() {
 
       
             <TouchableOpacity
-               style = {styles.button}
+               style = {editProfileStyle.button}
                onPress = {
                   () => this.handleSubmit()
                }>
-               <Text style = {styles.submitButtonText}> Save Changes </Text>
+               <Text style = {editProfileStyle.submitButtonText}> Save Changes </Text>
             </TouchableOpacity>
          </View>
       )
@@ -97,27 +96,3 @@ handleSubmit() {
 }
 export default EditProfile
 
-const styles = StyleSheet.create({
-   container: {
-      paddingTop: 23
-   },
-   input: {
-      margin: 15,
-      height: 40,
-      borderColor: '#002776',
-      borderWidth: 1
-   },
-   button: {
-      backgroundColor: '#002776',
-      padding: 10,
-      margin: 15,
-      height: 40,
-   },
-   submitButtonText:{
-      color: 'white'
-   },
-   
-   hidden: {
-      opacity: 0, height: 0
-   }
-})
