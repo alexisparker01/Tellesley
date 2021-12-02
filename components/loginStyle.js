@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 //////////////////////////////////////////////////////////////////////////////////////////
 //LOG IN PAGE STYLES
 export const loginStyle = StyleSheet.create({
-        loginButtons: {
+        buttons: {
            backgroundColor: "rgb(8,58,129)",
            marginBottom: 15,
            marginTop: 0,

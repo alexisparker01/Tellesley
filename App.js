@@ -8,17 +8,20 @@ import { SignUpScreen } from './components/signUpScreen';
 
 export default function App() {
   return (
-  <View style={loginStyle.content}>
+/*   <View style={loginStyle.content}>
         <Text style={loginStyle.appTitle}>
           Tellesley
         </Text> 
         <Text style = {loginStyle.littleText}>
           Log in with your Wellesley email to access Tellesley 
         </Text>
-          <LoginScreen/>
-        {/* <EditProfile/> */} 
-      </View> 
-      
+          {/* <LoginScreen/> */
+        /* <EditProfile/> */ 
+/*       </View> 
+       */ 
+      <View>
+        <SignUpScreen/>
+      </View>
   );
 }
 

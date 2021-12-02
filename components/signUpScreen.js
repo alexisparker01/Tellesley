@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
-import { Appbar, Button, TextInput} from 'react-native-paper';
+import { Appbar, Button, TextInput, Card} from 'react-native-paper';
+import { loginStyle } from './loginStyle';
 
 export const SignUpScreen = () => {
 
@@ -9,16 +10,24 @@ export const SignUpScreen = () => {
                 <ScrollView>
                     <Appbar>
                         <Appbar.BackAction />
-                        <Appbar.content title = "Sign Up" />
+                        <Appbar.Content title = "Sign Up" />
+                        
                     </Appbar>
                     <View>
                         <TextInput label = "First Name"/>
                         <TextInput label = "Last Name" />
-                        <TextInput label = "Username" />
-                        <TextInput label = "Password" secureTextEntry = {true} right = {<TextInput.Icon name = "eye-off-outline"/>}/>
-                        <TextInput label = "Confirm Password" secureTextEntry = {true} right = {<TextInput.Icon name = "eye-off-outline"/>}/>
-                        <TextInput label = "description" />
-                        <Button mode = "contained" > Sign Up </Button>
+                        <TextInput label = "Password" 
+                                    secureTextEntry = {true} 
+                                    right = {<TextInput.Icon 
+                                    name = "eye-off-outline"/>}/>
+
+                        <TextInput label = "Confirm Password" 
+                                    secureTextEntry = {true} 
+                                    right = {<TextInput.Icon 
+                                    name = "eye-off-outline"/>}/>
+
+                        <Button mode = "contained" 
+                                style = {loginStyle.buttons}> Sign Up </Button>
                     </View>
                 </ScrollView>
             </SafeAreaView>

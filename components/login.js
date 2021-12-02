@@ -134,7 +134,7 @@ export const LoginScreen = () => {
                                     style = {loginStyle.textFields}
                                     value={password} 
                                     onChangeText={ textVal => setPassword(textVal)}></TextInput>
-                        <Button mode = "contained" style = {loginStyle.loginButtons} onPress={() => signInUserEmailPassword()}> Log in </Button>
+                        <Button mode = "contained" style = {loginStyle.buttons} onPress={() => signInUserEmailPassword()}> Log in </Button>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
                         <Button> Sign up </Button>
                     </Card.Content>

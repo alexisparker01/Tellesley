@@ -43,13 +43,13 @@ handleSubmit() {
 
    render() {
       return (
-         <View style = {editProfileStyle.container}>
+            <View style = {editProfileStyle.container}>
             <Text style = {loginStyle.pageTitle}>Edit Profile</Text>
 
-<Image
-  source={{ uri: 'app_icon' }}
-  style={{ width: 40, height: 40 }}
-/>
+            <Image
+            source={{ uri: 'app_icon' }}
+            style={{ width: 40, height: 40 }}
+            />
             <TextInput style = {editProfileStyle.input}
                underlineColorAndroid = "transparent"
                placeholder = {this.state.username}
