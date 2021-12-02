@@ -50,15 +50,19 @@ export const loginStyle = StyleSheet.create({
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //SIGN UP PAGE STYLES
-/* export const signUpStyle = StyleSheet.create({
+ export const signUpStyle = StyleSheet.create({
   content: {
-      padding: 15,
-      paddingTop: 2,
+        justifyContent: "center",
+        alignItems: "center",
+        height: "200%",
+        //flexDirections: "row",
   }, 
-  icon: {
-      color: 'white',
+  TextInputStyle: {
+      backgroundColor: "transparent",
+      opacity: 100,
+
   }
-})  */
+}) 
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //EDIT PROFILE STYLES

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
-import { loginStyle } from './loginStyle';
+import { loginStyle, signUpStyle } from './loginStyle';
 import { Appbar, Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { // access to authentication features:
@@ -86,17 +86,20 @@ export const SignUpScreen = () => {
     }
 
         return (
-            <SafeAreaView>
-                <ScrollView>
-                <Appbar>
+            //<SafeAreaView style = {signUpStyle.content}>
+                <View>
+                <Appbar style = {loginStyle.buttons}>
                         <Appbar.BackAction />
                         <Appbar.Content title = "Sign Up" />
                         
                 </Appbar>
                     <View>
-                        <TextInput label = "First Name" onChangeText={ textVal => setFName(textVal)} value={FName}/>
-                        <TextInput label = "Last Name" onChangeText={ textVal => setLName(textVal)} value={LName}/>
-                        <TextInput label = "Email" onChangeText={ textVal => setEmail(textVal)} value={email}/>
+                        <TextInput label = "First Name" 
+                                    onChangeText={ textVal => setFName(textVal)} value={FName}/>
+                        <TextInput label = "Last Name" 
+                                    onChangeText={ textVal => setLName(textVal)} value={LName}/>
+                        <TextInput label = "Email" 
+                                    onChangeText={ textVal => setEmail(textVal)} value={email}/>
                         <TextInput label = "Password" 
                                     right = {<TextInput.Icon 
                                     name = "eye-off-outline"/>}
@@ -106,9 +109,11 @@ export const SignUpScreen = () => {
                                     right = {<TextInput.Icon 
                                     name = "eye-off-outline"/>}
                                     value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
-                        <Button mode = "contained" onPress={() => signUpUserEmailPassword()} > Sign Up </Button>
+                        <Button mode = "contained" 
+                                style = {loginStyle.buttons} onPress={() => signInUserEmailPassword()}> Sign Up </Button>
                     </View>
-                </ScrollView>
-            </SafeAreaView>
+                </View>
+           // </SafeAreaView>
         )
 }
+//eye thing doesn't work anymore?

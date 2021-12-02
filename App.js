@@ -23,7 +23,7 @@ export default function App() {
 /*       </View> 
        */ 
       <View>
-        <LoginScreen/> 
+        <SignUpScreen/> 
       </View>
       
   );
