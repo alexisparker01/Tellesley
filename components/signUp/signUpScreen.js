@@ -9,8 +9,8 @@ export const SignUpScreen = () => {
             <SafeAreaView>
                 <ScrollView>
                     <Appbar>
-                        <Appbar.BackAction/>
-                        <Appbar.Content title = "sign up" ></Appbar.Content>
+                        <Appbar.BackAction />
+                        <Appbar.content title = "Sign Up" />
                     </Appbar>
                     <View>
                         <TextInput label = "First Name"/>
@@ -25,3 +25,4 @@ export const SignUpScreen = () => {
             </SafeAreaView>
         )
 }
+

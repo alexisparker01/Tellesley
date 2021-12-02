@@ -11,7 +11,6 @@ import { SignUpScreen } from './components/signUp/signUpScreen';
 
 export default function App() {
   return (
-//<View theme = {theme}>
   <View style={loginStyle.content}>
         <Text style={loginStyle.appTitle}>
           Tellesley
@@ -20,8 +19,8 @@ export default function App() {
           Log in with your Wellesley email to access Tellesley 
         </Text>
         <LoginScreen/>
+       {/*  <SignUpScreen/> */}
       </View> 
-  //</View>
     
   );
 }
