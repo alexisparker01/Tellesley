@@ -42,42 +42,6 @@ export const LoginScreen = () => {
     const [errorMsg, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
   
-    function signUpUserEmailPassword() {
-      console.log('called signUpUserEmailPassword');
-      if (auth.currentUser) {
-        signOut(auth); // sign out auth's current user (who is not loggedInUser, 
-                       // or else we wouldn't be here
-      }
-      if (!email.includes('@wellesley.edu')) {
-        setErrorMsg('Not a valid email address');
-        return;
-      }
-
-      // Invoke Firebase authentication API for Email/Password sign up 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(`signUpUserEmailPassword: sign up for email ${email} succeeded (but email still needs verification).`);
-  
-          // Clear email/password inputs
-          const savedEmail = email; // Save for email verification
-          setEmail('');
-          setPassword('');
-  
-          // Note: could store userCredential here if wanted it later ...
-          // console.log(`createUserWithEmailAndPassword: setCredential`);
-          // setCredential(userCredential);
-  
-          // Send verication email
-        })
-        .catch((error) => {
-          console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
-          const errorMessage = error.message;
-          // const errorCode = error.code; // Could use this, too.
-          console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
-          setErrorMsg(`createUserWithEmailAndPassword: ${errorMessage}`);
-        });
-    }
-  
     function signInUserEmailPassword() {
       console.log('called signInUserEmailPassword');
       console.log(`signInUserEmailPassword: emailOf(currentUser)0=${emailOf(auth.currentUser)}`); 

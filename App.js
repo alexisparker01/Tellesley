@@ -10,6 +10,9 @@ export default function App() {
   return (
 /*   <View style={loginStyle.content}>
         <Text style={loginStyle.appTitle}>
+  <View>
+    {/*}
+<Text style={loginStyle.appTitle}>
           Tellesley
         </Text> 
         <Text style = {loginStyle.littleText}>
@@ -20,8 +23,9 @@ export default function App() {
 /*       </View> 
        */ 
       <View>
-        <SignUpScreen/>
+        <LoginScreen/> 
       </View>
+      
   );
 }
 
