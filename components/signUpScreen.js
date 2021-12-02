@@ -37,6 +37,9 @@ export const SignUpScreen = () => {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [password2, confirmPassword] = React.useState('');
+    const [FName, setFName] = React.useState('');
+    const [LName, setLName] = React.useState('');
     const [errorMsg, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
   
@@ -50,6 +53,10 @@ export const SignUpScreen = () => {
         setErrorMsg('Not a valid email address');
         return;
       }
+      if (!password===password2) {
+          setErrorMsg('Passwords do not match');
+          return;
+      }
 
       // Invoke Firebase authentication API for Email/Password sign up 
       createUserWithEmailAndPassword(auth, email, password)
@@ -60,6 +67,7 @@ export const SignUpScreen = () => {
           const savedEmail = email; // Save for email verification
           setEmail('');
           setPassword('');
+          confirmPassword('');
   
           // Note: could store userCredential here if wanted it later ...
           // console.log(`createUserWithEmailAndPassword: setCredential`);
@@ -84,16 +92,18 @@ export const SignUpScreen = () => {
                         <Appbar.Content title = "Sign Up" />
                     </Appbar>
                     <View>
-                        <TextInput label = "First Name"/>
-                        <TextInput label = "Last Name" />
-                        <TextInput label = "Username" />
-                        <TextInput label = "Email" />
+                        <TextInput label = "First Name" onChangeText={ textVal => setFName(textVal)} value={FName}/>
+                        <TextInput label = "Last Name" onChangeText={ textVal => setLName(textVal)} value={LName}/>
+                        <TextInput label = "Email" onChangeText={ textVal => setEmail(textVal)} value={email}/>
                         <TextInput label = "Password" 
-                                    secureTextEntry = {true} 
                                     right = {<TextInput.Icon 
-                                    name = "eye-off-outline"/>}/>
-                        <TextInput label = "Confirm Password" secureTextEntry = {true} right = {<TextInput.Icon name = "eye-off-outline"/>}/>
-                        <TextInput label = "description" />
+                                    name = "eye-off-outline"/>}
+                                    onChangeText={ textVal => setPassword(textVal)} 
+                                    value={password}/>
+                        <TextInput label = "Confirm Password" 
+                                    right = {<TextInput.Icon 
+                                    name = "eye-off-outline"/>}
+                                    value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
                         <Button mode = "contained" onPress={() => signUpUserEmailPassword()} > Sign Up </Button>
                     </View>
                 </ScrollView>
