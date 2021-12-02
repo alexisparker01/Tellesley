@@ -3,13 +3,7 @@ import { SafeAreaView, ScrollView, View} from 'react-native';
 import { loginStyle, signUpStyle } from './loginStyle';
 import { Appbar, Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app";
-import { // access to authentication features:
-         getAuth, 
-         // for email/password authentication: 
-         createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification,
-         // for logging out:
-         signOut
-  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
 
   
   const firebaseConfig = {
@@ -26,14 +20,6 @@ import { // access to authentication features:
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 
-function emailOf(user) {
-    if (user) {
-      return user.email;
-    } else {
-      return null;
-    }
-  }
-
 export const SignUpScreen = () => {
 
     const [email, setEmail] = React.useState('');
@@ -43,6 +29,26 @@ export const SignUpScreen = () => {
     const [LName, setLName] = React.useState('');
     const [errorMsg, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
+
+    useEffect(() => {
+      // Anything in here is fired on component mount.
+      console.log('Component did mount');
+      console.log(`on mount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+      console.log(`on mount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      checkEmailVerification();
+      return () => {
+        // Anything in here is fired on component unmount.
+        console.log('Component did unmount');
+        console.log(`on unmount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+        console.log(`on unmount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      }
+    }, [])
+
+  // Clear error message when email is updated to be nonempty
+  useEffect(
+    () => { if (email != '') setErrorMsg(''); },
+    [email]
+  ); 
   
     function signUpUserEmailPassword() {
       console.log('called signUpUserEmailPassword');
@@ -58,33 +64,35 @@ export const SignUpScreen = () => {
           setErrorMsg('Passwords do not match');
           return;
       }
+      if (password.length < 6) {
+        setErrorMsg('Password too short');
+        return;
+      }
 
-      // Invoke Firebase authentication API for Email/Password sign up 
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(`signUpUserEmailPassword: sign up for email ${email} succeeded (but email still needs verification).`);
-  
-          // Clear email/password inputs
-          const savedEmail = email; // Save for email verification
-          setEmail('');
-          setPassword('');
-          confirmPassword('');
-  
-          // Note: could store userCredential here if wanted it later ...
-          // console.log(`createUserWithEmailAndPassword: setCredential`);
-          // setCredential(userCredential);
-  
-          // Send verication email
-        })
-        .catch((error) => {
-          console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
-          const errorMessage = error.message;
-          // const errorCode = error.code; // Could use this, too.
-          console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
-          setErrorMsg(`createUserWithEmailAndPassword: ${errorMessage}`);
+     // Invoke Firebase authentication API for Email/Password sign up 
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+
+      // Clear email/password inputs
+      const savedEmail = email; // Save for email verification
+      setEmail('');
+      setPassword('');
+      confirmPassword('');
+      sendEmailVerification(auth.currentUser)
+      .then(() => {
+          setErrorMsg(`A verification email has been sent to ${savedEmail}. You will not be able to sign in until this email is verified.`); 
+          // Email verification sent!
+          // ...
         });
-    }
-
+    })
+    .catch((error) => {
+      console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
+      const errorMessage = error.message;
+      // const errorCode = error.code; // Could use this, too.
+      console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
+      setErrorMsg(`createUserWithEmailAndPassword: ${errorMessage}`);
+    });
+  }
         return (
             //<SafeAreaView style = {signUpStyle.content}>
                 <View>
@@ -110,7 +118,7 @@ export const SignUpScreen = () => {
                                     name = "eye-off-outline"/>}
                                     value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
                         <Button mode = "contained" 
-                                style = {loginStyle.buttons} onPress={() => signInUserEmailPassword()}> Sign Up </Button>
+                                style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
                     </View>
                 </View>
            // </SafeAreaView>

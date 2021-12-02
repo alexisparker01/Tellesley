@@ -41,6 +41,26 @@ export const LoginScreen = () => {
     const [password, setPassword] = React.useState('');
     const [errorMsg, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
+
+    useEffect(() => {
+      // Anything in here is fired on component mount.
+      console.log('Component did mount');
+      console.log(`on mount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+      console.log(`on mount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      checkEmailVerification();
+      return () => {
+        // Anything in here is fired on component unmount.
+        console.log('Component did unmount');
+        console.log(`on unmount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+        console.log(`on unmount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      }
+    }, [])
+
+  // Clear  when email is updated to be nonempty
+  useEffect(
+    () => { if (email != '') setErrorMsg(''); },
+    [email]
+  ); 
   
     function signInUserEmailPassword() {
       console.log('called signInUserEmailPassword');
