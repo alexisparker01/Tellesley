@@ -134,7 +134,7 @@ handleSubmit() {
 </View>
       
             <TouchableOpacity
-               style = {styles.button}
+               style = {editProfileStyle.button}
                onPress = {
                   () => this.handleSubmit()
                }>
