@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
-import { loginStyle, signUpStyle } from './loginStyle';
+import { loginStyle, signUpStyle } from './LoginStyle';
 import { Appbar, Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";

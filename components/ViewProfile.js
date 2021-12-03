@@ -5,15 +5,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 class ViewProfile extends Component {
    state = {
       username: 'alexisparker', 
-      firstname: 'alexis',
-      lastname: 'parker',
-      bio: 'wellesley 2023',
+      firstname: 'Alexis',
+      lastname: 'Parker',
+      bio: 'Wellesley College 2023',
       profilePicture: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+      currentUser: true,
    }
 
 
 goBack = () => {
    // go back to wherever you came from
+}
+
+goToEditProfile = () => {
+
 }
 
 
@@ -27,7 +32,7 @@ goBack = () => {
 
         <Text style = {styles.username}>{this.state.username}</Text>
 
-<View style = {{flexDirection:'row', alignItems:'center'}}>
+<View style = {{flexDirection:'row', alignItems:'center', marginBottom: 30}}>
            <Image 
         style={styles.profilePicture}
         source={{
@@ -35,19 +40,28 @@ goBack = () => {
         }}
       />
 
-          
+      
 
-
-
-
-            <Text style = {styles.names}>{this.state.firstname + " " + this.state.lastname}</Text>
+            <Text style = {styles.names}>{this.state.firstname + " " + this.state.lastname + "\n\n" + this.state.bio}</Text>
     
-            <Text style = {styles.bio}>{this.state.bio} </Text>
+          
        
      </View> 
 
-      
+ 
+
            
+       <TouchableOpacity
+               style = {styles.buttonEditProfile}
+               onPress = {
+                  () => this.goToEditProfile()
+               }>
+               <Text style = {styles.text}> Edit Profile </Text>
+            </TouchableOpacity>
+
+
+                <View style = {styles.postsBox}></View>
+            
             </ScrollView>
    
         
@@ -66,6 +80,7 @@ const styles = StyleSheet.create({
       paddingTop: 23,
       backgroundColor: 'white',
       margin: 5,
+      fontFamily: "Helvetica",
    },
 
    username: {
@@ -85,47 +100,39 @@ const styles = StyleSheet.create({
      borderRadius: 400/2,
    },
 
+   postsBox: {
+
+     borderColor: 'black',
+     border: 10,
+     width: 100,
+     height: 100,
+    
+
+   },
 
    names:{
       marginLeft: 10,
       padding: 10,
+      fontSize: 15,
+   },
+   
+   buttonEditProfile: {
+      backgroundColor: "#1DA1F2",
+      borderColor: '#F5F5F5',
+      border: 10,
+      padding: 10,
+      margin: 1,
+      height: 40,
    },
 
-   bio: {
-      margin: 30,
-      height: 100,
-      width: 300,
-      color: 'black',
-
-   },
-   button: {
-      backgroundColor: '#002776',
+ buttonFollow: {
+      backgroundColor: '#1DA1F2',
       padding: 10,
       margin: 15,
       height: 40,
    },
-   cancelButton: {
-      margin: 10,
-      width: 80,
-      padding: 10,
-      height: 40,
-      backgroundColor: '#002776',
-   },
-
-  
-   inputLabels:{
-      marginLeft: 40,
-      color: 'black',
-
-   },
-   hidden: {
-      opacity: 0, height: 0
-   },
-   title: {
-      fontFamily: 'Helvetica',
-      fontSize: 30,
-      color: 'black',
-      marginLeft: 130,
-      padding: 15,
-   },
+   text: {
+     color: 'black',
+     textAlign: 'center',
+   }
 })

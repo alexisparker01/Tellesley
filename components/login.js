@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
-import { loginStyle } from './loginStyle';
+import { loginStyle } from './LoginStyle';
 import { initializeApp } from "firebase/app";
 import { // access to authentication features:
          getAuth, 
