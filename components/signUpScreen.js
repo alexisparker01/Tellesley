@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
 import { Appbar, Button, TextInput} from 'react-native-paper';
-<<<<<<< Updated upstream
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification} from "firebase/auth";
-=======
 import { initializeApp } from "firebase/app"; 
 import { // access to authentication features:
          getAuth, 
@@ -14,7 +10,6 @@ import { // access to authentication features:
          // for logging out:
          signOut
   } from "firebase/auth";
->>>>>>> Stashed changes
 
   
   const firebaseConfig = {
