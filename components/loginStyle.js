@@ -61,6 +61,15 @@ export const loginStyle = StyleSheet.create({
       backgroundColor: "transparent",
       opacity: 100,
 
+  },
+  signUpBtn: {
+    backgroundColor: "rgb(8,58,129)",
+    height: 50,
+    marginBottom: 15,
+    marginTop: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
   }
 }) 
 
