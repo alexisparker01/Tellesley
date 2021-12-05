@@ -1,13 +1,58 @@
 import React, {useState} from 'react';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './newPostButton'
+import NewPostButton from './newPostButton';
+import { initializeApp } from "firebase/app";
+import { getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        sendEmailVerification, 
+        signOut } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
+  authDomain: "tellesley.firebaseapp.com",
+  projectId: "tellesley",
+  storageBucket: "tellesley.appspot.com",
+  messagingSenderId: "827430407291",
+  appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
+};
+
+/* const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp); */
+
+function emailOf(user) {
+  if (user) {
+    return user.email;
+  } else {
+    return null;
+  }
+}
 
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
   export const Feed = () => {
 
-  const [category,setCategory] = useState('Classes');
+    const [channels, setChannels] = React.useState(categories);
+    const [selectedChannel, setSelectedChannel] = React.useState('Classes');
+    const [selectedMessages, setSelectedMessages] = React.useState([]);
+    const [textInputValue, setTextInputValue] = useState('');
+    const [isComposingMessage, setIsComposingMessage] = useState(false);
+
+    const [usingFirestore, setUsingFirestore] = useState(true); // If false, only using local data. 
+    function addTimestamp(message) {
+      // Add millisecond timestamp field to message 
+      return {...message, timestamp:message.date.getTime()}
+    }  
+  
+    function addTimestamp(message) {
+      // Add millisecond timestamp field to message 
+      return {...message, timestamp:message.date.getTime()}
+    } 
+    
+     const [category,setCategory] = useState('classes');
+
   return (
     <View style={styles.container}>
     
