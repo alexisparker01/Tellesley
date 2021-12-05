@@ -7,6 +7,7 @@ import { LoginScreen } from './components/login';
 import { SignUpScreen } from './components/signUpScreen';
 import {Feed} from './components/Feed/FeedMain';
 import {newPostButton} from './components/Feed/newPostButton';
+import {MakePost} from './components/MakePost';
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
     // This is for testing purposes.
     // The lines above are the real code
     <View>
-      <Feed/>
+      <MakePost/>
     </View>
   );
 }
