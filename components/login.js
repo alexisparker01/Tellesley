@@ -1,15 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { loginStyle } from './LoginStyle';
 import { initializeApp } from "firebase/app";
-import { // access to authentication features:
-         getAuth, 
-         // for email/password authentication: 
-         createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification,
-         // for logging out:
-         signOut
-  } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
   
   const firebaseConfig = {
@@ -25,59 +19,41 @@ import { // access to authentication features:
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
-
-function emailOf(user) {
-    if (user) {
-      return user.email;
-    } else {
-      return null;
-    }
-  }
   
 
 export const LoginScreen = () => {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [errorMsg, setErrorMsg] = React.useState('');
+    const [errorMessage, setErrorMessage] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
 
     useEffect(() => {
-      // Anything in here is fired on component mount.
-      console.log('Component did mount');
-      console.log(`on mount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
-      console.log(`on mount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
       checkEmailVerification();
       return () => {
-        // Anything in here is fired on component unmount.
-        console.log('Component did unmount');
-        console.log(`on unmount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
-        console.log(`on unmount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+        console.log('useEffect reached.')
       }
     }, [])
-
-  // Clear  when email is updated to be nonempty
   useEffect(
-    () => { if (email != '') setErrorMsg(''); },
+    () => { if (email != '') setErrorMessage(''); },
     [email]
   ); 
   
     function signInUserEmailPassword() {
-      console.log('called signInUserEmailPassword');
-      console.log(`signInUserEmailPassword: emailOf(currentUser)0=${emailOf(auth.currentUser)}`); 
-      console.log(`signInUserEmailPassword: emailOf(loggedInUser)0=${emailOf(loggedInUser)}`); 
       // Invoke Firebase authentication API for Email/Password sign in 
       // Use Email/Password for authentication 
+      if (auth.currentUser) {
+        signOut(auth); // sign out auth's current user (who is not loggedInUser, 
+                       // or else we wouldn't be here
+      }
+
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          console.log(`signInUserEmailPassword succeeded for email ${email}; have userCredential for emailOf(auth.currentUser)=${emailOf(auth.currentUser)} (but may not be verified)`); 
-          console.log(`signInUserEmailPassword: emailOf(currentUser)1=${emailOf(auth.currentUser)}`); 
-          console.log(`signInUserEmailPassword: emailOf(loggedInUser)1=${emailOf(loggedInUser)}`); 
-  
           // Clear email/password inputs 
           setEmail('');
           setPassword('');
-  
+          setErrorMessage('Success logging in');
+          checkEmailVerification();
           // Note: could store userCredential here if wanted it later ...
           // console.log(`createUserWithEmailAndPassword: setCredential`);
           // setCredential(userCredential);
@@ -86,20 +62,19 @@ export const LoginScreen = () => {
         .catch((error) => {
           console.log(`signUpUserEmailPassword: sign in failed for email ${email}`);
           const errorMessage = error.message;
-          // const errorCode = error.code; // Could use this, too.
-          console.log(`signInUserEmailPassword: ${errorMessage}`);
-          setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
+          setErrorMessage('Login failed. Try again.');
         });
     }
-  
-    function logOut() {
-      console.log('logOut'); 
-      console.log(`logOut: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
-      console.log(`logOut: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
-      console.log(`logOut: setLoggedInUser(null)`);
-      setLoggedInUser(null);
-      console.log('logOut: signOut(auth)');
-      signOut(auth); // Will eventually set auth.currentUser to null     
+
+    function checkEmailVerification() {
+      if (auth.currentUser) {
+        if (auth.currentUser.emailVerified) {
+          setLoggedInUser(auth.currentUser);
+          setErrorMessage('Succes - email verified')
+        } else {
+          setErrorMessage(`${auth.currentUser.email} has not been verified. Please check your inbox for a verification email.`)
+        }
+      }
     }
   
 
@@ -118,9 +93,13 @@ export const LoginScreen = () => {
                                     style = {loginStyle.textFields}
                                     value={password} 
                                     onChangeText={ textVal => setPassword(textVal)}></TextInput>
+                                    {errorMessage && (
+                      <p className="error"> {errorMessage} </p>
+                            )}
                         <Button mode = "contained" style = {loginStyle.buttons} onPress={() => signInUserEmailPassword()}> Log in </Button>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
                         <Button> Sign up </Button>
+
                     </Card.Content>
                 </Card>
             </View>
