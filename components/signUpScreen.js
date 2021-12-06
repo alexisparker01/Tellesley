@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { SafeAreaView, ScrollView, View} from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
 import { Appbar, Button, TextInput} from 'react-native-paper';
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, signOut} from "firebase/auth";
+import { initializeApp } from "firebase/app"; 
+import {getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        sendEmailVerification,
+        signOut} from "firebase/auth";
 
   
   const firebaseConfig = {
@@ -27,8 +31,29 @@ export const SignUpScreen = () => {
     const [password2, confirmPassword] = React.useState('');
     const [FName, setFName] = React.useState('');
     const [LName, setLName] = React.useState('');
-    const [errorMessage, setErrorMessage] = React.useState('');
-  
+    const [errorMsg, setErrorMsg] = React.useState('');
+    const [loggedInUser, setLoggedInUser] = React.useState(null);
+
+/*     useEffect(() => {
+      // Anything in here is fired on component mount.
+      console.log('Component did mount');
+      console.log(`on mount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+      console.log(`on mount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      checkEmailVerification();
+      return () => {
+        // Anything in here is fired on component unmount.
+        console.log('Component did unmount');
+        console.log(`on unmount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
+        console.log(`on unmount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
+      }
+    }, [])
+
+  // Clear error message when email is updated to be nonempty
+  useEffect(
+    () => { if (email != '') setErrorMsg(''); },
+    [email]
+  ); 
+   */
     function signUpUserEmailPassword() {
       console.log('called signUpUserEmailPassword');
       if (auth.currentUser) {
@@ -36,15 +61,15 @@ export const SignUpScreen = () => {
                        // or else we wouldn't be here
       }
       if (!email.includes('@wellesley.edu')) {
-        setErrorMessage('You must use a Wellesley College email to sign up for Tellesley.');
+        setErrorMsg('Not a valid email address');
         return;
+      }
+      if (!password===password2) {
+          setErrorMsg('Passwords do not match');
+          return;
       }
       if (password.length < 6) {
-        setErrorMessage('Password must be at least 6 characters long.')
-        return;
-      }
-      if (password!==password2) {
-        setErrorMessage('Passwords do not match.');
+        setErrorMsg('Password too short');
         return;
       }
 
@@ -57,56 +82,43 @@ export const SignUpScreen = () => {
       setEmail('');
       setPassword('');
       confirmPassword('');
-      setErrorMessage('')
       sendEmailVerification(auth.currentUser)
       .then(() => {
-
-        setErrorMessage('Success! A verification email has been sent. Please verify before logging in.')
+          setErrorMsg(`A verification email has been sent to ${savedEmail}. You will not be able to sign in until this email is verified.`); 
           // Email verification sent!
           // ...
         });
     })
     .catch((error) => {
       console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
-      setErrorMessage('Signup failed. Try again.');
+      const errorMessage = error.message;
+      // const errorCode = error.code; // Could use this, too.
+      console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
+      setErrorMsg(`createUserWithEmailAndPassword: ${errorMessage}`);
     });
   }
-
         return (
-            //<SafeAreaView style = {signUpStyle.content}>
-                <View>
-                <Appbar style = {loginStyle.buttons}>
-                        <Appbar.BackAction />
-                        <Appbar.Content title = "Sign Up" />
-                        
-                </Appbar>
-                    <View>
-                        <TextInput label = "First Name" 
-                                    onChangeText={ textVal => setFName(textVal)} value={FName}/>
-                        <TextInput label = "Last Name" 
-                                    onChangeText={ textVal => setLName(textVal)} value={LName}/>
-                        <TextInput label = "Email" 
-                                    onChangeText={ textVal => setEmail(textVal)} value={email}/>
-                        <TextInput label = "Password" 
-                                    right = {<TextInput.Icon 
-                                    name = "eye-off-outline"/>}
-                                    onChangeText={ textVal => setPassword(textVal)} 
-                                    secureTextEntry={true}
-                                    value={password}/>
-                        <TextInput label = "Confirm Password" 
-                                    right = {<TextInput.Icon 
-                                    name = "eye-off-outline"/>}
-                                    value={password2} 
-                                    secureTextEntry={true}
-                                    onChangeText={ textVal => confirmPassword(textVal)} />
-                        <Button mode = "contained" 
-                                style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
-                        {errorMessage && (
-                      <p className="error"> {errorMessage} </p>
-                            )}
-                    </View>
-                </View>
-           // </SafeAreaView>
+          <View>
+             <View>
+                <TextInput label = "First Name" 
+                            onChangeText={ textVal => setFName(textVal)} value={FName}/>
+                <TextInput label = "Last Name" 
+                            onChangeText={ textVal => setLName(textVal)} value={LName}/>
+                <TextInput label = "Email" 
+                            onChangeText={ textVal => setEmail(textVal)} value={email}/>
+                <TextInput label = "Password" 
+                            right = {<TextInput.Icon 
+                            name = "eye-off-outline"/>}
+                            onChangeText={ textVal => setPassword(textVal)} 
+                            value={password}/>
+               <TextInput label = "Confirm Password" 
+                          right = {<TextInput.Icon 
+                          name = "eye-off-outline"/>}
+                          value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
+                <Button mode = "contained" 
+                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
+              </View>
+            </View>
         )
 }
 //eye thing doesn't work anymore?

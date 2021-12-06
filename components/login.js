@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
-import { loginStyle } from './LoginStyle';
 import { initializeApp } from "firebase/app";
+import { loginStyle } from './loginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
   
@@ -21,7 +23,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
   
 
-export const LoginScreen = () => {
+export const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -79,6 +81,7 @@ export const LoginScreen = () => {
   
 
     return (
+      <View style = {loginStyle.content}>
         <SafeAreaView style = {loginStyle.content}>
             <View style = {loginStyle.view}>
                 <Card>
@@ -96,13 +99,16 @@ export const LoginScreen = () => {
                                     {errorMessage && (
                       <p className="error"> {errorMessage} </p>
                             )}
-                        <Button mode = "contained" style = {loginStyle.buttons} onPress={() => signInUserEmailPassword()}> Log in </Button>
+                        <Button mode = "contained" 
+                                style = {loginStyle.buttons} 
+                                onPress={() => navigation.navigate('Feed')}> Log in </Button>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
-                        <Button> Sign up </Button>
+                        <Button onPress={() => navigation.navigate('Sign Up')}> Sign up </Button>
 
                     </Card.Content>
                 </Card>
             </View>
         </SafeAreaView>
+      </View>
     )
 }
