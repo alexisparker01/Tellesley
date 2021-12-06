@@ -119,7 +119,7 @@ export const makePostStyle = StyleSheet.create({
 }, 
 textInputArea: {
    backgroundColor: "white",
-   fontSize: 50,
+   fontSize: 20,
    borderRadius: 1,
    borderColor: "black",
 },
@@ -132,6 +132,7 @@ composeButton: {
 composeButtonText:{
    color: 'white'
 },
-
+buttonHolder: {
+}
 
 })
