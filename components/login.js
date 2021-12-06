@@ -25,45 +25,47 @@ export const LoginScreen = ({navigation}) => {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [errorMessage, setErrorMessage] = React.useState('');
+    const [errorMessage, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
 
-  
-  function signInUserEmailPassword() {
-    
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+    function signInUserEmailPassword() {
       
-        // Only log in auth.currentUser if their email is verified
-        checkEmailVerification();
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
 
-        // Clear email/password inputs 
-        setEmail('');
-        setPassword('');
-
-        navigation.navigate('Feed')
-        // Note: could store userCredential here if wanted it later ...
-        // console.log(`createUserWithEmailAndPassword: setCredential`);
-        // setCredential(userCredential);
-    
-        })
-      .catch((error) => {
-        // const errorCode = error.code; // Could use this, too.
-        setErrorMessage('Email or password is incorrect. Try again.');
-      });
-  }
-
-  function checkEmailVerification() {
-    if (auth.currentUser) {
-      if (auth.currentUser.emailVerified) {
-        setLoggedInUser(auth.currentUser);
-        setErrorMsg('')
-      } else {
-        setErrorMsg(`You cannot sign in as ${auth.currentUser.email} until you verify that this is your email address. You can verify this email address by clicking on the link in a verification email sent by this app to ${auth.currentUser.email}.`)
+          // Only log in auth.currentUser if their email is verified
+          checkEmailVerification();
+  
+          // Clear email/password inputs 
+          setEmail('');
+          setPassword('');
+  
+          // Note: could store userCredential here if wanted it later ...
+          // console.log(`createUserWithEmailAndPassword: setCredential`);
+          // setCredential(userCredential);
+      
+          })
+        .catch((error) => {
+          const errorMessage = error.message;
+          setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
+        });
+    }
+  
+    function checkEmailVerification() {
+      if (auth.currentUser) {
+        
+        if (auth.currentUser.emailVerified) {
+          
+          setLoggedInUser(auth.currentUser);
+          navigation.navigate('Feed');
+          
+          setErrorMsg('')
+        } else {
+          
+          setErrorMsg(`You cannot sign in as ${auth.currentUser.email} until you verify that this is your email address. You can verify this email address by clicking on the link in a verification email sent by this app to ${auth.currentUser.email}.`)
+        }
       }
     }
-  }
-
 
     return (
       <View style = {loginStyle.content}>
