@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import { SafeAreaView, ScrollView, View} from 'react-native';
+import { View } from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
-import { Appbar, Button, TextInput} from 'react-native-paper';
+import { Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app"; 
 import {getAuth, 
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
+        createUserWithEmailAndPassword,
         sendEmailVerification,
         signOut} from "firebase/auth";
 
@@ -98,20 +97,32 @@ export const SignUpScreen = ({navigation}) => {
           <View>
              <View>
                 <TextInput label = "First Name" 
+                            style = {signUpStyle.TextInputStyle}
+                            activeUnderlineColor = 'rgb(6,12,51)'
                             onChangeText={ textVal => setFName(textVal)} value={FName}/>
                 <TextInput label = "Last Name" 
-                            onChangeText={ textVal => setLName(textVal)} value={LName}/>
+                            onChangeText={ textVal => setLName(textVal)} 
+                            activeUnderlineColor = 'rgb(6,12,51)'
+                            value={LName}
+                            style = {signUpStyle.TextInputStyle}/>
                 <TextInput label = "Email" 
-                            onChangeText={ textVal => setEmail(textVal)} value={email}/>
+                            onChangeText={ textVal => setEmail(textVal)} 
+                            activeUnderlineColor = 'rgb(6,12,51)'
+                            value={email}
+                            style = {signUpStyle.TextInputStyle}/>
                 <TextInput label = "Password" 
                             right = {<TextInput.Icon 
                             name = "eye-off-outline"/>}
+                            activeUnderlineColor = 'rgb(6,12,51)'
                             onChangeText={ textVal => setPassword(textVal)} 
-                            value={password}/>
+                            value={password}
+                            style = {signUpStyle.TextInputStyle}/>
                <TextInput label = "Confirm Password" 
                           right = {<TextInput.Icon 
                           name = "eye-off-outline"/>}
-                          value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
+                          activeUnderlineColor = 'rgb(6,12,51)'
+                          value={password2} onChangeText={ textVal => confirmPassword(textVal)} 
+                          style = {signUpStyle.TextInputStyle}/>
                 <Button mode = "contained" 
                         style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
                         {errorMsg && (

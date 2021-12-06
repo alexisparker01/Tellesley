@@ -13,6 +13,16 @@ export const loginStyle = StyleSheet.create({
            marginRight: 0,
            padding: 5,
         },
+        subuttons: {
+         backgroundColor: "#919191",
+         color:'#000000',
+         marginBottom: 15,
+         marginTop: 0,
+         marginLeft: 0,
+         marginRight: 0,
+         padding: 5,
+         //width: '50%',
+      },
     content: {
         display: "flex",
         flex: 1,
@@ -60,6 +70,8 @@ export const loginStyle = StyleSheet.create({
   TextInputStyle: {
       backgroundColor: "transparent",
       opacity: 100,
+      color: "black",
+
 
   },
   signUpBtn: {

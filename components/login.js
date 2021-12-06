@@ -29,6 +29,12 @@ export const LoginScreen = ({navigation}) => {
     const [loggedInUser, setLoggedInUser] = React.useState(null);
 
     function signInUserEmailPassword() {
+      setErrorMsg('');
+
+      if (!email.includes('@wellesley.edu')) {
+        setErrorMsg('Please use a Wellesley College email address.');
+        return;
+      }
       
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -47,7 +53,17 @@ export const LoginScreen = ({navigation}) => {
           })
         .catch((error) => {
           const errorMessage = error.message;
-          setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
+          if (errorMessage === "Firebase: Error (auth/user-not-found).") {
+            setErrorMsg('User not found.')
+            setEmail('');
+            setPassword('');
+          }
+          if (errorMessage === "Firebase: Error (auth/wrong-password).") {
+            setErrorMsg('Wrong password.')
+            setEmail('');
+            setPassword('');
+          }
+         //setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
         });
     }
   
@@ -62,7 +78,7 @@ export const LoginScreen = ({navigation}) => {
           setErrorMsg('')
         } else {
           
-          setErrorMsg(`You cannot sign in as ${auth.currentUser.email} until you verify that this is your email address. You can verify this email address by clicking on the link in a verification email sent by this app to ${auth.currentUser.email}.`)
+          setErrorMsg(`Please verify ${auth.currentUser.email} by clicking the link sent.`)
         }
       }
     }
@@ -90,7 +106,7 @@ export const LoginScreen = ({navigation}) => {
                                 style = {loginStyle.buttons} 
                                 onPress={() => signInUserEmailPassword()}> Log in </Button>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
-                        <Button onPress={() => navigation.navigate('Sign Up')}> Sign up </Button>
+                        <Button mode = "contained" style = {loginStyle.subuttons} onPress={() => navigation.navigate('Sign Up')}> Sign up </Button>
 
                     </Card.Content>
                 </Card>
