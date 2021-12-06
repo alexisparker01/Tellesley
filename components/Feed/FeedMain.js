@@ -4,26 +4,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton';
+import { SignUpScreen, FName } from '../signUpScreen';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
-        sendEmailVerification, 
+        sendEmailVerification,
         signOut } from "firebase/auth";
-
-
-/* const firebaseConfig = {
-  apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
-  authDomain: "tellesley.firebaseapp.com",
-  projectId: "tellesley",
-  storageBucket: "tellesley.appspot.com",
-  messagingSenderId: "827430407291",
-  appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
-}; */
-
-/* const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp); */
 
 function emailOf(user) {
   if (user) {
@@ -33,26 +20,24 @@ function emailOf(user) {
   }
 }
 
+const MessageItem = props => { 
+  return (
+  <View style={styles.postContainer}>
+    <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
+    <Text style={styles.messageAuthor}>{props.message.author}</Text>
+    <Text style={styles.messageContent}>{props.message.content}</Text>
+  </View> 
+); 
+}
+
+  function addTimestamp(message) {
+    // Add millisecond timestamp field to message 
+    return {...message, timestamp:message.date.getTime()}
+  }  
+   
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-  export const Feed = () => {
-
- /*    const [channels, setChannels] = React.useState(categories);
-    const [selectedChannel, setSelectedChannel] = React.useState('Classes');
-    const [selectedMessages, setSelectedMessages] = React.useState([]);
-    const [textInputValue, setTextInputValue] = useState('');
-    const [isComposingMessage, setIsComposingMessage] = useState(false); */
-
-/*     const [usingFirestore, setUsingFirestore] = useState(true); // If false, only using local data. 
-    function addTimestamp(message) {
-      // Add millisecond timestamp field to message 
-      return {...message, timestamp:message.date.getTime()}
-    }  
-  
-    function addTimestamp(message) {
-      // Add millisecond timestamp field to message 
-      return {...message, timestamp:message.date.getTime()}
-    }  */
+export const Feed = ({navigation}) => {
 
     const [category,setCategory] = useState('classes');
 
@@ -61,7 +46,7 @@ const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
     
     {/* upper white section */}
       <View style = {styles.header}>
-      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, Wendy! </Text>
+      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {FName} </Text>
       </View>
 
       {/*The footer is the gray part, but its height doesn't extend for
@@ -69,7 +54,7 @@ const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
       <View style = {styles.footer}>
         <NewPostButton text="New Post" 
                         color= 'rgb(8,58,129)' 
-                        onPress={() => this.props.navigation.navigate('./components/makePost')}
+                        onPress={() => navigation.navigate('New Post')}
         />
         <Text style = {styles.subTitleText}> Recent Activity </Text>
         <Picker
@@ -78,9 +63,8 @@ const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
           selectedValue={setCategory}
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
-       </Picker>
-    </View>
-
+        </Picker>
+        </View>
     </View>
   );
 }
@@ -93,9 +77,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   postContainer: {
+    flex: 0.5,
+    backgroundColor: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
     header: {
     flex: 1,

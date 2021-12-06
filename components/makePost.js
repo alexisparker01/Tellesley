@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, TextInput, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { Text } from 'react-native-paper';
 import { makePostStyle } from './LoginStyle';
 
 
 
-export const MakePost = () => {
+export const MakePost = ({navigation}) => {
 
   // State for chat channels and messages
   const [selectedMessages, setSelectedMessages] = React.useState([]);

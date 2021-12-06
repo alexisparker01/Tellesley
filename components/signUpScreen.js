@@ -24,7 +24,7 @@ import {getAuth,
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 
-export const SignUpScreen = () => {
+export const SignUpScreen = ({navigation}) => {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -116,7 +116,7 @@ export const SignUpScreen = () => {
                           name = "eye-off-outline"/>}
                           value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
                 <Button mode = "contained" 
-                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
+                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()} onPress={() => navigation.navigate('Feed')}> Sign Up </Button>
               </View>
             </View>
         )

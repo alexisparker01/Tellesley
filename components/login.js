@@ -6,7 +6,6 @@ import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { loginStyle } from './loginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-
   
   const firebaseConfig = {
     apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
@@ -18,7 +17,6 @@ import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
     measurementId: "G-18020KJETB"
   };
   
-
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
   
@@ -47,6 +45,14 @@ export const LoginScreen = ({navigation}) => {
       if (auth.currentUser) {
         signOut(auth); // sign out auth's current user (who is not loggedInUser, 
                        // or else we wouldn't be here
+      }
+      if (!email.includes('@')) {
+        setErrorMsg('Not a valid email address');
+        return;
+      }
+      if (password.length < 6) {
+        setErrorMsg('Password too short');
+        return;
       }
 
       signInWithEmailAndPassword(auth, email, password)

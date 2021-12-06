@@ -9,7 +9,7 @@ import {EditProfile} from './components/editProfile';
 import { LoginScreen } from './components/login';
 import { SignUpScreen } from './components/signUpScreen';
 import {Feed} from './components/Feed/FeedMain';
-import {makePost} from './components/makePost';
+import {MakePost} from './components/makePost';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,13 +20,8 @@ export default function App() {
         <Stack.Screen name="Tellesley" component={LoginScreen}/> 
         <Stack.Screen name="Feed" component={Feed}/>
         <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
+        <Stack.Screen name="New Post" component={MakePost}/>
       </Stack.Navigator>
     </NavigationContainer> 
   );
 }
-
-{/* <View style={loginStyle.content}>
-<Text style={loginStyle.appTitle}> Tellesley </Text> 
-<Text style = {loginStyle.littleText}> Log in with your Wellesley email to access Tellesley  </Text>
-<LoginScreen/> 
-</View> */}
