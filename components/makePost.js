@@ -1,28 +1,83 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, View, TextInput} from 'react-native';
-import { Card, Button, Text } from 'react-native-paper';
-import { loginStyle } from './loginStyle';
+import React, { useState } from 'react';
+import { SafeAreaView, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native-paper';
+import { makePostStyle } from './LoginStyle';
 
-const makePost = () => {
-    post = {
-       username: '', 
-       firstname: '',
-       lastname: '',
-       makeAnonymous: false,
-    }
 
-    const [content, onChangeText] = React.useState("What's on your mind?");
-  
-    makeAnonymousToggle = () => {
-        this.setState({username: input });
-    }
 
-    post = () => {
-         //save post
+export const MakePost = () => {
+
+  // State for chat channels and messages
+  const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [textInputValue, setTextInputValue] = useState('');
+  const [isComposingMessage, setIsComposingMessage] = useState(false);
+
+  function addTimestamp(message) {
+    // Add millisecond timestamp field to message 
+    return {...message, timestamp:message.date.getTime()}
+  }
+
+  function composeMessage() {
+    setIsComposingMessage(true);
+  }
+
+  function cancelMessage() {
+    setIsComposingMessage(false);
+  }
+
+  function postMessage() {
+    console.log(`postMessage; usingFirestore=${usingFirestore}`);
+    const now = new Date();
+    const newMessage = {
+      'author': loggedInUser.email, 
+      'date': now, 
+      'timestamp': now.getTime(), // millsecond timestamp
+      'channel': selectedChannel, 
+      'content': textInputValue, 
     }
- 
- goBack = () => {
-    // go back to feed
+    if (usingFirestore) {
+      firebasePostMessage(newMessage);
+    } else {
+      setLocalMessageDB([...localMessageDB, newMessage]);
+      setIsComposingMessage(false);
+    }
+    setTextInputValue('');
+  }
+
+  /***************************************************************************
+   DEBUGGING
+   ***************************************************************************/
+
+  function debug() {
+    const debugObj = {
+      channels: channels, 
+      selectedChannel, selectedChannel, 
+      selectedMessages: selectedMessages, 
+    }
+    alert(formatJSON(debugObj));
+  }
+
+  function debugButton(bool) {
+    if (bool) {
+      return (
+        <TouchableOpacity style={makePostStyle.button}
+           onPress={debug}>
+          <Text style={makePostStyle.buttonText}>Debug</Text>
+        </TouchableOpacity> 
+      ); 
+    } else {
+      return false;
+    }
+  }                                                                                      
+
+
+
+  /***************************************************************************
+   RENDERING CHAT CHANNELS AND MESSAGES
+   ***************************************************************************/
+
+ function formatDateTime(date) {
+   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
  }
        return (
           <DismissKeyboard>

@@ -106,3 +106,32 @@ export const editProfileStyle = StyleSheet.create({
    color: "rgb(8,58,129)",
  },
 })
+
+//////////////////////////////////////////////////////////////////////////
+/* make post style */
+
+export const makePostStyle = StyleSheet.create({
+   content: {
+      justifyContent: "center",
+      alignItems: "center",
+      height: "200%",
+      //flexDirections: "row",
+}, 
+textInputArea: {
+   backgroundColor: "white",
+   fontSize: 50,
+   borderRadius: 1,
+   borderColor: "black",
+},
+composeButton: {
+   backgroundColor: '#002776',
+   padding: 10,
+   margin: 15,
+   height: 40,
+},
+composeButtonText:{
+   color: 'white'
+},
+
+
+})
