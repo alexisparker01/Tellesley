@@ -11,6 +11,7 @@ import { getAuth,
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
+import { MakePost } from '../makePost';
 
 function emailOf(user) {
   if (user) {
@@ -29,11 +30,6 @@ const MessageItem = props => {
   </View> 
 ); 
 }
-
-  function addTimestamp(message) {
-    // Add millisecond timestamp field to message 
-    return {...message, timestamp:message.date.getTime()}
-  }  
    
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
@@ -64,6 +60,11 @@ export const Feed = ({navigation}) => {
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
+        </View>
+        <View style = {styles.postContainer}>
+          <MakePost>
+
+          </MakePost>
         </View>
     </View>
   );

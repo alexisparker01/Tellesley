@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { SafeAreaView, ScrollView, View, TextInput, TouchableOpacity, Keyboard, DismissKeyboard, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { makePostStyle } from './LoginStyle';
-
-
 
 export const MakePost = ({navigation}) => {
 
@@ -85,7 +83,7 @@ export const MakePost = ({navigation}) => {
           <DismissKeyboard>
           <ScrollView style = {styles.container}>
 
- <TouchableOpacity
+               <TouchableOpacity
                 style = {styles.cancelButton}
                 onPress = {
                    () => this.goBack()
@@ -109,8 +107,75 @@ export const MakePost = ({navigation}) => {
              </TouchableOpacity>
              </ScrollView>
              </DismissKeyboard>
-         
     
        )
-    }
+}
 
+    const styles = StyleSheet.create({
+      container: {
+         paddingTop: 23,
+         backgroundColor: 'white',
+      },
+      input: {
+         margin: 15,
+         height: 40,
+         color: 'black',
+         borderColor: 'black',
+         borderWidth: 1,
+         width: 200,
+         backgroundColor: 'white',
+         
+         
+      },
+      inputBio: {
+         margin: 15,
+         height: 100,
+         width: 300,
+         color: 'black',
+         backgroundColor: 'white',
+         borderColor: "black",
+         borderWidth: 1
+      },
+      button: {
+         backgroundColor: '#002776',
+         padding: 10,
+         margin: 15,
+         height: 40,
+      },
+      cancelButton: {
+         margin: 10,
+         width: 80,
+         padding: 10,
+         height: 40,
+         backgroundColor: '#002776',
+      },
+   
+      text:{
+         color: 'white'
+      },
+     
+      inputLabels:{
+         marginLeft: 40,
+         color: 'black',
+   
+      },
+      hidden: {
+         opacity: 0, height: 0
+      },
+      profilePicture: {
+        height: 150,
+        width: 150,
+        padding: 30,
+        marginLeft: 150,
+        resizeMode: 'cover', 
+        borderRadius: 400/2,
+      },
+      title: {
+         fontFamily: 'Helvetica',
+         fontSize: 30,
+         color: 'black',
+         marginLeft: 130,
+         padding: 15,
+      },
+   })
+   
