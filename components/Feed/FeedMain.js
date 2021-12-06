@@ -62,9 +62,6 @@ export const Feed = ({navigation}) => {
         </Picker>
         </View>
         <View style = {styles.postContainer}>
-          <MakePost>
-
-          </MakePost>
         </View>
     </View>
   );

@@ -64,7 +64,7 @@ export const SignUpScreen = ({navigation}) => {
         setErrorMsg('Not a valid email address');
         return;
       }
-      if (!password===password2) {
+      if (password!==password2) {
           setErrorMsg('Passwords do not match');
           return;
       }
@@ -90,13 +90,10 @@ export const SignUpScreen = ({navigation}) => {
         });
     })
     .catch((error) => {
-      console.log(`signUpUserEmailPassword: sign up failed for email ${email}`);
-      const errorMessage = error.message;
-      // const errorCode = error.code; // Could use this, too.
-      console.log(`createUserWithEmailAndPassword: ${errorMessage}`);
-      setErrorMsg(`createUserWithEmailAndPassword: ${errorMessage}`);
+      setErrorMsg('Sign in failed. Try again.');
     });
   }
+
         return (
           <View>
              <View>
@@ -116,7 +113,10 @@ export const SignUpScreen = ({navigation}) => {
                           name = "eye-off-outline"/>}
                           value={password2} onChangeText={ textVal => confirmPassword(textVal)} />
                 <Button mode = "contained" 
-                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()} onPress={() => navigation.navigate('Feed')}> Sign Up </Button>
+                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
+                        {errorMsg && (
+                      <p className="error"> {errorMsg} </p>
+                            )}
               </View>
             </View>
         )

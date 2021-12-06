@@ -25,6 +25,10 @@ export const MakePost = ({navigation}) => {
     setIsComposingMessage(false);
   }
 
+  function toggleAnonymous () {
+    //make "user" of post anonymous
+  }
+
   function postMessage() {
     console.log(`postMessage; usingFirestore=${usingFirestore}`);
     const now = new Date();

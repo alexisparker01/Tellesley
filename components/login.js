@@ -28,63 +28,42 @@ export const LoginScreen = ({navigation}) => {
     const [errorMessage, setErrorMessage] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
 
-    useEffect(() => {
-      checkEmailVerification();
-      return () => {
-        console.log('useEffect reached.')
-      }
-    }, [])
-  useEffect(
-    () => { if (email != '') setErrorMessage(''); },
-    [email]
-  ); 
   
-    function signInUserEmailPassword() {
-      // Invoke Firebase authentication API for Email/Password sign in 
-      // Use Email/Password for authentication 
-      if (auth.currentUser) {
-        signOut(auth); // sign out auth's current user (who is not loggedInUser, 
-                       // or else we wouldn't be here
-      }
-      if (!email.includes('@')) {
-        setErrorMsg('Not a valid email address');
-        return;
-      }
-      if (password.length < 6) {
-        setErrorMsg('Password too short');
-        return;
-      }
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // Clear email/password inputs 
-          setEmail('');
-          setPassword('');
-          setErrorMessage('Success logging in');
-          checkEmailVerification();
-          // Note: could store userCredential here if wanted it later ...
-          // console.log(`createUserWithEmailAndPassword: setCredential`);
-          // setCredential(userCredential);
+  function signInUserEmailPassword() {
+    
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
       
-          })
-        .catch((error) => {
-          console.log(`signUpUserEmailPassword: sign in failed for email ${email}`);
-          const errorMessage = error.message;
-          setErrorMessage('Login failed. Try again.');
-        });
-    }
+        // Only log in auth.currentUser if their email is verified
+        checkEmailVerification();
 
-    function checkEmailVerification() {
-      if (auth.currentUser) {
-        if (auth.currentUser.emailVerified) {
-          setLoggedInUser(auth.currentUser);
-          setErrorMessage('Succes - email verified')
-        } else {
-          setErrorMessage(`${auth.currentUser.email} has not been verified. Please check your inbox for a verification email.`)
-        }
+        // Clear email/password inputs 
+        setEmail('');
+        setPassword('');
+
+        navigation.navigate('Feed')
+        // Note: could store userCredential here if wanted it later ...
+        // console.log(`createUserWithEmailAndPassword: setCredential`);
+        // setCredential(userCredential);
+    
+        })
+      .catch((error) => {
+        // const errorCode = error.code; // Could use this, too.
+        setErrorMessage('Email or password is incorrect. Try again.');
+      });
+  }
+
+  function checkEmailVerification() {
+    if (auth.currentUser) {
+      if (auth.currentUser.emailVerified) {
+        setLoggedInUser(auth.currentUser);
+        setErrorMsg('')
+      } else {
+        setErrorMsg(`You cannot sign in as ${auth.currentUser.email} until you verify that this is your email address. You can verify this email address by clicking on the link in a verification email sent by this app to ${auth.currentUser.email}.`)
       }
     }
-  
+  }
+
 
     return (
       <View style = {loginStyle.content}>
@@ -107,7 +86,7 @@ export const LoginScreen = ({navigation}) => {
                             )}
                         <Button mode = "contained" 
                                 style = {loginStyle.buttons} 
-                                onPress={() => navigation.navigate('Feed')}> Log in </Button>
+                                onPress={() => signInUserEmailPassword()}> Log in </Button>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
                         <Button onPress={() => navigation.navigate('Sign Up')}> Sign up </Button>
 
