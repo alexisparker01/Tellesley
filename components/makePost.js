@@ -33,11 +33,11 @@ export const MakePost = ({navigation}) => {
     console.log(`postMessage; usingFirestore=${usingFirestore}`);
     const now = new Date();
     const newMessage = {
-      'author': loggedInUser.email, 
-      'date': now, 
-      'timestamp': now.getTime(), // millsecond timestamp
-      'channel': selectedChannel, 
-      'content': textInputValue, 
+      author: loggedInUser.email, 
+      date: now, 
+      timestamp: now.getTime(), // millsecond timestamp
+      channel: selectedChannel, 
+      content: textInputValue, 
     }
     if (usingFirestore) {
       firebasePostMessage(newMessage);
@@ -52,7 +52,7 @@ export const MakePost = ({navigation}) => {
    DEBUGGING
    ***************************************************************************/
 
-  function debug() {
+/*   function debug() {
     const debugObj = {
       channels: channels, 
       selectedChannel, selectedChannel, 
@@ -72,8 +72,7 @@ export const MakePost = ({navigation}) => {
     } else {
       return false;
     }
-  }                                                                                      
-
+  }  */                                                                                     
 
 
   /***************************************************************************
@@ -94,18 +93,18 @@ export const MakePost = ({navigation}) => {
                 }>
                  <Text style = {styles.text}> Cancel </Text>
              </TouchableOpacity>
-             <Text style ={styles.title}>Make Post</Text>
+             <Text style ={styles.title}> Make Post</Text>
 
-             <TextInput editable maxLength={40} value={content} onChangeText={text => onChangeText(text)}/>
+             <TextInput editable maxLength={40} placeholder={"what's on your mind?"} onChangeText={text => onChangeText(text)}/>
 
-             <Text style = {styles.text}>{username}</Text>
+{/*              <Text style = {styles.text}>{username}</Text>
              <Text style = {styles.text}>{firstname}</Text>
-             <Text style = {styles.text}>{lastname}</Text>
+             <Text style = {styles.text}>{lastname}</Text> */}
        
              <TouchableOpacity
-                style = {editProfileStyle.button}
+                style = {styles.button}
                 onPress = {
-                   () => this.post()
+                   () => this.postMessage()
                 }>
                 <Text style = {styles.text}> Post </Text>
              </TouchableOpacity>
@@ -120,6 +119,12 @@ export const MakePost = ({navigation}) => {
          paddingTop: 23,
          backgroundColor: 'white',
       },
+      button: {
+        backgroundColor: '#002776',
+        padding: 10,
+        margin: 15,
+        height: 40,
+     },
       input: {
          margin: 15,
          height: 40,
