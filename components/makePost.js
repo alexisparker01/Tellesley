@@ -1,118 +1,116 @@
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, ScrollView, View, TextInput, TouchableOpacity, Keyboard, DismissKeyboard, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
 import { makePostStyle } from './LoginStyle';
 
 export const MakePost = ({navigation}) => {
+// State for chat channels and messages
+const [selectedMessages, setSelectedMessages] = React.useState([]);
+const [textInputValue, setTextInputValue] = useState('');
+const [isComposingMessage, setIsComposingMessage] = useState(false);
 
-  // State for chat channels and messages
-  const [selectedMessages, setSelectedMessages] = React.useState([]);
-  const [textInputValue, setTextInputValue] = useState('');
-  const [isComposingMessage, setIsComposingMessage] = useState(false);
+function addTimestamp(message) {
+  // Add millisecond timestamp field to message 
+  return {...message, timestamp:message.date.getTime()}
+}
 
-  function addTimestamp(message) {
-    // Add millisecond timestamp field to message 
-    return {...message, timestamp:message.date.getTime()}
+function composeMessage() {
+  setIsComposingMessage(true);
+}
+
+function cancelMessage() {
+  setIsComposingMessage(false);
+}
+
+function toggleAnonymous () {
+  //make "user" of post anonymous
+}
+
+function postMessage() {
+  console.log(`postMessage; usingFirestore=${usingFirestore}`);
+  const now = new Date();
+  const newMessage = {
+    author: loggedInUser.email, 
+    date: now, 
+    timestamp: now.getTime(), // millsecond timestamp
+    channel: selectedChannel, 
+    content: textInputValue, 
   }
-
-  function composeMessage() {
-    setIsComposingMessage(true);
-  }
-
-  function cancelMessage() {
+  if (usingFirestore) {
+    firebasePostMessage(newMessage);
+  } else {
+    setLocalMessageDB([...localMessageDB, newMessage]);
     setIsComposingMessage(false);
   }
+  setTextInputValue('');
+}
 
-  function toggleAnonymous () {
-    //make "user" of post anonymous
-  }
-
-  function postMessage() {
-    console.log(`postMessage; usingFirestore=${usingFirestore}`);
-    const now = new Date();
-    const newMessage = {
-      author: loggedInUser.email, 
-      date: now, 
-      timestamp: now.getTime(), // millsecond timestamp
-      channel: selectedChannel, 
-      content: textInputValue, 
-    }
-    if (usingFirestore) {
-      firebasePostMessage(newMessage);
-    } else {
-      setLocalMessageDB([...localMessageDB, newMessage]);
-      setIsComposingMessage(false);
-    }
-    setTextInputValue('');
-  }
-
-  /***************************************************************************
-   DEBUGGING
-   ***************************************************************************/
+/***************************************************************************
+ DEBUGGING
+ ***************************************************************************/
 
 /*   function debug() {
-    const debugObj = {
-      channels: channels, 
-      selectedChannel, selectedChannel, 
-      selectedMessages: selectedMessages, 
-    }
-    alert(formatJSON(debugObj));
+  const debugObj = {
+    channels: channels, 
+    selectedChannel, selectedChannel, 
+    selectedMessages: selectedMessages, 
   }
+  alert(formatJSON(debugObj));
+}
 
-  function debugButton(bool) {
-    if (bool) {
-      return (
-        <TouchableOpacity style={makePostStyle.button}
-           onPress={debug}>
-          <Text style={makePostStyle.buttonText}>Debug</Text>
-        </TouchableOpacity> 
-      ); 
-    } else {
-      return false;
-    }
-  }  */                                                                                     
+function debugButton(bool) {
+  if (bool) {
+    return (
+      <TouchableOpacity style={makePostStyle.button}
+         onPress={debug}>
+        <Text style={makePostStyle.buttonText}>Debug</Text>
+      </TouchableOpacity> 
+    ); 
+  } else {
+    return false;
+  }
+}  */                                                                                     
 
+/***************************************************************************
+ RENDERING CHAT CHANNELS AND MESSAGES
+ ***************************************************************************/
 
-  /***************************************************************************
-   RENDERING CHAT CHANNELS AND MESSAGES
-   ***************************************************************************/
+function formatDateTime(date) {
+ return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
+}
+     return (
+        <DismissKeyboard>
+        <ScrollView style = {styles.container}>
 
- function formatDateTime(date) {
-   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
- }
-       return (
-          <DismissKeyboard>
-          <ScrollView style = {styles.container}>
+             <TouchableOpacity
+              style = {styles.cancelButton}
+              onPress = {
+                 () => this.goBack()
+              }>
+               <Text style = {styles.text}> Cancel </Text>
+           </TouchableOpacity>
+           <Text style ={styles.title}> Make Post</Text>
 
-               <TouchableOpacity
-                style = {styles.cancelButton}
-                onPress = {
-                   () => this.goBack()
-                }>
-                 <Text style = {styles.text}> Cancel </Text>
-             </TouchableOpacity>
-             <Text style ={styles.title}> Make Post</Text>
-
-             <TextInput editable maxLength={40} placeholder={"what's on your mind?"} onChangeText={text => onChangeText(text)}/>
+           <TextInput editable maxLength={40} placeholder={"what's on your mind?"} onChangeText={text => onChangeText(text)}/>
 
 {/*              <Text style = {styles.text}>{username}</Text>
-             <Text style = {styles.text}>{firstname}</Text>
-             <Text style = {styles.text}>{lastname}</Text> */}
-       
-             <TouchableOpacity
-                style = {styles.button}
-                onPress = {
-                   () => this.postMessage()
-                }>
-                <Text style = {styles.text}> Post </Text>
-             </TouchableOpacity>
-             </ScrollView>
-             </DismissKeyboard>
-    
-       )
+           <Text style = {styles.text}>{firstname}</Text>
+           <Text style = {styles.text}>{lastname}</Text> */}
+     
+           <TouchableOpacity
+              style = {styles.button}
+              onPress = {
+                 () => this.postMessage()
+              }>
+              <Text style = {styles.text}> Post </Text>
+           </TouchableOpacity>
+           </ScrollView>
+           </DismissKeyboard>
+  
+     )
 }
+
 
     const styles = StyleSheet.create({
       container: {
@@ -144,12 +142,6 @@ export const MakePost = ({navigation}) => {
          backgroundColor: 'white',
          borderColor: "black",
          borderWidth: 1
-      },
-      button: {
-         backgroundColor: '#002776',
-         padding: 10,
-         margin: 15,
-         height: 40,
       },
       cancelButton: {
          margin: 10,
@@ -186,5 +178,6 @@ export const MakePost = ({navigation}) => {
          marginLeft: 130,
          padding: 15,
       },
+
    })
    

@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton';
-import { SignUpScreen, FName } from '../signUpScreen';
+import SignUpScreen from '../signUpScreen';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
@@ -42,7 +42,7 @@ export const Feed = ({navigation}) => {
     
     {/* upper white section */}
       <View style = {styles.header}>
-      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {FName} </Text>
+      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {Fname} </Text>
       </View>
 
       {/*The footer is the gray part, but its height doesn't extend for
@@ -77,6 +77,8 @@ const styles = StyleSheet.create({
   postContainer: {
     flex: 0.5,
     backgroundColor: 'white',
+    borderColor: 'rgb(222,222,222)',
+    borderWidth: 2,
     fontSize: 18,
   },
     header: {

@@ -46,11 +46,6 @@ export const LoginScreen = ({navigation}) => {
           // Clear email/password inputs 
           setEmail('');
           setPassword('');
-  
-          // Note: could store userCredential here if wanted it later ...
-          // console.log(`createUserWithEmailAndPassword: setCredential`);
-          // setCredential(userCredential);
-      
           })
         .catch((error) => {
           const errorMessage = error.message;

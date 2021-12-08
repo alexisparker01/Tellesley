@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
 import { Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app"; 
-import {getAuth, 
+import {getAuth, onAuthStateChanged,
         createUserWithEmailAndPassword,
         sendEmailVerification,
         signOut} from "firebase/auth";
@@ -93,6 +93,7 @@ export const SignUpScreen = ({navigation}) => {
     });
   }
 
+
         return (
           <View>
              <View>
@@ -132,4 +133,3 @@ export const SignUpScreen = ({navigation}) => {
             </View>
         )
 }
-//eye thing doesn't work anymore?
