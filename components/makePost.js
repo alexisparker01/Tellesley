@@ -111,7 +111,6 @@ function formatDateTime(date) {
      )
 }
 
-
     const styles = StyleSheet.create({
       container: {
          paddingTop: 23,

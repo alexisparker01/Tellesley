@@ -10,7 +10,6 @@ class NavigationBar extends Component {
 
    }
 
-
 goToMap = () => {
    // go to map screen
 }
@@ -24,13 +23,8 @@ goToProfile = () => {
 }
 
    render() {
-      return (
-    
-
-
-
-<View style = {styles.container}>
-       
+   return (
+      <View style = {styles.container}>
            <Image 
         style={styles.pictures}
         source={{
@@ -49,15 +43,8 @@ goToProfile = () => {
           uri: this.state.profileIcon,
         }}
       />
+      </View>
 
-      
-
-      
-  
-       
-     </View>
-        
-   
       )
    }
 }

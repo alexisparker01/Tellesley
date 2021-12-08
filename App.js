@@ -10,6 +10,7 @@ import { LoginScreen } from './components/login';
 import { SignUpScreen } from './components/signUpScreen';
 import {Feed} from './components/Feed/FeedMain';
 import {MakePost} from './components/makePost';
+import NavigationBar from './components/NavigationBar';
 
 const Stack = createNativeStackNavigator();
 
