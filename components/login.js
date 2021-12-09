@@ -6,7 +6,6 @@ import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { loginStyle } from './loginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import { MakePost } from './makePost';
   
   const firebaseConfig = {
     apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",

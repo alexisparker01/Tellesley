@@ -9,7 +9,7 @@ import {EditProfile} from './components/editProfile';
 import { LoginScreen } from './components/login';
 import { SignUpScreen } from './components/signUpScreen';
 import {Feed} from './components/FeedMain';
-import {MakePost} from './components/makePost';
+import {MakePost} from './components/MakePost';
 import NavigationBar from './components/NavigationBar';
 import ViewProfile from './components/ViewProfile';
 
@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer style={loginStyle.content}>
+/*     <NavigationContainer style={loginStyle.content}>
       <Stack.Navigator initialRouteName = "Log In">
         <Stack.Screen name="Tellesley" component={LoginScreen}/> 
         <Stack.Screen name="Feed" component={Feed}/>
@@ -25,9 +25,9 @@ export default function App() {
         <Stack.Screen name="New Post" component={MakePost}/>
         <Stack.Screen name="Profile" component={ViewProfile}/>
       </Stack.Navigator>
-    </NavigationContainer> 
-/*     <View>
-      <ViewProfile/>
-    </View> */
+    </NavigationContainer>  */
+     <View>
+      <Feed/>
+    </View> 
   );
 }
