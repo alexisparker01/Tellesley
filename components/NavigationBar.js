@@ -1,48 +1,60 @@
-import React, { Component } from 'react';
-import { NavigationContainer, withNavigation } from '@react-navigation/native';
-//import { navigate } from 'react-navigation';
+import React, { useState, Component } from 'react';
+import { NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
-
-class NavigationBar extends Component {
-   state = {
+function NavigationBar(props) {
+//class NavigationBar extends Component {
+/*    state = {
       mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
       feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
       profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
 
-   }
+   } */
 
-   render() {
+   const [state, setState] = useState ({
+      mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
+      feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
+      profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
+   })
+
+
+   //render() {
    return (
       <View style = {styles.container}>
-         <TouchableOpacity onPress= {() => this.props.navigation.navigate('Profile')}>
+
+         <TouchableOpacity onPress= {() => props.navigation.navigate('Profile')}>
          <Image 
          style={styles.pictures}
          source={{
-            uri: this.state.profileIcon,
+            uri: state.profileIcon,
          }}
          />
          </TouchableOpacity>
+      
+         <Image 
+         style={styles.pictures}
+         source={{
+            uri: state.mapIcon,
+         }}
+         />
 
-      <Image 
-        style={styles.pictures}
-        source={{
-          uri: this.state.mapIcon,
-        }}
-      />
-          <Image 
-        style={styles.pictures}
-        source={{
-          uri: this.state.feedIcon,
-        }}
-      />
+         <TouchableOpacity onPress= {() => props.navigation.navigate('Feed')}>
+         <Image 
+         style={styles.pictures}
+         source={{
+            uri: state.feedIcon,
+         }}
+         />
+         </TouchableOpacity>
+         
       </View>
 
       )
    }
-}
+//}
 export default NavigationBar;
 
 
