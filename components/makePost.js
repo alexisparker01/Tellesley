@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity} from 'react-native';
+import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { loginStyle } from './loginStyle';
@@ -40,10 +40,9 @@ function cancelButton() {
 
      return (
 
-      <View style = {loginStyle.content}>
-      <SafeAreaView style = {loginStyle.content}>
-          <View style = {loginStyle.view}>
-              <Card>
+      <View style = {styles.container}>
+      <SafeAreaView style = {styles.container}>
+{/*               <Card>
                   <Card.Content>
                   <TextInput editable style = {makePostStyle.textInputArea} maxLength={100} placeholder={"Dear Tellesley..."} onChangeText={text => setTextInputValue(text)}/>
                       <Button mode = "contained" 
@@ -52,8 +51,19 @@ function cancelButton() {
                       <Button mode = "contained" style = {loginStyle.subuttons} onPress={() => cancelButton()}> Cancel </Button>
 
                   </Card.Content>
-              </Card>
-          </View>
+              </Card> */}
+            <TextInput multiline = {true} numberOfLines = {20} editable style = {styles.textInputArea} maxLength={100} placeholder={"Dear Tellesley..."} onChangeText={text => setTextInputValue(text)}/>
+{/*               <Picker
+                style={styles.pickerStyles}
+                mode='dropdown'
+                selectedValue= 'Select Category'
+                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+                {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
+              </Picker> */}
+                <Button mode = "contained" 
+                       style = {styles.buttons} 
+                      onPress={() => postMessage()}> Post </Button>
+                <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> Cancel </Button>
       </SafeAreaView>
     </View>
 /*       <View style = {makePostStyle.content}>
@@ -87,3 +97,45 @@ function cancelButton() {
   </View> */
      )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    height: '50%',
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  buttons: {
+    backgroundColor: "rgb(8,58,129)",
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: '40%',
+    width: '20%',
+    padding: 5,
+ },
+ subuttons: {
+  backgroundColor: "#919191",
+  color:'#000000',
+  marginLeft: '40%',
+  width: '20%',
+  padding: 5,
+
+},
+  textInputArea: {
+    textAlign: 'Left',
+    backgroundColor: "white",
+    fontSize: 17,
+    borderWidth: 1,
+    borderColor: "#9E9E9E",
+  },
+  titleText: {
+    textAlign: 'center',
+    fontSize: 40,
+    color:'#5d5d5d',
+    fontFamily: 'Times New Roman'
+  },
+  pickerStyles:{
+    width:'60%',
+    backgroundColor:'white',
+    },
+});

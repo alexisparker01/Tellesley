@@ -23,8 +23,8 @@ const auth = getAuth(firebaseApp);
 
 export const LoginScreen = ({navigation}) => {
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('km1@wellesley.edu');
+    const [password, setPassword] = React.useState('kateamacv');
     const [errorMessage, setErrorMsg] = React.useState('');
     const [loggedInUser, setLoggedInUser] = React.useState(null);
 

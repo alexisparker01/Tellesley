@@ -49,7 +49,7 @@ function NavigationBar(props) {
          }}
          />
          </TouchableOpacity>
-         
+
       </View>
 
       )

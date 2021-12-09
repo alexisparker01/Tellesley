@@ -42,7 +42,7 @@ export const Feed = ({navigation}) => {
     profileIcon: 'https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1638490784~hmac=b835b7356f4d2d578798e433831c4aa7',
   })
 
-    const [category,setCategory] = useState('classes');
+    const [category,setCategory] = useState('Classes');
 
   return (
     <View style={styles.container}>
@@ -69,13 +69,13 @@ export const Feed = ({navigation}) => {
         <Picker
           style={styles.pickerStyles}
           mode='dropdown'
-          selectedValue={setCategory}
+          selectedValue={category}
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
         </View>
         <View style = {styles.postContainer}></View>
-        <NavigationBar/>
+        <NavigationBar navigation = {navigation} />
       </View>
   );
 }
