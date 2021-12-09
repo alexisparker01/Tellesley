@@ -1,31 +1,32 @@
-import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
+import React, { Component } from 'react';
+import { NavigationContainer, withNavigation } from '@react-navigation/native';
+//import { navigate } from 'react-navigation';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+
+
 
 class NavigationBar extends Component {
    state = {
       mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
       feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
-      profileIcon: 'https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1638490784~hmac=b835b7356f4d2d578798e433831c4aa7',
+      profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
 
    }
-
-goToMap = () => {
-   // go to map screen
-}
-
-goToFeed = () => {
-   // go to feed screen
-}
-
-goToProfile = () => {
-   // go to profile
-}
 
    render() {
    return (
       <View style = {styles.container}>
-           <Image 
+         <TouchableOpacity onPress= {() => this.props.navigation.navigate('Profile')}>
+         <Image 
+         style={styles.pictures}
+         source={{
+            uri: this.state.profileIcon,
+         }}
+         />
+         </TouchableOpacity>
+
+      <Image 
         style={styles.pictures}
         source={{
           uri: this.state.mapIcon,
@@ -37,18 +38,12 @@ goToProfile = () => {
           uri: this.state.feedIcon,
         }}
       />
-          <Image 
-        style={styles.pictures}
-        source={{
-          uri: this.state.profileIcon,
-        }}
-      />
       </View>
 
       )
    }
 }
-export default NavigationBar
+export default NavigationBar;
 
 
 const styles = StyleSheet.create({
@@ -56,9 +51,8 @@ const styles = StyleSheet.create({
    container: {
  flexDirection:'row',
        alignItems:'center',
-        width: 500,
         height: 75,
-        marginLeft: -10,
+        marginLeft: 200,
         marginBottom: -7,
         backgroundColor: "#F5F5F5",
    },

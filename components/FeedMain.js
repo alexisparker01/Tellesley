@@ -4,15 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton';
-import SignUpScreen from '../signUpScreen';
+import SignUpScreen from './signUpScreen';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
-import { MakePost } from '../makePost';
-//import NavigationBar from './components/NavigationBar';
+import { MakePost } from './makePost';
+import NavigationBar from './NavigationBar';
 
 function emailOf(user) {
   if (user) {
@@ -75,6 +75,7 @@ export const Feed = ({navigation}) => {
         </Picker>
         </View>
         <View style = {styles.postContainer}></View>
+        <NavigationBar/>
       </View>
   );
 }

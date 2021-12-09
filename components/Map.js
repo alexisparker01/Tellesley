@@ -6,7 +6,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
+//import * as Location from "expo-location";
 
 const specialLocations = [
 { name: 'Tupelo Point',
@@ -24,7 +24,7 @@ color: 'red' },
 // Extend this with one of *your* favorite locations!
 ]
 
-export default class App extends Component {
+export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +34,7 @@ export default class App extends Component {
     };
   }
 
-  _getLocationAsync = async () => {
+/*   _getLocationAsync = async () => {
     // watchPositionAsync returns location with lat, long, & more on location change
     this.subscription = await Location.watchPositionAsync(
       // Argument #1: location options
@@ -48,7 +48,7 @@ export default class App extends Component {
         this.setState({ location: newLocation});
       }
     );
-  };
+  }; */
 
   async componentDidMount() { // Executes after first render     
     const foregroundResponse = await Location.requestForegroundPermissionsAsync();

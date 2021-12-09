@@ -8,9 +8,10 @@ import { loginStyle, signUpStyle } from './components/loginStyle';
 import {EditProfile} from './components/editProfile';
 import { LoginScreen } from './components/login';
 import { SignUpScreen } from './components/signUpScreen';
-import {Feed} from './components/Feed/FeedMain';
+import {Feed} from './components/FeedMain';
 import {MakePost} from './components/makePost';
 import NavigationBar from './components/NavigationBar';
+import ViewProfile from './components/ViewProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,11 @@ export default function App() {
         <Stack.Screen name="Feed" component={Feed}/>
         <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
         <Stack.Screen name="New Post" component={MakePost}/>
+        <Stack.Screen name="Profile" component={ViewProfile}/>
       </Stack.Navigator>
     </NavigationContainer> 
+/*     <View>
+      <ViewProfile/>
+    </View> */
   );
 }
