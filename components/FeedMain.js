@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   pickerStyles:{
-    width:'60%',
+    width:'30%',
     backgroundColor:'white',
     },
     icons: {

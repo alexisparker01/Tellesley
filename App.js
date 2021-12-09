@@ -26,8 +26,6 @@ export default function App() {
         <Stack.Screen name="Profile" component={ViewProfile}/>
       </Stack.Navigator>
     </NavigationContainer> 
-
-    //<MakePost/>
  
   );
 }

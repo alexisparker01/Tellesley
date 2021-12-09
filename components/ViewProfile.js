@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
+import NavigationBar from './NavigationBar';
 
 class ViewProfile extends Component {
    state = {
@@ -12,67 +13,35 @@ class ViewProfile extends Component {
       currentUser: true,
    }
 
-
-goBack = () => {
-   // go back to wherever you came from
-}
-
-goToEditProfile = () => {
-
-}
-
-
-
    render() {
       return (
     
-         <ScrollView style = {styles.container}>
-
-
-
+      <ScrollView style = {styles.container}>
         <Text style = {styles.username}>{this.state.username}</Text>
-
-<View style = {{flexDirection:'row', alignItems:'center', marginBottom: 30}}>
+         <View style = {{flexDirection:'row', alignItems:'center', marginBottom: 30}}>
            <Image 
-        style={styles.profilePicture}
-        source={{
-          uri: this.state.profilePicture,
-        }}
-      />
-
-      
-
-            <Text style = {styles.names}>{this.state.firstname + " " + this.state.lastname + "\n\n" + this.state.bio}</Text>
+            style={styles.profilePicture}
+            source={{
+            uri: this.state.profilePicture,
+            }}
+            />
+         <Text style = {styles.names}>{this.state.firstname + " " + this.state.lastname + "\n\n" + this.state.bio}</Text>
+         </View> 
     
-          
-       
-     </View> 
-
- 
-
-           
-       <TouchableOpacity
+         <TouchableOpacity
                style = {styles.buttonEditProfile}
                onPress = {
                   () => this.goToEditProfile()
                }>
                <Text style = {styles.text}> Edit Profile </Text>
-            </TouchableOpacity>
-
-
-                <View style = {styles.postsBox}></View>
-            
-            </ScrollView>
-   
-        
+         </TouchableOpacity>
+         <View style = {styles.postsBox}></View>
+      </ScrollView>
    
       )
    }
 }
 export default ViewProfile
-
-
-
 
 
 const styles = StyleSheet.create({
