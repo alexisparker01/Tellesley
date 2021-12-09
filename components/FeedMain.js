@@ -11,7 +11,7 @@ import { getAuth,
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
-import { MakePost } from './makePost';
+import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
 
 function emailOf(user) {

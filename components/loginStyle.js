@@ -141,10 +141,15 @@ composeButton: {
    margin: 15,
    height: 40,
 },
-composeButtonText:{
-   color: 'white'
+button:{
+   color: 'white',
 },
-buttonHolder: {
+text: {
+   fontSize:50,
+   color:'black',
+},
+title: {
+  fontSize:50,
+   color:'black',
 }
-
 })
