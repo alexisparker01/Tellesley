@@ -13,6 +13,7 @@ import { getAuth,
         signOut } from "firebase/auth";
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
+import { LoginScreen } from './login';
 
 const testMessages = 
 [
@@ -53,12 +54,11 @@ const MessageItem = props => {
 }
 
 
-
 export const Feed = ({navigation}) => {
 
   const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-  const [user, setUser] = React.useState(''); 
+  const [user, setUser] = React.useState(user); 
   const [password, setPassword] = React.useState(''); 
   const [loggedInUser, setLoggedInUser] = React.useState(null);
 
