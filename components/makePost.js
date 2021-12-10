@@ -42,16 +42,6 @@ function cancelButton() {
 
       <View style = {styles.container}>
       <SafeAreaView style = {styles.container}>
-{/*               <Card>
-                  <Card.Content>
-                  <TextInput editable style = {makePostStyle.textInputArea} maxLength={100} placeholder={"Dear Tellesley..."} onChangeText={text => setTextInputValue(text)}/>
-                      <Button mode = "contained" 
-                              style = {loginStyle.buttons} 
-                              onPress={() => postMessage()}> Post </Button>
-                      <Button mode = "contained" style = {loginStylek.subuttons} onPress={() => cancelButton()}> Cancel </Button>
-
-                  </Card.Content>
-              </Card> */}
             <TextInput multiline = {true} numberOfLines = {20} editable style = {styles.textInputArea} maxLength={100} placeholder={"Dear Tellesley..."} onChangeText={text => setTextInputValue(text)}/>
 {/*               <Picker
                 style={styles.pickerStyles}

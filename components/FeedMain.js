@@ -17,6 +17,7 @@ import NavigationBar from './NavigationBar';
 const testMessages = 
 [
  {'user': 'km1@wellesley.edu',
+ 'date': new Date(2021, 10, 29, 13, 12, 46, 1234),
   'fName': 'Kate',
   'lName': 'MacVicar', 
   'password': 'kateamacv',
@@ -24,6 +25,7 @@ const testMessages =
   'category': 'Life'
  },
  {'user': 'hz4@wellesley.edu',
+ 'date': new Date(2021, 9, 25, 13, 12, 47, 1234),
  'fName': 'Hope',
  'lName': 'Zhu', 
  'password': 'hopezhu',
@@ -31,6 +33,7 @@ const testMessages =
  'category': 'Life'
 },
 {'user': 'ap7@wellesley.edu',
+'date': new Date(2021, 10, 30, 17, 33, 52, 1234),
 'fName': 'Alexis',
 'lName': 'Parker', 
 'password': 'alexisparker',
@@ -39,7 +42,7 @@ const testMessages =
 },
 ]
  
-/* const MessageItem = props => { 
+const MessageItem = props => { 
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
@@ -49,45 +52,44 @@ const testMessages =
 ); 
 }
 
-return ( */
-const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
-
 
 
 export const Feed = ({navigation}) => {
-   
-/* const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+
+  const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
   const [user, setUser] = React.useState(''); 
   const [password, setPassword] = React.useState(''); 
   const [loggedInUser, setLoggedInUser] = React.useState(null);
 
   // State for chat channels and messages
-  const [category,setCategory] = useState('Classes');
+  const [category,setCategory] = useState(categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
-  const [localMessageDB, setLocalMessageDB] = useState(testMessages.map(category ));
+  const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
 
- async function getMessagesForCategory(cat) {
-    setSelectedMessages(localMessageDB.filter( msg => msg.channel === chan));
-  }
-}
-    useEffect(
-      () => { 
-        getMessagesForCategory(selectedCategory); 
-        setTextInputValue('');
-      },
-      [selectedCategory]
-    ); */ 
-
-    const [category,setCategory] = useState('Classes');
-    
-    const [state, setState] = useState ({
+  const [state, setState] = useState ({
       mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
       feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
       profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
-   })
+  })
+
+  function addTimestamp(message) {
+    return {...message, timestamp:message.date.getTime()}
+  } 
+
+   useEffect(
+    () => { 
+      getMessagesForCategory(selectedCategory); 
+      setTextInputValue('');
+    },
+    [selectedCategory]
+  ); 
+
+  async function getMessagesForCategory(cat) {
+    setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+  }
   
     return ( 
 
