@@ -48,7 +48,7 @@ function cancelButton() {
                       <Button mode = "contained" 
                               style = {loginStyle.buttons} 
                               onPress={() => postMessage()}> Post </Button>
-                      <Button mode = "contained" style = {loginStyle.subuttons} onPress={() => cancelButton()}> Cancel </Button>
+                      <Button mode = "contained" style = {loginStylek.subuttons} onPress={() => cancelButton()}> Cancel </Button>
 
                   </Card.Content>
               </Card> */}

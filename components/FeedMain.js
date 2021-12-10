@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
@@ -14,15 +14,32 @@ import { getAuth,
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
 
-function emailOf(user) {
-  if (user) {
-    return user.email;
-  } else {
-    return null;
-  }
-}
-
-const MessageItem = props => { 
+const testMessages = 
+[
+ {'user': 'km1@wellesley.edu',
+  'fName': 'Kate',
+  'lName': 'MacVicar', 
+  'password': 'kateamacv',
+  'posts': 'Is there no hot water for anyone else in Shafer?',
+  'category': 'Life'
+ },
+ {'user': 'hz4@wellesley.edu',
+ 'fName': 'Hope',
+ 'lName': 'Zhu', 
+ 'password': 'hopezhu',
+ 'posts': 'Anyone want to take a walk around the lake?',
+ 'category': 'Life'
+},
+{'user': 'ap7@wellesley.edu',
+'fName': 'Alexis',
+'lName': 'Parker', 
+'password': 'alexisparker',
+'posts': 'has anyone taken CS235 before? Thoughts?',
+'category': 'Classes'
+},
+]
+ 
+/* const MessageItem = props => { 
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
@@ -31,20 +48,49 @@ const MessageItem = props => {
   </View> 
 ); 
 }
-   
+
+return ( */
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-export const Feed = ({navigation}) => {
 
-  const [state, setState] = useState({
-    mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
-    feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
-    profileIcon: 'https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1638490784~hmac=b835b7356f4d2d578798e433831c4aa7',
-  })
+
+export const Feed = ({navigation}) => {
+   
+/* const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+
+  const [user, setUser] = React.useState(''); 
+  const [password, setPassword] = React.useState(''); 
+  const [loggedInUser, setLoggedInUser] = React.useState(null);
+
+  // State for chat channels and messages
+  const [category,setCategory] = useState('Classes');
+  const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+  const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [textInputValue, setTextInputValue] = useState('');
+  const [localMessageDB, setLocalMessageDB] = useState(testMessages.map(category ));
+
+ async function getMessagesForCategory(cat) {
+    setSelectedMessages(localMessageDB.filter( msg => msg.channel === chan));
+  }
+}
+    useEffect(
+      () => { 
+        getMessagesForCategory(selectedCategory); 
+        setTextInputValue('');
+      },
+      [selectedCategory]
+    ); */ 
 
     const [category,setCategory] = useState('Classes');
+    
+    const [state, setState] = useState ({
+      mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
+      feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
+      profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
+   })
+  
+    return ( 
 
-  return (
     <View style={styles.container}>
     
     {/* upper white section */}
