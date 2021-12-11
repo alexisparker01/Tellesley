@@ -64,10 +64,6 @@ handleSubmit() {
          <ScrollView style = {styles.container}>
 
 
-
-
-
-
         
 
 <TouchableOpacity

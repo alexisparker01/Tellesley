@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
 
+
 class ViewProfile extends Component {
    state = {
-      username: 'alexisparker', 
-      firstname: 'Alexis',
-      lastname: 'Parker',
-      bio: 'Wellesley College 2023',
+      username: 'wendywellesley', 
+      firstname: 'Wendy',
+      lastname: 'Wellesley',
+      bio: 'Wellesley College 2024',
       profilePicture: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
       currentUser: true,
    }
