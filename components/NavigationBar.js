@@ -16,12 +16,14 @@ function NavigationBar(props) {
    return (
       <View style = {styles.container}>
       
+      <TouchableOpacity onPress= {() => props.navigation.navigate('Map')}>
          <Image 
          style={styles.pictures}
          source={{
             uri: state.mapIcon,
          }}
          />
+      </TouchableOpacity>
 
          <TouchableOpacity onPress= {() => props.navigation.navigate('Feed')}>
          <Image 
