@@ -1,4 +1,4 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
@@ -13,15 +13,36 @@ import { getAuth,
         signOut } from "firebase/auth";
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
+import { LoginScreen } from './login';
 
-function emailOf(user) {
-  if (user) {
-    return user.email;
-  } else {
-    return null;
-  }
-}
-
+const testMessages = 
+[
+ {'user': 'km1@wellesley.edu',
+ 'date': new Date(2021, 10, 29, 13, 12, 46, 1234),
+  'fName': 'Kate',
+  'lName': 'MacVicar', 
+  'password': 'kateamacv',
+  'posts': 'Is there no hot water for anyone else in Shafer?',
+  'category': 'Life'
+ },
+ {'user': 'hz4@wellesley.edu',
+ 'date': new Date(2021, 9, 25, 13, 12, 47, 1234),
+ 'fName': 'Hope',
+ 'lName': 'Zhu', 
+ 'password': 'hopezhu',
+ 'posts': 'Anyone want to take a walk around the lake?',
+ 'category': 'Life'
+},
+{'user': 'ap7@wellesley.edu',
+'date': new Date(2021, 10, 30, 17, 33, 52, 1234),
+'fName': 'Alexis',
+'lName': 'Parker', 
+'password': 'alexisparker',
+'posts': 'has anyone taken CS235 before? Thoughts?',
+'category': 'Classes'
+},
+]
+ 
 const MessageItem = props => { 
   return (
   <View style={styles.postContainer}>
@@ -31,20 +52,47 @@ const MessageItem = props => {
   </View> 
 ); 
 }
-   
-const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+
 
 export const Feed = ({navigation}) => {
 
-  const [state, setState] = useState({
-    mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
-    feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
-    profileIcon: 'https://cdn-icons.flaticon.com/png/512/1144/premium/1144760.png?token=exp=1638490784~hmac=b835b7356f4d2d578798e433831c4aa7',
+  const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+
+  const [user, setUser] = React.useState(user); 
+  const [password, setPassword] = React.useState(''); 
+  const [loggedInUser, setLoggedInUser] = React.useState(null);
+
+  // State for chat channels and messages
+  const [category,setCategory] = useState(categories);
+  const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+  const [selectedMessages, setSelectedMessages] = React.useState([]);
+  const [textInputValue, setTextInputValue] = useState('');
+  const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
+
+  const [state, setState] = useState ({
+      mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
+      feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
+      profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
   })
 
-    const [category,setCategory] = useState('Classes');
+  function addTimestamp(message) {
+    return {...message, timestamp:message.date.getTime()}
+  } 
 
-  return (
+   useEffect(
+    () => { 
+      getMessagesForCategory(selectedCategory); 
+      setTextInputValue('');
+    },
+    [selectedCategory]
+  ); 
+
+  async function getMessagesForCategory(cat) {
+    setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+  }
+  
+    return ( 
+
     <View style={styles.container}>
     
     {/* upper white section */}
