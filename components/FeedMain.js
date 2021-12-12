@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Component} from 'react';
+import React, {useState, useEffect, useContext, Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
@@ -14,6 +14,7 @@ import { getAuth,
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
 import { LoginScreen } from './login';
+import StateContext from './StateContext.js';
 
 const testMessages = 
 [
@@ -53,8 +54,8 @@ const MessageItem = props => {
 ); 
 }
 
-
 export const Feed = ({navigation}) => {
+  const loggedInProps = useContext(StateContext);
 
   const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
@@ -97,7 +98,7 @@ export const Feed = ({navigation}) => {
     
     {/* upper white section */}
       <View style = {styles.header}>
-      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, Wendy! </Text>
+      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
       <Image 
         style={styles.icons}
         source={{

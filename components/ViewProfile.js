@@ -1,16 +1,15 @@
-import React, { useState, Component } from 'react'
+import React, { useState, useContext, Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
+import StateContext from './StateContext.js';
  
 export const ViewProfile = ({navigation}) => {{
 
+   const loggedInProps = useContext(StateContext);
    const [state, setState] = useState ({
-      username: 'wendywellesley', 
-      firstname: 'Wendy',
-      lastname: 'Wellesley',
       bio: 'Wellesley College 2024',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
@@ -20,14 +19,14 @@ export const ViewProfile = ({navigation}) => {{
     
       <ScrollView style = {styles.container}>
          <View style = {styles.header}> 
-            <Text style = {styles.username}>{state.username}</Text>
+            <Text style = {styles.username}>{loggedInProps.FName}</Text>
             <Image 
                   style={styles.profilePicture}
                   source={{
                   uri: state.profilePicture,
                   }}
             />
-            <Text style = {styles.text}>{state.firstname + " " + state.lastname} </Text>
+            <Text style = {styles.text}>{loggedInProps.FName + " " + loggedInProps.LName} </Text>
             <Text style = {styles.text}>{state.bio} </Text>
             <TouchableOpacity
                style = {styles.buttons}
