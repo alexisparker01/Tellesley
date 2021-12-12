@@ -1,142 +1,80 @@
-/* 
-// Adapted by Lyn from:
-// From: https://stackoverflow.com/questions/58821736/live-location-tracking-in-react-native-with-expo         
-*/
+import React, {useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView, View, ImageBackground, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
+import { Card, Button, Text } from 'react-native-paper';
+import { initializeApp } from "firebase/app";
+import { loginStyle } from './loginStyle';
+import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
-import React, { Component } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
-import MapView, { Marker } from "react-native-maps";
-//import * as Location from "expo-location";
+export const Map = ({navigation}) => {
+// State for chat channels and messages
+//const [selectedMessages, setSelectedMessages] = React.useState([]);
+//const [textInputValue, setTextInputValue] = useState('');
+const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+const image = { uri: "http://web.wellesley.edu/map/Wellesley_Printable.pdf" };
 
-const specialLocations = [
-{ name: 'Tupelo Point',
-coord: {latitude: 42.28929, longitude: -71.30570},
-color: 'yellow' },
-{ name: 'Paramecium Pond',
-coord: {latitude: 42.29476, longitude: -71.30512},
-color: 'cyan' },
-{ name: 'Paintshop Pond Waterfall',
-coord: {latitude: 42.29219, longitude: -71.31515},
-color: 'magenta' },
-{ name: 'My room',
-coord: {latitude: 42.292653, longitude: -71.308447},
-color: 'red' },
-// Extend this with one of *your* favorite locations!
-]
+     return (
 
-export default class Map extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: null,
-      foregroundPerms: 'unknown',
-      rememberedLocations: []
-    };
-  }
-
-/*   _getLocationAsync = async () => {
-    // watchPositionAsync returns location with lat, long, & more on location change
-    this.subscription = await Location.watchPositionAsync(
-      // Argument #1: location options
-      {
-        enableHighAccuracy: true,
-        distanceInterval: 1,
-        timeInterval: 10000 // check for location change every 10 seconds
-      },
-      // Argument #2: location callback
-      newLocation => {
-        this.setState({ location: newLocation});
-      }
-    );
-  }; */
-
-  async componentDidMount() { // Executes after first render     
-    const foregroundResponse = await Location.requestForegroundPermissionsAsync();
-    this.setState({ foregroundPerms: foregroundResponse });
-    if (foregroundResponse.status === "granted") {
-      this._getLocationAsync();
-    }
-  }
-
-  addMarker(){
-    var date = new Date(Date.now()).toString();
-
-  }
-
-    render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.text}>
-          {`foregroundPerms: ${JSON.stringify(this.state.foregroundPerms)}`}
-        </Text>
-        <Text style={styles.text}>
-          {`location: ${JSON.stringify(this.state.location)}`}
-        </Text>
-        <Button title='Add Marker for current location'
-        onPress={() => this.addMarker()}></Button>
-        
-      {(this.state.location!==null) &&
-        <MapView
-          initialRegion={
-              {latitude: this.state.location.coords.latitude,
-               longitude: this.state.location.coords.longitude,
-               latitudeDelta: 0.045,
-               longitudeDelta: 0.045
-              }
-          }
-          showsCompass={true}
-          showsUserLocation={true}
-          rotateEnabled={true}
-          ref={map => { this.map = map; }}
-          style={{ flex: 1 }}
-          > 
-          <Marker key="1" // each marker needs a unique key
-             coordinate={
-               {latitude: this.state.location.coords.latitude,
-               longitude: this.state.location.coords.longitude,
-               }
-             }
-             pinColor='green'
-           title='This is a long marker title'
-          >
-          </Marker>
-          {
-        specialLocations.map( sloc =>
-        <Marker key = {sloc.name}
-        coordinate={sloc.coord}
-       title={sloc.name}
-       pinColor={sloc.color}
-        >
-        </Marker>,)
-}
-        </MapView>
-      }
-      </View>
-    );
-  }
-}
-
-// Handy debugging functions                                                                 
-
-/** Show a popup alert dialog with msg and value before returning value */
-function alertVal(msg, val) {
-  alert(`${msg}:${JSON.stringify(val)}`);
-  return val;
-}
-
-/** Write msg and value to console.log before returning value */
-function logVal(msg, val) {
-  console.log(`${msg}:${JSON.stringify(val)}`);
-  return val;
+      <View style = {styles.container}>
+      <SafeAreaView style = {styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+              <Picker
+                style={styles.pickerStyles}
+                mode='dropdown'
+                selectedValue= 'Select Category'
+                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+                {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
+              </Picker>
+              </ImageBackground>
+      </SafeAreaView>
+    </View>
+     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      margin: 20
+  container: {
+    height: '50%',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  buttons: {
+    backgroundColor: "rgb(8,58,129)",
+    marginBottom: 10,
+    marginTop: 10,
+    marginLeft: '40%',
+    width: '20%',
+    padding: 5,
+ },
+ image: {
+  height: 100,
+ },
+ subuttons: {
+  backgroundColor: "#919191",
+  color:'#000000',
+  marginLeft: '40%',
+  width: '20%',
+  padding: 5,
+
+},
+  textInputArea: {
+    textAlign: 'Left',
+    backgroundColor: "white",
+    fontSize: 17,
+    borderWidth: 1,
+    borderColor: "#9E9E9E",
+  },
+  titleText: {
+    textAlign: 'center',
+    fontSize: 40,
+    color:'#5d5d5d',
+    fontFamily: 'Times New Roman'
+  },
+  pickerStyles:{
+    width:'37%',
+    marginTop: 5,
+    marginLeft: '30%',
+    backgroundColor:'white',
     },
-    text: {
-      padding: 10,
-    }
-  });
+})

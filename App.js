@@ -10,6 +10,7 @@ import {Feed} from './components/FeedMain';
 import {MakePost} from './components/MakePost';
 import NavigationBar from './components/NavigationBar';
 import ViewProfile from './components/ViewProfile';
+import {Map} from './components/Map';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App(props) {
         <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
         <Stack.Screen name="New Post" component={MakePost}/>
         <Stack.Screen name="Profile" component={ViewProfile}/>
+        <Stack.Screen name="Map" component={Map}/>
       </Stack.Navigator>
     </NavigationContainer> 
 
