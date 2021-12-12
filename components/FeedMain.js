@@ -97,7 +97,7 @@ export const Feed = ({navigation}) => {
     
     {/* upper white section */}
       <View style = {styles.header}>
-      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, Wendy!</Text>
+      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, Wendy! </Text>
       <Image 
         style={styles.icons}
         source={{

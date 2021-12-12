@@ -23,6 +23,7 @@ const auth = getAuth(firebaseApp);
 
 export const LoginScreen = ({navigation}) => {
 
+  //function Login(loggedInProps){
     const [email, setEmail] = React.useState('km1@wellesley.edu');
     const [password, setPassword] = React.useState('kateamacv');
     const [errorMessage, setErrorMsg] = React.useState('');
@@ -30,7 +31,6 @@ export const LoginScreen = ({navigation}) => {
 
     function signInUserEmailPassword() {
       setErrorMsg('');
-
       if (!email.includes('@wellesley.edu')) {
         setErrorMsg('Please use a Wellesley College email address.');
         return;
@@ -38,11 +38,7 @@ export const LoginScreen = ({navigation}) => {
       
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-
-          // Only log in auth.currentUser if their email is verified
           checkEmailVerification();
-  
-          // Clear email/password inputs 
           setEmail('');
           setPassword('');
           })
@@ -58,21 +54,16 @@ export const LoginScreen = ({navigation}) => {
             setEmail('');
             setPassword('');
           }
-         //setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
         });
     }
   
     function checkEmailVerification() {
       if (auth.currentUser) {
-        
         if (auth.currentUser.emailVerified) {
-          
           setLoggedInUser(auth.currentUser);
           navigation.navigate('Feed');
-          
           setErrorMsg('')
         } else {
-          
           setErrorMsg(`Please verify ${auth.currentUser.email} by clicking the link sent.`)
         }
       }

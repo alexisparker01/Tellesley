@@ -15,11 +15,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App(props) {
 
-  const [email, setEmail] = React.useState('km1@wellesley.edu');
-  const [password, setPassword] = React.useState('kateamacv');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const [loggedInUser, setLoggedInUser] = React.useState(null);
   const logInUser = username => (setloggedInUser(null));
-  const loggedInProps = {loggedInUser,logInUser, email,password }
+  const [FName, setFName] = React.useState('');
+  const [LName, setLName] = React.useState('');
+  const loggedInProps = {loggedInUser,logInUser, email,password, FName, LName }
 
   return (
     <NavigationContainer style={loginStyle.content}>
@@ -32,6 +34,5 @@ export default function App(props) {
       </Stack.Navigator>
     </NavigationContainer> 
 
- 
   );
 }
