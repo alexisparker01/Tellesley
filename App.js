@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
-import { loginStyle, signUpStyle } from './components/loginStyle';
-import {EditProfile} from './components/editProfile';
+import { loginStyle, signUpStyle } from './components/LoginStyle';
+import {EditProfile} from './components/EditProfile';
 import { LoginScreen } from './components/login'; 
-import { SignUpScreen } from './components/signUpScreen';
+import { SignUpScreen } from './components/SignUpScreen';
 import {Feed} from './components/FeedMain';
 import {MakePost} from './components/MakePost';
 import NavigationBar from './components/NavigationBar';
