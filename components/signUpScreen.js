@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useContext} from 'react';
 import { View } from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
 import { Button, TextInput} from 'react-native-paper';
@@ -7,8 +7,8 @@ import {getAuth, onAuthStateChanged,
         createUserWithEmailAndPassword,
         sendEmailVerification,
         signOut} from "firebase/auth";
+import StateContext from './StateContext.js';
 
-  
   const firebaseConfig = {
     apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
     authDomain: "tellesley.firebaseapp.com",
@@ -25,13 +25,8 @@ const auth = getAuth(firebaseApp);
 
 export const SignUpScreen = ({navigation}) => {
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [password2, confirmPassword] = React.useState('');
-    const [FName, setFName] = React.useState('');
-    const [LName, setLName] = React.useState('');
-    const [errorMsg, setErrorMsg] = React.useState('');
-    const [loggedInUser, setLoggedInUser] = React.useState(null);
+  const loggedInProps = useContext(StateContext);
+  const [errorMsg, setErrorMsg] = useState('');
 
 /*     useEffect(() => {
       // Anything in here is fired on component mount.
@@ -59,15 +54,15 @@ export const SignUpScreen = ({navigation}) => {
         signOut(auth); // sign out auth's current user (who is not loggedInUser, 
                        // or else we wouldn't be here
       }
-      if (!email.includes('@wellesley.edu')) {
+      if (!loggedInProps.email.includes('@wellesley.edu')) {
         setErrorMsg('Not a valid email address');
         return;
       }
-      if (password!==password2) {
+      if (loggedInProps.password!==password2) {
           setErrorMsg('Passwords do not match');
           return;
       }
-      if (password.length < 6) {
+      if (loggedInProps.password.length < 6) {
         setErrorMsg('Password too short');
         return;
       }
@@ -78,8 +73,8 @@ export const SignUpScreen = ({navigation}) => {
 
       // Clear email/password inputs
       const savedEmail = email; // Save for email verification
-      setEmail('');
-      setPassword('');
+      loggedInProps.setEmail('');
+      loggedInProps.setPassword('');
       confirmPassword('');
       sendEmailVerification(auth.currentUser)
       .then(() => {
@@ -100,23 +95,23 @@ export const SignUpScreen = ({navigation}) => {
                 <TextInput label = "First Name" 
                             style = {signUpStyle.TextInputStyle}
                             activeUnderlineColor = 'rgb(6,12,51)'
-                            onChangeText={ textVal => setFName(textVal)} value={FName}/>
+                            onChangeText={ textVal => loggedInProps.setFName(textVal)} value={loggedInProps.FName}/>
                 <TextInput label = "Last Name" 
-                            onChangeText={ textVal => setLName(textVal)} 
+                            onChangeText={ textVal => loggedInProps.setLName(textVal)} 
                             activeUnderlineColor = 'rgb(6,12,51)'
-                            value={LName}
+                            value={loggedInProps.LName}
                             style = {signUpStyle.TextInputStyle}/>
                 <TextInput label = "Email" 
-                            onChangeText={ textVal => setEmail(textVal)} 
+                            onChangeText={ textVal => loggedInProps.setEmail(textVal)} 
                             activeUnderlineColor = 'rgb(6,12,51)'
-                            value={email}
+                            value={loggedInProps.email}
                             style = {signUpStyle.TextInputStyle}/>
                 <TextInput label = "Password" 
                             right = {<TextInput.Icon 
                             name = "eye-off-outline"/>}
                             activeUnderlineColor = 'rgb(6,12,51)'
-                            onChangeText={ textVal => setPassword(textVal)} 
-                            value={password}
+                            onChangeText={ textVal => loggedInProps.setPassword(textVal)} 
+                            value={loggedInProps.password}
                             style = {signUpStyle.TextInputStyle}/>
                <TextInput label = "Confirm Password" 
                           right = {<TextInput.Icon 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput} from 'react-native';
@@ -6,7 +6,8 @@ import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
 import { loginStyle } from './loginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-  
+import StateContext from './StateContext.js';
+
   const firebaseConfig = {
     apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
     authDomain: "tellesley.firebaseapp.com",
@@ -23,56 +24,45 @@ const auth = getAuth(firebaseApp);
 
 export const LoginScreen = ({navigation}) => {
 
-    const [email, setEmail] = React.useState('km1@wellesley.edu');
-    const [password, setPassword] = React.useState('kateamacv');
-    const [errorMessage, setErrorMsg] = React.useState('');
-    const [loggedInUser, setLoggedInUser] = React.useState(null);
+  const loggedInProps = useContext(StateContext);
+  const [errorMsg, setErrorMsg] = useState('');
 
     function signInUserEmailPassword() {
       setErrorMsg('');
-
-      if (!email.includes('@wellesley.edu')) {
+      if (!loggedInProps.email.includes('@wellesley.edu')) {
         setErrorMsg('Please use a Wellesley College email address.');
         return;
       }
       
-      signInWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, loggedInProps.email, loggedInProps.password)
         .then((userCredential) => {
-
-          // Only log in auth.currentUser if their email is verified
           checkEmailVerification();
-  
-          // Clear email/password inputs 
-          setEmail('');
-          setPassword('');
+         loggedInProps.setEmail('');
+         loggedInProps.setPassword('');
           })
         .catch((error) => {
           const errorMessage = error.message;
           if (errorMessage === "Firebase: Error (auth/user-not-found).") {
             setErrorMsg('User not found.')
-            setEmail('');
-            setPassword('');
+            loggedInProps.setEmail('');
+            loggedInProps.setPassword('');
           }
-          if (errorMessage === "Firebase: Error (auth/wrong-password).") {
+          else if (errorMessage === "Firebase: Error (auth/wrong-password).") {
             setErrorMsg('Wrong password.')
-            setEmail('');
-            setPassword('');
+            loggedInProps.setEmail('');
+            loggedInProps.setPassword('');
           }
-         //setErrorMsg(`signInUserEmailPassword: ${errorMessage}`);
+          else {setErrorMsg(errorMessage)}
         });
     }
   
     function checkEmailVerification() {
       if (auth.currentUser) {
-        
         if (auth.currentUser.emailVerified) {
-          
-          setLoggedInUser(auth.currentUser);
+          loggedInProps.setLoggedInUser(auth.currentUser);
           navigation.navigate('Feed');
-          
           setErrorMsg('')
         } else {
-          
           setErrorMsg(`Please verify ${auth.currentUser.email} by clicking the link sent.`)
         }
       }
@@ -86,16 +76,16 @@ export const LoginScreen = ({navigation}) => {
                     <Card.Content>
                         <TextInput placeholder="Email" 
                                     keyboardType="email-address" 
-                                    value = {email}
+                                    value = {loggedInProps.email}
                                     style = {loginStyle.textFields}
-                                    onChangeText={ textVal => setEmail(textVal)}></TextInput>
+                                    onChangeText={ textVal => loggedInProps.setEmail(textVal)}></TextInput>
                         <TextInput placeholder= "Password" 
                                     secureTextEntry = {true} 
                                     style = {loginStyle.textFields}
-                                    value={password} 
-                                    onChangeText={ textVal => setPassword(textVal)}></TextInput>
-                                    {errorMessage && (
-                      <p className="error"> {errorMessage} </p>
+                                    value={loggedInProps.password} 
+                                    onChangeText={ textVal => loggedInProps.setPassword(textVal)}></TextInput>
+                                    {errorMsg && (
+                      <p className="error"> {errorMsg} </p>
                             )}
                         <Button mode = "contained" 
                                 style = {loginStyle.buttons} 

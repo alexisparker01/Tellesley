@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-const NewPostButton = props => {
+function NewPostButton(props){
   const content = (
     <View style = {[styles.buttons, {backgroundColor: props.color}]}>
       <Text style = {styles.text}>New Post </Text>

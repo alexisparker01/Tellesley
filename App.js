@@ -10,30 +10,36 @@ import {Feed} from './components/FeedMain';
 import {MakePost} from './components/MakePost';
 import NavigationBar from './components/NavigationBar';
 import ViewProfile from './components/ViewProfile';
+import StateContext from './components/StateContext.js';
 import {Map} from './components/Map';
 
 const Stack = createNativeStackNavigator();
 
 export default function App(props) {
 
+  //const [email, setEmail] = React.useState('');
+  //const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('km1@wellesley.edu');
   const [password, setPassword] = React.useState('kateamacv');
   const [loggedInUser, setLoggedInUser] = React.useState(null);
-  const logInUser = username => (setloggedInUser(null));
-  const loggedInProps = {loggedInUser,logInUser, email,password }
+  const logOutUser = username => (setloggedInUser(null));
+  const [FName, setFName] = React.useState('Kate');
+  const [LName, setLName] = React.useState('MacVicar');
+  const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, 
+    setEmail, setPassword, setLoggedInUser, setFName, setLName }
 
   return (
-    <NavigationContainer style={loginStyle.content}>
-      <Stack.Navigator initialRouteName = "Log In">
-        <Stack.Screen name="Tellesley" component={LoginScreen}/> 
-        <Stack.Screen name="Feed" component={Feed}/>
-        <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
-        <Stack.Screen name="New Post" component={MakePost}/>
-        <Stack.Screen name="Profile" component={ViewProfile}/>
-        <Stack.Screen name="Map" component={Map}/>
-      </Stack.Navigator>
-    </NavigationContainer> 
-
- 
+    <StateContext.Provider value={loggedInProps}>
+      <NavigationContainer style={loginStyle.content}>
+        <Stack.Navigator initialRouteName = "Log In">
+          <Stack.Screen name="Tellesley" component={LoginScreen}/> 
+          <Stack.Screen name="Feed" component={Feed}/>
+          <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
+          <Stack.Screen name="New Post" component={MakePost}/>
+          <Stack.Screen name="Profile" component={ViewProfile}/>
+          <Stack.Screen name="Map" component={Map}/>
+        </Stack.Navigator>
+      </NavigationContainer> 
+    </StateContext.Provider>
   );
 }

@@ -1,42 +1,45 @@
-import React, { Component } from 'react'
+import React, { useState, useContext, Component } from 'react'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
+import StateContext from './StateContext.js';
+ 
+export const ViewProfile = ({navigation}) => {{
 
-
-class ViewProfile extends Component {
-   state = {
-      username: 'wendywellesley', 
-      firstname: 'Wendy',
-      lastname: 'Wellesley',
+   const loggedInProps = useContext(StateContext);
+   const [state, setState] = useState ({
       bio: 'Wellesley College 2024',
-      profilePicture: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+      profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
-   }
+  })
 
-   render() {
       return (
     
       <ScrollView style = {styles.container}>
-        <Text style = {styles.username}>{this.state.username}</Text>
-         <View style = {{flexDirection:'row', alignItems:'center', marginBottom: 30}}>
-           <Image 
-            style={styles.profilePicture}
-            source={{
-            uri: this.state.profilePicture,
-            }}
+         <View style = {styles.header}> 
+            <Text style = {styles.username}>{loggedInProps.FName}</Text>
+            <Image 
+                  style={styles.profilePicture}
+                  source={{
+                  uri: state.profilePicture,
+                  }}
             />
-         <Text style = {styles.names}>{this.state.firstname + " " + this.state.lastname + "\n\n" + this.state.bio}</Text>
-         </View> 
-    
-         <TouchableOpacity
-               style = {styles.buttonEditProfile}
+            <Text style = {styles.text}>{loggedInProps.FName + " " + loggedInProps.LName} </Text>
+            <Text style = {styles.text}>{state.bio} </Text>
+            <TouchableOpacity
+               style = {styles.buttons}
                onPress = {
                   () => this.goToEditProfile()
-               }>
-               <Text style = {styles.text}> Edit Profile </Text>
-         </TouchableOpacity>
-         <View style = {styles.postsBox}></View>
+            }>
+            <Text style = {styles.buttonText}> Edit Profile </Text>
+            </TouchableOpacity>
+            <View style = {styles.footer}>
+            <Text style = {styles.username}> Posts </Text>
+            </View> 
+         </View>
+         <NavigationBar navigation = {navigation} />
       </ScrollView>
    
       )
@@ -47,52 +50,67 @@ export default ViewProfile
 
 const styles = StyleSheet.create({
    container: {
-      paddingTop: 23,
+      flex: 1,
       backgroundColor: 'white',
-      margin: 5,
-      fontFamily: "Helvetica",
+      fontFamily: "Time New Roman",
    },
-
+   header: {
+      flex: 1,
+      height: "100%",
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgb(233,233,233)',
+    },
+    footer: {
+      flex: 4, 
+      marginTop: 10,
+      height: "100%",
+      width: "90%",
+      borderTopLeftRadius: 1000, 
+      borderTopRightRadius: 1000, 
+      paddingVertical: 50, 
+      paddingHorizontal: 30,
+      alignItems: 'center',
+      backgroundColor: 'white'
+    },
+   buttons: {
+      backgroundColor: "rgb(8,58,129)",
+      marginTop: 25,
+      marginBottom: 15,
+      padding: 5,
+   },
    username: {
-     marginLeft: 15,
      padding: 10,
      fontSize: 24,
      fontWeight: 'bold',
-     color: 'black',
+     color: '#343535',
    },
     profilePicture: {
-     height: 100,
-     width: 100,
+     height: 120,
+     width: 120,
      padding: 30,
      marginTop: 10,
-     marginLeft: 20,
      resizeMode: 'cover', 
      borderRadius: 400/2,
    },
 
    postsBox: {
-
      borderColor: 'black',
      border: 10,
      width: 100,
      height: 100,
-    
-
    },
 
-   names:{
-      marginLeft: 10,
-      padding: 10,
-      fontSize: 15,
+   text:{
+      padding: 4,
+      textAlign: 'center',
+      fontSize: 18,
+      color: '#343535'
    },
    
-   buttonEditProfile: {
-      backgroundColor: "#1DA1F2",
-      borderColor: '#F5F5F5',
-      border: 10,
-      padding: 10,
-      margin: 1,
-      height: 40,
+   buttonText: {
+      color: "white",
+      fontSize: 15
    },
 
  buttonFollow: {
@@ -101,8 +119,4 @@ const styles = StyleSheet.create({
       margin: 15,
       height: 40,
    },
-   text: {
-     color: 'black',
-     textAlign: 'center',
-   }
 })
