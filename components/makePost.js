@@ -4,9 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
-import { loginStyle } from './loginStyle';
+import { loginStyle } from './LoginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import { makePostStyle } from './loginStyle';
+import { makePostStyle } from './LoginStyle';
 
 export const MakePost = ({navigation}) => {
 // State for chat channels and messages

@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './newPostButton';
-import SignUpScreen from './signUpScreen';
+import NewPostButton from './NewPostButton';
+import SignUpScreen from './SignUpScreen';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
