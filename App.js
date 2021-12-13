@@ -29,6 +29,8 @@ export default function App(props) {
   const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, bio,
     setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio }
 
+
+
   return (
     <StateContext.Provider value={loggedInProps}>
       <NavigationContainer style={loginStyle.content}>
