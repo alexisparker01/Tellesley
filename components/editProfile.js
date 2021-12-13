@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
 

@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
  
 export const ViewProfile = ({navigation}) => {{
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 
    postsBox: {
      borderColor: 'black',
-     border: 10,
+     borderWidth: 10,
      width: 100,
      height: 100,
    },

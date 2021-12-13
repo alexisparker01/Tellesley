@@ -28,7 +28,7 @@ export const loginStyle = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        flexDirections: "row",
+        flexDirection: "row",
         backgroundColor: "rgb(6,12,51)",
     },
     textFields: {
@@ -65,7 +65,6 @@ export const loginStyle = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: "200%",
-        //flexDirections: "row",
   }, 
   TextInputStyle: {
       backgroundColor: "transparent",
@@ -127,7 +126,6 @@ export const makePostStyle = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       height: "200%",
-      //flexDirections: "row",
 }, 
 textInputArea: {
    backgroundColor: "white",

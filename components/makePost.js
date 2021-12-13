@@ -4,9 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
-import { loginStyle } from './LoginStyle';
+import { loginStyle, makePostStyle } from './loginStyle.js';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import { makePostStyle } from './LoginStyle';
 
 export const MakePost = ({navigation}) => {
 // State for chat channels and messages
@@ -55,7 +54,8 @@ function cancelButton() {
               </Picker>
                 <Button mode = "contained" 
                        style = {styles.buttons} 
-                      onPress={() => postMessage()}> Post </Button>
+                      onPress={() => postMessage()}
+                      title="Post"/>
                 <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> Cancel </Button>
       </SafeAreaView>
     </View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 
 },
   textInputArea: {
-    textAlign: 'Left',
+    textAlign: 'left',
     backgroundColor: "white",
     fontSize: 17,
     borderWidth: 1,

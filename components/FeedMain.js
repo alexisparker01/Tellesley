@@ -3,17 +3,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './NewPostButton';
-import SignUpScreen from './SignUpScreen';
+import NewPostButton from './newPostButton.js';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
-import { MakePost } from './MakePost';
-import NavigationBar from './NavigationBar';
-import { LoginScreen } from './login';
+import { MakePost } from './makePost.js';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
 const testMessages = 
@@ -31,7 +29,7 @@ const testMessages =
  'fName': 'Hope',
  'lName': 'Zhu', 
  'password': 'hopezhu',
- 'posts': 'Anyone want to take a walk around the lake?',
+ 'posts': 'I wish we could be done with finals now...',
  'category': 'Life'
 },
 {'user': 'ap7@wellesley.edu',
@@ -44,7 +42,7 @@ const testMessages =
 },
 ]
 
-const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
  
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -54,8 +52,9 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.message.author}</Text>
-    <Text style={styles.messageContent}>{props.message.content}</Text>
+    <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
+    <Text style={styles.messageContent}>{props.message.posts}</Text>
+    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
   </View> 
 ); 
 }
@@ -64,7 +63,7 @@ export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   // State for chat channels and messages
-  const [category,setCategory] = useState(categories);
+  const [category,setCategory] = React.useState(categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
@@ -80,18 +79,26 @@ export const Feed = ({navigation}) => {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-   useEffect(
-    () => { 
-      getMessagesForCategory(selectedCategory); 
-      setTextInputValue('');
-    },
-    [selectedCategory]
-  ); 
+  useEffect(() => {
+    getMessagesForCategory(category);  
+    return () => {
+    }
+  }, []);
+
+useEffect(
+  () => { 
+    getMessagesForCategory(category); 
+  },
+  [category, localMessageDB]
+); 
 
 
   async function getMessagesForCategory(cat) {
-    setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
-    //console.log(msg);
+    if (cat !== 'All') {
+      setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+    } else {
+      setSelectedMessages(localMessageDB);
+    }
   }
 
     // Returns a promise to add message to firestore
@@ -114,7 +121,7 @@ export const Feed = ({navigation}) => {
     return ( 
 
     <View style={styles.container}>
-    
+    {/* remove arrow going back to login page -> change to "logout" button */}
     {/* upper white section */}
       <View style = {styles.header}>
       <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
@@ -141,6 +148,8 @@ export const Feed = ({navigation}) => {
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
+
+
         {(selectedMessages.length === 0) ? 
          <Text>No messages to display</Text> :
          <FlatList style={styles.messageList}
@@ -149,9 +158,6 @@ export const Feed = ({navigation}) => {
             keyExtractor={item => item.timestamp} 
             />
         }
-        </View>
-        <View style = {styles.postContainer}>
-
         </View>
         <NavigationBar navigation = {navigation} />
       </View>
@@ -166,11 +172,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   postContainer: {
-    flex: 0.5,
     backgroundColor: 'white',
     borderColor: 'rgb(222,222,222)',
     borderWidth: 2,
     fontSize: 18,
+    paddingTop:10,
+    paddingBottom:10,
   },
     header: {
     flex: 1,
@@ -216,8 +223,9 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'90%',
+  width:'40%',
   marginTop: 5,
+  marginBottom:5,
 },
 messageItem: {
   marginTop: 5,
@@ -236,7 +244,15 @@ messageAuthor: {
   color:'blue',
 },
 messageContent: {
-  padding: 5,
+  paddingLeft: 10,
+  padding:5,
   color:'black',
 },
+delButton: {
+  padding: 16,
+    width: 100,
+    borderRadius: 24,
+    alignItems: 'center', 
+    justifyContent: 'center'
+}
 });

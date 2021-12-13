@@ -1,6 +1,6 @@
 import React, {Component, useContext} from 'react';
 import { View } from 'react-native';
-import { loginStyle, signUpStyle } from './LoginStyle';
+import { loginStyle, signUpStyle } from './loginStyle.js';
 import { Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app"; 
 import {getAuth, onAuthStateChanged,
@@ -25,8 +25,8 @@ const auth = getAuth(firebaseApp);
 
 export const SignUpScreen = ({navigation}) => {
 
-  const loggedInProps = useContext(StateContext);
-  const [errorMsg, setErrorMsg] = useState('');
+  const loggedInProps = React.useContext(StateContext);
+  const [errorMsg, setErrorMsg] = React.useState('');
 
 /*     useEffect(() => {
       // Anything in here is fired on component mount.
@@ -113,12 +113,6 @@ export const SignUpScreen = ({navigation}) => {
                             onChangeText={ textVal => loggedInProps.setPassword(textVal)} 
                             value={loggedInProps.password}
                             style = {signUpStyle.TextInputStyle}/>
-               <TextInput label = "Confirm Password" 
-                          right = {<TextInput.Icon 
-                          name = "eye-off-outline"/>}
-                          activeUnderlineColor = 'rgb(6,12,51)'
-                          value={password2} onChangeText={ textVal => confirmPassword(textVal)} 
-                          style = {signUpStyle.TextInputStyle}/>
                 <Button mode = "contained" 
                         style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
                         {errorMsg && (

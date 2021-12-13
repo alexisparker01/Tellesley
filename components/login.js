@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
-import { loginStyle } from './LoginStyle';
+import { loginStyle } from './loginStyle.js';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import StateContext from './StateContext.js';
 
