@@ -10,7 +10,7 @@ export const ViewProfile = ({navigation}) => {{
 
    const loggedInProps = useContext(StateContext);
    const [state, setState] = useState ({
-      bio: 'Wellesley College 2024',
+      bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
   })
