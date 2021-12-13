@@ -58,15 +58,9 @@ function handleSubmit() {
    navigation.navigate('Profile');
 }
 
- 
       return (
-
          <ScrollView style = {styles.container}>
-
-
-        
-
-<TouchableOpacity
+         <TouchableOpacity
                style = {styles.cancelButton}
                onPress = {
                   () => goBack()
@@ -126,19 +120,10 @@ function handleSubmit() {
             </TouchableOpacity>
             <NavigationBar navigation = {navigation} />
             </ScrollView>
-
-       
-        
-   
- 
         )
       }
    }
 export default EditProfile
-
-
-
-
 
 const styles = StyleSheet.create({
    container: {
@@ -150,12 +135,10 @@ const styles = StyleSheet.create({
       margin: 15,
       height: 40,
       color: 'black',
-      borderColor: 'black',
+      borderColor: '#9E9E9E',
       borderWidth: 1,
       width: 200,
       backgroundColor: 'white',
-      
-      
    },
    inputBio: {
       margin: 15,
@@ -163,7 +146,7 @@ const styles = StyleSheet.create({
       width: 300,
       color: 'black',
       backgroundColor: 'white',
-      borderColor: "black",
+      borderColor: "#9E9E9E",
       borderWidth: 1
    },
    button: {
@@ -171,13 +154,24 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 15,
       height: 40,
+      width: "30%",
+      textAlign: 'center',
+      borderTopLeftRadius: 5, 
+      borderTopRightRadius: 5,
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5,
    },
    cancelButton: {
       margin: 10,
       width: 80,
       padding: 10,
       height: 40,
-      backgroundColor: '#002776',
+      textAlign: 'center',
+      borderTopLeftRadius: 5, 
+      borderTopRightRadius: 5,
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5,
+      backgroundColor: '#919191',
    },
 
    text:{

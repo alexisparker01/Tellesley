@@ -3,20 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './NewPostButton';
-import SignUpScreen from './SignUpScreen';
+import NewPostButton from './newPostButton.js';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
-import { MakePost } from './MakePost';
-import NavigationBar from './NavigationBar';
-import { LoginScreen } from './login';
+import { MakePost } from './makePost.js';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
-
-
 
 const testMessages = 
 [
@@ -59,7 +55,6 @@ const MessageItem = props => {
     <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
     <Text style={styles.messageContent}>{props.message.posts}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
-    
   </View> 
 ); 
 }
@@ -130,6 +125,12 @@ useEffect(
     {/* upper white section */}
       <View style = {styles.header}>
       <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
+      <Image 
+        style={styles.icons}
+        source={{
+          url: state.profileIcon,
+        }}
+      />
       </View>
 
       {/*The footer is the gray part, but its height doesn't extend for
@@ -208,7 +209,6 @@ const styles = StyleSheet.create({
   },
   pickerStyles:{
     width:'30%',
-    marginBottom: 10,
     backgroundColor:'white',
     },
     icons: {
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'70%',
+  width:'40%',
   marginTop: 5,
   marginBottom:5,
 },
@@ -237,21 +237,15 @@ messageItem: {
 },
 messageDateTime: {
   paddingLeft: 5,
-  marginBottom: 3,
-  fontSize: 14,
   color:'gray',
 },
 messageAuthor: {
   paddingLeft: 5,
-  paddingBottom: 3,
-  fontSize: 14,
-  color:'rgb(8,58,129)',
+  color:'blue',
 },
 messageContent: {
   paddingLeft: 10,
-  paddingBottom: 3,
   padding:5,
-  fontSize: 15,
   color:'black',
 },
 delButton: {
@@ -259,15 +253,6 @@ delButton: {
     width: 100,
     borderRadius: 24,
     alignItems: 'center', 
-    justifyContent: 'center',
-    backgroundColor: 'rgb(8,58,129)'
-},
-        buttons: {
-           backgroundColor: "rgb(8,58,129)",
-           marginBottom: 15,
-           marginTop: 0,
-           marginLeft: 0,
-           marginRight: 0,
-           padding: 5,
-        },
+    justifyContent: 'center'
+}
 });
