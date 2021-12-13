@@ -31,7 +31,7 @@ const testMessages =
  'fName': 'Hope',
  'lName': 'Zhu', 
  'password': 'hopezhu',
- 'posts': 'I wish we could be done with finals now...',
+ 'posts': 'Anyone want to take a walk around the lake?',
  'category': 'Life'
 },
 {'user': 'ap7@wellesley.edu',
@@ -44,7 +44,7 @@ const testMessages =
 },
 ]
 
-const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
  
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -54,9 +54,8 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
-    <Text style={styles.messageContent}>{props.message.posts}</Text>
-    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
+    <Text style={styles.messageAuthor}>{props.message.author}</Text>
+    <Text style={styles.messageContent}>{props.message.content}</Text>
   </View> 
 ); 
 }
@@ -65,7 +64,7 @@ export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   // State for chat channels and messages
-  const [category,setCategory] = React.useState(categories);
+  const [category,setCategory] = useState(categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
@@ -81,26 +80,18 @@ export const Feed = ({navigation}) => {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-  useEffect(() => {
-    getMessagesForCategory(category);  
-    return () => {
-    }
-  }, []);
-
-useEffect(
-  () => { 
-    getMessagesForCategory(category); 
-  },
-  [category, localMessageDB]
-); 
+   useEffect(
+    () => { 
+      getMessagesForCategory(selectedCategory); 
+      setTextInputValue('');
+    },
+    [selectedCategory]
+  ); 
 
 
   async function getMessagesForCategory(cat) {
-    if (cat !== 'All') {
-      setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
-    } else {
-      setSelectedMessages(localMessageDB);
-    }
+    setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+    //console.log(msg);
   }
 
     // Returns a promise to add message to firestore
@@ -123,7 +114,7 @@ useEffect(
     return ( 
 
     <View style={styles.container}>
-    {/* remove arrow going back to login page -> change to "logout" button */}
+    
     {/* upper white section */}
       <View style = {styles.header}>
       <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
@@ -150,8 +141,6 @@ useEffect(
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
-
-
         {(selectedMessages.length === 0) ? 
          <Text>No messages to display</Text> :
          <FlatList style={styles.messageList}
@@ -160,6 +149,9 @@ useEffect(
             keyExtractor={item => item.timestamp} 
             />
         }
+        </View>
+        <View style = {styles.postContainer}>
+
         </View>
         <NavigationBar navigation = {navigation} />
       </View>
@@ -174,12 +166,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   postContainer: {
+    flex: 0.5,
     backgroundColor: 'white',
     borderColor: 'rgb(222,222,222)',
     borderWidth: 2,
     fontSize: 18,
-    paddingTop:10,
-    paddingBottom:10,
   },
     header: {
     flex: 1,
@@ -225,9 +216,8 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'40%',
+  width:'90%',
   marginTop: 5,
-  marginBottom:5,
 },
 messageItem: {
   marginTop: 5,
@@ -246,15 +236,7 @@ messageAuthor: {
   color:'blue',
 },
 messageContent: {
-  paddingLeft: 10,
-  padding:5,
+  padding: 5,
   color:'black',
 },
-delButton: {
-  padding: 16,
-    width: 100,
-    borderRadius: 24,
-    alignItems: 'center', 
-    justifyContent: 'center'
-}
 });

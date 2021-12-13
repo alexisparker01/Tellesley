@@ -3,17 +3,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './NewPostButton';
-import SignUpScreen from './SignUpScreen';
+import NewPostButton from './newPostButton.js';
 import { initializeApp } from "firebase/app";
 import { getAuth, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
-import { MakePost } from './MakePost';
-import NavigationBar from './NavigationBar';
-import { LoginScreen } from './login';
+import { MakePost } from './makePost.js';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
 const testMessages = 
