@@ -73,17 +73,16 @@ function handleSubmit() {
                }>
                 <Text style = {styles.text}> Cancel </Text>
             </TouchableOpacity>
-            <Text style ={styles.title}>Edit Profile</Text>
-
+            <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
             <Image 
-        style={styles.profilePicture}
-        source={{
-          uri: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
-        }}
-      />
+                  style={styles.profilePicture}
+                  source={{
+                  uri: state.profilePicture,
+                  }}
+            />
+            </View>
 
-
-            <View style = {{flexDirection:'row', alignItems:'center'}}>
+            <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
             <Text style = {styles.inputLabels}>First Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
@@ -96,7 +95,7 @@ function handleSubmit() {
 
 
 
-<View style = {{flexDirection:'row', alignItems:'center'}}>
+<View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
 <Text style = {styles.inputLabels}>Last Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
@@ -106,7 +105,7 @@ function handleSubmit() {
                onChangeText = {handleLastnameChange}
                />
 </View>
-<View style = {{flexDirection:'row', alignItems:'center'}}>
+ <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
 
 <Text style = {styles.inputLabels}>Bio: </Text> 
             <TextInput style = {styles.inputBio}
@@ -146,6 +145,7 @@ const styles = StyleSheet.create({
       paddingTop: 23,
       backgroundColor: 'white',
    },
+
    input: {
       margin: 15,
       height: 40,
@@ -185,18 +185,19 @@ const styles = StyleSheet.create({
    },
   
    inputLabels:{
-      marginLeft: 40,
+      marginLeft: 0,
       color: 'black',
 
    },
    hidden: {
       opacity: 0, height: 0
    },
+
    profilePicture: {
      height: 150,
      width: 150,
      padding: 30,
-     marginLeft: 150,
+     marginLeft: 0,
      resizeMode: 'cover', 
      borderRadius: 400/2,
    },
