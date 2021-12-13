@@ -35,8 +35,7 @@ export const EditProfile = ({navigation}) => {{
    loggedInProps.setLName(input);
 }
 
-function handleBioChange(input) 
-{
+function handleBioChange(input) {
    loggedInProps.setBio(input);
 }
 
@@ -91,7 +90,7 @@ function handleSubmit() {
                placeholder = {loggedInProps.FName}
                placeholderTextColor = "black"
                autoCapitalize = "none"
-               onChangeText = {handleFirstnameChange()}
+               onChangeText = {handleFirstnameChange}
                />
 </View>
 
