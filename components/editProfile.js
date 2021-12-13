@@ -51,7 +51,7 @@ function goBack() {
    navigation.navigate('Profile');
 }
 
-function handleSubmit() {
+function handleSaveChanges() {
    handleFirstnameChange;
    handleBioChange;
    handleLastnameChange;
@@ -60,13 +60,7 @@ function handleSubmit() {
 
       return (
          <ScrollView style = {styles.container}>
-         <TouchableOpacity
-               style = {styles.cancelButton}
-               onPress = {
-                  () => goBack()
-               }>
-                <Text style = {styles.text}> Cancel </Text>
-            </TouchableOpacity>
+      
             <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
             <Image 
                   style={styles.profilePicture}
@@ -110,14 +104,16 @@ function handleSubmit() {
                onChangeText = {handleBioChange}
                />
 </View>
-      
+       <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
+
             <TouchableOpacity
                style = {styles.button}
                onPress = {
-                  () => handleSubmit()
+                  () => handleSaveChanges()
                }>
                <Text style = {styles.text}> Save Changes </Text>
             </TouchableOpacity>
+            </View>
             <NavigationBar navigation = {navigation} />
             </ScrollView>
         )
