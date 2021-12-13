@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext, Component} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './NewPostButton';
 import SignUpScreen from './SignUpScreen';
@@ -43,7 +43,13 @@ const testMessages =
 'category': 'Classes'
 },
 ]
+
+const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
  
+function formatDateTime(date) {
+  return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
+}
+
 const MessageItem = props => { 
   return (
   <View style={styles.postContainer}>
@@ -56,12 +62,6 @@ const MessageItem = props => {
 
 export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
-
-  const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
-
-  const [user, setUser] = React.useState(user); 
-  const [password, setPassword] = React.useState(''); 
-  const [loggedInUser, setLoggedInUser] = React.useState(null);
 
   // State for chat channels and messages
   const [category,setCategory] = useState(categories);
@@ -88,9 +88,28 @@ export const Feed = ({navigation}) => {
     [selectedCategory]
   ); 
 
+
   async function getMessagesForCategory(cat) {
     setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+    //console.log(msg);
   }
+
+    // Returns a promise to add message to firestore
+    async function addMessageToDB(message) {
+      const timestamp = message.date.getTime(); // millsecond timestamp
+      const timestampString = timestamp.toString();
+
+      // Add a new document in collection "messages"
+      return setDoc(doc(db, "messages", timestampString), 
+        {
+          'timestamp': timestamp, 
+          'author': message.user, 
+          'channel': message.category, 
+          'content': message.post, 
+        }
+      );
+  }
+
   
     return ( 
 
@@ -122,8 +141,18 @@ export const Feed = ({navigation}) => {
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
+        {(selectedMessages.length === 0) ? 
+         <Text>No messages to display</Text> :
+         <FlatList style={styles.messageList}
+            data={selectedMessages} 
+            renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
+            keyExtractor={item => item.timestamp} 
+            />
+        }
         </View>
-        <View style = {styles.postContainer}></View>
+        <View style = {styles.postContainer}>
+
+        </View>
         <NavigationBar navigation = {navigation} />
       </View>
   );
@@ -185,4 +214,29 @@ const styles = StyleSheet.create({
        //borderRadius: 400/2,
   
      }
+,
+messageList: {
+  width:'90%',
+  marginTop: 5,
+},
+messageItem: {
+  marginTop: 5,
+  marginBottom: 5,
+  backgroundColor:'bisque',
+  color:'black',
+  borderWidth: 1,
+  borderColor: 'blue',
+},
+messageDateTime: {
+  paddingLeft: 5,
+  color:'gray',
+},
+messageAuthor: {
+  paddingLeft: 5,
+  color:'blue',
+},
+messageContent: {
+  padding: 5,
+  color:'black',
+},
 });
