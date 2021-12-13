@@ -1,66 +1,66 @@
-import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import React, { useState, useContext, Component } from 'react'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
+import NavigationBar from './NavigationBar';
+import StateContext from './StateContext.js';
 
 
 // Need to make sign up button disappear when you click on login and vice-versa
 // Need to make submit button appear after clicking on either button
 
+/*
 const DismissKeyboard = ({children}) => (
 <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
    {children}
 </TouchableWithoutFeedback>
 );
+*/
 
+export const EditProfile = ({navigation}) => {{
+   const loggedInProps = useContext(StateContext);
+   const [state, setState] = useState ({
+      bio: 'Wellesley College 2024',
+      profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
+      currentUser: true,
+  })
 
-class EditProfile extends Component {
-   state = {
-      username: '', 
-      firstname: '',
-      lastname: '',
-      bio: '',
-      profilePicture: '',
-   }
  
-   handleUsernameChange = (input) => {
-       this.setState({username: input });
-   }
-
-   handleFirstnameChange = (input) => {
-      this.setState({firstname: input });
+  function handleFirstnameChange(input) {
+   loggedInProps.setFName(input);
   }
 
-  handleLastnameChange = (input) => {
-   this.setState({lastname: input });
+  function handleLastnameChange(input) {
+   loggedInProps.setLName(input);
 }
 
-handleBioChange = (input) => {
-   this.setState({bio: input });
+function handleBioChange(input) {
+   loggedInProps.setBio(input);
 }
 
-handleProfilePictureChange = (input) => {
-   this.setState({profilePicture: input });
+function handleProfilePictureChange(input) {
+   //this.setState({profilePicture: input });
 }
 
-uploadProfilePicture = () => {
-  alert("upload picture");
+function uploadProfilePicture() {
+  //alert("upload picture");
 }
 
-goBack = () => {
-   // go back to profile
+function goBack() {
+   navigation.navigate('Profile');
 }
 
-handleSubmit() {
-   this.handleFirstnameChange;
-   this.handleBioChange;
-   this.handleLastnameChange;
-   this.handleUsernameChange;
-   alert("Your new username is: ", this.state.username);
+function handleSubmit() {
+   handleFirstnameChange;
+   handleBioChange;
+   handleLastnameChange;
+   navigation.navigate('Profile');
 }
 
-   render() {
+ 
       return (
-         <DismissKeyboard>
+
          <ScrollView style = {styles.container}>
 
 
@@ -69,7 +69,7 @@ handleSubmit() {
 <TouchableOpacity
                style = {styles.cancelButton}
                onPress = {
-                  () => this.goBack()
+                  () => goBack()
                }>
                 <Text style = {styles.text}> Cancel </Text>
             </TouchableOpacity>
@@ -82,26 +82,15 @@ handleSubmit() {
         }}
       />
 
-<View style = {{flexDirection:'row', alignItems:'center'}}>
-<Text style = {styles.inputLabels}>Username: </Text> 
-<TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = {this.state.username}
-               placeholderTextColor = "black"
-               autoCapitalize = "none"
-               onChangeText = {this.handleUsernameChange}
-               />
-            </View>
-
 
             <View style = {{flexDirection:'row', alignItems:'center'}}>
             <Text style = {styles.inputLabels}>First Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = {this.state.firstname}
+               placeholder = {loggedInProps.FName}
                placeholderTextColor = "black"
                autoCapitalize = "none"
-               onChangeText = {this.handleFirstnameChange}
+               onChangeText = {handleFirstnameChange}
                />
 </View>
 
@@ -111,10 +100,10 @@ handleSubmit() {
 <Text style = {styles.inputLabels}>Last Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = {this.state.lastname}
+               placeholder = {loggedInProps.LName}
                placeholderTextColor = "black"
                autoCapitalize = "none"
-               onChangeText = {this.handleLastnameChange}
+               onChangeText = {handleLastnameChange}
                />
 </View>
 <View style = {{flexDirection:'row', alignItems:'center'}}>
@@ -122,27 +111,30 @@ handleSubmit() {
 <Text style = {styles.inputLabels}>Bio: </Text> 
             <TextInput style = {styles.inputBio}
                underlineColorAndroid = "transparent"
-               placeholder = {this.state.bio}
+               placeholder = {loggedInProps.bio}
                placeholderTextColor = "black"
                autoCapitalize = "none"
-               onChangeText = {this.handleBioChange}
+               onChangeText = {handleBioChange}
                />
 </View>
       
             <TouchableOpacity
-               style = {editProfileStyle.button}
+               style = {styles.button}
                onPress = {
-                  () => this.handleSubmit()
+                  () => handleSubmit()
                }>
                <Text style = {styles.text}> Save Changes </Text>
             </TouchableOpacity>
+            <NavigationBar navigation = {navigation} />
             </ScrollView>
-            </DismissKeyboard>
+
+       
         
    
-      )
+ 
+        )
+      }
    }
-}
 export default EditProfile
 
 

@@ -10,10 +10,11 @@ export const ViewProfile = ({navigation}) => {{
 
    const loggedInProps = useContext(StateContext);
    const [state, setState] = useState ({
-      bio: 'Wellesley College 2024',
+      bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
-  })
+   })
+
 
       return (
     
@@ -27,11 +28,11 @@ export const ViewProfile = ({navigation}) => {{
                   }}
             />
             <Text style = {styles.text}>{loggedInProps.FName + " " + loggedInProps.LName} </Text>
-            <Text style = {styles.text}>{state.bio} </Text>
+            <Text style = {styles.text}>{loggedInProps.bio} </Text>
             <TouchableOpacity
                style = {styles.buttons}
                onPress = {
-                  () => this.goToEditProfile()
+                  () =>  navigation.navigate('EditProfile')
             }>
             <Text style = {styles.buttonText}> Edit Profile </Text>
             </TouchableOpacity>
@@ -43,8 +44,8 @@ export const ViewProfile = ({navigation}) => {{
       </ScrollView>
    
       )
-   }
-}
+         }
+      }
 export default ViewProfile
 
 

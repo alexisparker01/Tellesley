@@ -25,8 +25,11 @@ export default function App(props) {
   const logOutUser = username => (setloggedInUser(null));
   const [FName, setFName] = React.useState('Kate');
   const [LName, setLName] = React.useState('MacVicar');
-  const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, 
-    setEmail, setPassword, setLoggedInUser, setFName, setLName }
+  const [bio, setBio] = React.useState('Wellesley 2023');
+  const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, bio,
+    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio }
+
+
 
   return (
     <StateContext.Provider value={loggedInProps}>
@@ -37,7 +40,9 @@ export default function App(props) {
           <Stack.Screen name="Sign Up" component={SignUpScreen}/>  
           <Stack.Screen name="New Post" component={MakePost}/>
           <Stack.Screen name="Profile" component={ViewProfile}/>
+          <Stack.Screen name="EditProfile" component={EditProfile}/>
           <Stack.Screen name="Map" component={Map}/>
+      
         </Stack.Navigator>
       </NavigationContainer> 
     </StateContext.Provider>
