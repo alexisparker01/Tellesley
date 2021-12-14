@@ -1,4 +1,4 @@
-import React, {Component, useContext} from 'react';
+import React, {Component, useState, useContext} from 'react';
 import { View } from 'react-native';
 import { loginStyle, signUpStyle } from './LoginStyle';
 import { Button, TextInput} from 'react-native-paper';
@@ -27,6 +27,7 @@ export const SignUpScreen = ({navigation}) => {
 
   const loggedInProps = useContext(StateContext);
   const [errorMsg, setErrorMsg] = useState('');
+  const [password2, setpassword2] = useState('');
 
 /*     useEffect(() => {
       // Anything in here is fired on component mount.
