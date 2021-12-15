@@ -37,18 +37,21 @@ export default function App(props) {
   //const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('km1@wellesley.edu');
   const [password, setPassword] = React.useState('kateamacv');
-  const [loggedInUser, setLoggedInUser] = React.useState(null);
-  const logOutUser = username => (setloggedInUser(null));
+  const [password2, setpassword2] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [FName, setFName] = React.useState('Kate');
   const [LName, setLName] = React.useState('MacVicar');
   const [bio, setBio] = React.useState('Wellesley 2023');
+
+  const [loggedInUser, setLoggedInUser] = React.useState(null);
+  const logOutUser = username => (setloggedInUser(null));
 
   const firebaseApp = initializeApp(firebaseConfig);
   const auth = getAuth(firebaseApp);
   const db = getFirestore(firebaseApp);
 
-  const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, bio,
-    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio, 
+  const loggedInProps = {loggedInUser,logOutUser, email,password, password2, confirmPassword, FName, LName, bio,
+    setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
     firebaseApp, auth, db, firebaseConfig }
 
 

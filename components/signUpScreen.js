@@ -15,28 +15,7 @@ export const SignUpScreen = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   const [errorMsg, setErrorMsg] = useState('');
-  const [password2, setpassword2] = useState('');
 
-/*     useEffect(() => {
-      // Anything in here is fired on component mount.
-      console.log('Component did mount');
-      console.log(`on mount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
-      console.log(`on mount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
-      checkEmailVerification();
-      return () => {
-        // Anything in here is fired on component unmount.
-        console.log('Component did unmount');
-        console.log(`on unmount: emailOf(auth.currentUser)=${emailOf(auth.currentUser)}`);
-        console.log(`on unmount: emailOf(loggedInUser)=${emailOf(loggedInUser)}`);
-      }
-    }, [])
-
-  // Clear error message when email is updated to be nonempty
-  useEffect(
-    () => { if (email != '') setErrorMsg(''); },
-    [email]
-  ); 
-   */
     function signUpUserEmailPassword() {
       console.log('called signUpUserEmailPassword');
       if (loggedInProps.auth.currentUser) {
@@ -61,11 +40,11 @@ export const SignUpScreen = ({navigation}) => {
     .then((userCredential) => {
 
       // Clear email/password inputs
-      const savedEmail = email; // Save for email verification
+      const savedEmail = loggedInProps.email; // Save for email verification
       loggedInProps.setEmail('');
       loggedInProps.setPassword('');
-      confirmPassword('');
-      sendEmailVerification(auth.currentUser)
+      loggedInProps.confirmPassword('');
+      sendEmailVerification(loggedInProps.auth.currentUser)
       .then(() => {
           setErrorMsg(`A verification email has been sent to ${savedEmail}. You will not be able to sign in until this email is verified.`); 
           // Email verification sent!
@@ -106,7 +85,7 @@ export const SignUpScreen = ({navigation}) => {
                           right = {<TextInput.Icon 
                           name = "eye-off-outline"/>}
                           activeUnderlineColor = 'rgb(6,12,51)'
-                          value={password2} onChangeText={ textVal => confirmPassword(textVal)} 
+                          value={loggedInProps.password2} onChangeText={ textVal => loggedInProps.confirmPassword(textVal)} 
                           style = {signUpStyle.TextInputStyle}/>
                 <Button mode = "contained" 
                         style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
