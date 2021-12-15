@@ -26,24 +26,24 @@ export const SignUpScreen = ({navigation}) => {
         setErrorMsg('Not a valid email address');
         return;
       }
-      if (loggedInProps.password!==password2) {
+/*       if (loggedInProps.password!==password2) {
           setErrorMsg('Passwords do not match');
           return;
-      }
+      } */
       if (loggedInProps.password.length < 6) {
         setErrorMsg('Password too short');
         return;
       }
 
      // Invoke Firebase authentication API for Email/Password sign up 
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(loggedInProps.auth, loggedInProps.email, loggedInProps.password)
     .then((userCredential) => {
 
       // Clear email/password inputs
       const savedEmail = loggedInProps.email; // Save for email verification
       loggedInProps.setEmail('');
       loggedInProps.setPassword('');
-      loggedInProps.confirmPassword('');
+      //loggedInProps.confirmPassword('');
       sendEmailVerification(loggedInProps.auth.currentUser)
       .then(() => {
           setErrorMsg(`A verification email has been sent to ${savedEmail}. You will not be able to sign in until this email is verified.`); 
@@ -52,7 +52,9 @@ export const SignUpScreen = ({navigation}) => {
         });
     })
     .catch((error) => {
-      setErrorMsg('Sign in failed. Try again.');
+      const errorMessage = error.message;
+      //setErrorMsg('Sign up failed. Try again.');
+      {setErrorMsg(errorMessage)}
     });
   }
 
@@ -81,12 +83,12 @@ export const SignUpScreen = ({navigation}) => {
                             onChangeText={ textVal => loggedInProps.setPassword(textVal)} 
                             value={loggedInProps.password}
                             style = {signUpStyle.TextInputStyle}/>
-               <TextInput label = "Confirm Password" 
+{/*                <TextInput label = "Confirm Password" 
                           right = {<TextInput.Icon 
                           name = "eye-off-outline"/>}
                           activeUnderlineColor = 'rgb(6,12,51)'
                           value={loggedInProps.password2} onChangeText={ textVal => loggedInProps.confirmPassword(textVal)} 
-                          style = {signUpStyle.TextInputStyle}/>
+                          style = {signUpStyle.TextInputStyle}/> */}
                 <Button mode = "contained" 
                         style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
                         {errorMsg && (

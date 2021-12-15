@@ -37,7 +37,7 @@ export default function App(props) {
   //const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('km1@wellesley.edu');
   const [password, setPassword] = React.useState('kateamacv');
-  const [password2, setpassword2] = useState('');
+  const [password2, setpassword2] = useState('kateamacv');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [FName, setFName] = React.useState('Kate');
   const [LName, setLName] = React.useState('MacVicar');
