@@ -23,28 +23,37 @@ const testMessages =
 [
  {'user': 'km1@wellesley.edu',
  'date': new Date(2021, 10, 29, 13, 12, 46, 1234),
-  'fName': 'Kate',
-  'lName': 'MacVicar', 
-  'password': 'kateamacv',
-  'posts': 'Is there no hot water for anyone else in Shafer?',
+  'post': 'Is there no hot water for anyone else in Shafer?',
   'category': 'Life'
  },
  {'user': 'hz4@wellesley.edu',
  'date': new Date(2021, 9, 25, 13, 12, 47, 1234),
- 'fName': 'Hope',
- 'lName': 'Zhu', 
- 'password': 'hopezhu',
- 'posts': 'I wish we could be done with finals now...',
+ 'post': 'I wish we could be done with finals now...',
  'category': 'Life'
 },
 {'user': 'ap7@wellesley.edu',
-'date': new Date(2021, 10, 30, 17, 33, 52, 1234),
-'fName': 'Alexis',
-'lName': 'Parker', 
-'password': 'alexisparker',
-'posts': 'has anyone taken CS235 before? Thoughts?',
+'date': new Date(2021, 10, 30, 17, 33, 52, 1234), 
+'post': 'has anyone taken CS235 before? Thoughts?',
 'category': 'Classes'
 },
+]
+
+const testProfiles = [
+  {
+    'user': 'km1@wellesley.edu',
+    'FName': 'Kate',
+    'LName': 'MacVicar'
+  },
+  {
+    'user': 'ap7@wellesley.edu',
+    'FName': 'Alexis',
+    'LName': 'Parker'
+  },
+  {
+    'user': 'hz4@wellesley.edu',
+    'FName': 'Hope',
+    'LName': 'Zhu'
+  },
 ]
 
 const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
@@ -57,8 +66,8 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
-    <Text style={styles.messageContent}>{props.message.posts}</Text>
+    {/* <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text> */}
+    <Text style={styles.messageContent}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 
   </View> 
@@ -112,6 +121,19 @@ useEffect(
     }
   }
 
+  function docToMessage(msgDoc) {
+    // msgDoc has the form {id: timestampetring, 
+    //                   data: {timestamp: ..., 
+    //                          author: ..., 
+    //                          channel: ..., 
+    //                          content: ...}
+    // Need to add missing date field to data portion, reconstructed from timestamp
+    console.log('docToMessage');
+    const data = msgDoc.data();
+    console.log(msgDoc.id, " => ", data);
+    return {...data, post: data.content , date: new Date(data.timestamp)}
+  }
+
 async function firebaseGetMessagesForCategory(cat) {
   const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
   const querySnapshot = await getDocs(q);
@@ -130,11 +152,11 @@ async function firebaseGetMessagesForCategory(cat) {
       const timestampString = timestamp.toString();
 
       // Add a new document in collection "messages"
-      return setDoc(doc(db, "messages", timestampString), 
+      return setDoc(doc(loggedInProps.db, "messages", timestampString), 
         {
           'timestamp': timestamp, 
-          'author': message.user, 
-          'channel': message.category, 
+          'user': message.user, 
+          'category': message.category, 
           'content': message.post, 
         }
       );
@@ -148,12 +170,12 @@ async function firebaseGetMessagesForCategory(cat) {
       const timestampString = timestamp.toString();
   
       // Add a new document in collection "messages"
-      return setDoc(doc(db, "messages", timestampString), 
+      return setDoc(doc(loggedInProps.db, "messages", timestampString), 
         {
           'timestamp': timestamp, 
-          'author': message.author, 
-          'channel': message.channel, 
-          'content': message.content, 
+          'user': message.user, 
+          'category': message.category, 
+          'content': message.post, 
         }
       );
     }
@@ -178,6 +200,9 @@ async function firebaseGetMessagesForCategory(cat) {
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
       <View style = {styles.footer}>
+        <Button title = 'populate'
+                onPress = {() => populateFirestoreDB(testMessages)}> 
+        </Button>
         <NewPostButton text="New Post" 
                         color= 'rgb(8,58,129)' 
                         onPress={() => navigation.navigate('New Post')}

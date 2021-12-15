@@ -23,7 +23,7 @@ function postMessage() {
   console.log(`postMessage; usingFirestore=${usingFirestore}`);
   const now = new Date();
   const newMessage = {
-    author: loggedInProps.email, 
+    user: loggedInProps.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
     category: category, 
@@ -35,6 +35,44 @@ function postMessage() {
 
 function cancelButton() {
   navigation.navigate('Feed');
+}
+
+async function firebasePostMessage(msg) {
+  // Add a new document in collection "messages"
+  const timestampString = msg.timestamp.toString();
+  await setDoc(doc(loggedInProps.db, "messages", timestampString), 
+      {
+        'timestamp': msg.timestamp, 
+        'user': msg.user, 
+        'category': msg.category, 
+        'content': msg.post, 
+      }
+    );
+}
+
+async function populateFirestoreDB(messages) {
+
+  // Returns a promise to add message to firestore
+  async function addMessageToDB(message) {
+    const timestamp = message.date.getTime(); // millsecond timestamp
+    const timestampString = timestamp.toString();
+
+    // Add a new document in collection "messages"
+    return setDoc(doc(loggedInProps.db, "messages", timestampString), 
+      {
+        'timestamp': timestamp, 
+        'user': message.user, 
+        'category': message.category, 
+        'content': message.post, 
+      }
+    );
+  }
+
+  // Peform one await for all the promises. 
+  await Promise.all(
+    messages.map( addMessageToDB ) 
+  );
+
 }
 
      return (
