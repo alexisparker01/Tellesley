@@ -3,10 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
-import { initializeApp } from "firebase/app";
-import { loginStyle } from './LoginStyle';
-import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
-import { makePostStyle } from './LoginStyle';
+import {getFirestore, collection, doc, addDoc, setDoc,query, where, getDocs
+} from "firebase/firestore";
 import StateContext from './StateContext.js';
 
 export const MakePost = ({navigation}) => {
@@ -16,7 +14,9 @@ const loggedInProps = useContext(StateContext);
 const [isComposingMessage, setIsComposingMessage] = React.useState(false);
 const [post, setTextInputValue] = React.useState('');
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
-const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+const [category,setCategory] = React.useState(categories);
+
+//do we even need this firestore const??
 const [usingFirestore, setUsingFirestore] = useState(true);
 
 function postMessage() {
@@ -26,14 +26,11 @@ function postMessage() {
     author: loggedInProps.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
-    category: selectedCategory, 
+    category: category, 
     content: post, 
   }
-
-  if (usingFirestore) {
     postMessage(newMessage);
-  } 
-  setTextInputValue('');
+    setTextInputValue('');
 }
 
 function cancelButton() {
@@ -44,12 +41,19 @@ function cancelButton() {
 
       <View style = {styles.container}>
       <SafeAreaView style = {styles.container}>
-            <TextInput multiline = {true} numberOfLines = {20} editable style = {styles.textInputArea} maxLength={100} placeholder={"Dear Tellesley..."} onChangeText={text => setTextInputValue(text)}/>
+            <TextInput multiline = {true} 
+                      numberOfLines = {20} 
+                      editable style = {styles.textInputArea} 
+                      maxLength={100} 
+                      placeholder={"Dear Tellesley..."} 
+                      value = {post}
+                      onChangeText={text => setTextInputValue(text)}
+            />
               <Picker
                 style={styles.pickerStyles}
                 mode='dropdown'
-                selectedValue= 'Select Category'
-                onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
+                selectedValue= {category}
+                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
                 {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
               </Picker>
                 <Button mode = "contained" 

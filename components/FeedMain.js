@@ -113,7 +113,7 @@ useEffect(
   }
 
 async function firebaseGetMessagesForCategory(cat) {
-  const q = query(collection(loggedInProps.db, 'messages'), where('channel', '==', cat));
+  const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
   const querySnapshot = await getDocs(q);
   // const messages = Array.from(querySnapshot).map( docToMessage );
   let messages = []; 
@@ -138,6 +138,31 @@ async function firebaseGetMessagesForCategory(cat) {
           'content': message.post, 
         }
       );
+  }
+
+  async function populateFirestoreDB(messages) {
+
+    // Returns a promise to add message to firestore
+    async function addMessageToDB(message) {
+      const timestamp = message.date.getTime(); // millsecond timestamp
+      const timestampString = timestamp.toString();
+  
+      // Add a new document in collection "messages"
+      return setDoc(doc(db, "messages", timestampString), 
+        {
+          'timestamp': timestamp, 
+          'author': message.author, 
+          'channel': message.channel, 
+          'content': message.content, 
+        }
+      );
+    }
+  
+  
+        // Peform one await for all the promises. 
+        await Promise.all(
+          messages.map( addMessageToDB ) 
+        );
   }
 
   

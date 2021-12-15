@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         marginLeft: '35%',
         marginBottom: -7,
         backgroundColor: "white",
+        display: 'flex'
    },
    pictures: {
     height: 30,
