@@ -9,23 +9,11 @@ import {getAuth, onAuthStateChanged,
         signOut} from "firebase/auth";
 import StateContext from './StateContext.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
-    authDomain: "tellesley.firebaseapp.com",
-    projectId: "tellesley",
-    storageBucket: "tellesley.appspot.com",
-    messagingSenderId: "827430407291",
-    appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
-    measurementId: "G-18020KJETB"
-  };
-  
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
 
 export const SignUpScreen = ({navigation}) => {
 
   const loggedInProps = useContext(StateContext);
+
   const [errorMsg, setErrorMsg] = useState('');
   const [password2, setpassword2] = useState('');
 
@@ -51,8 +39,8 @@ export const SignUpScreen = ({navigation}) => {
    */
     function signUpUserEmailPassword() {
       console.log('called signUpUserEmailPassword');
-      if (auth.currentUser) {
-        signOut(auth); // sign out auth's current user (who is not loggedInUser, 
+      if (loggedInProps.auth.currentUser) {
+        signOut(loggedInProps.auth); // sign out auth's current user (who is not loggedInUser, 
                        // or else we wouldn't be here
       }
       if (!loggedInProps.email.includes('@wellesley.edu')) {

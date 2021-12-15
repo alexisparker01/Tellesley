@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
@@ -7,33 +7,32 @@ import { initializeApp } from "firebase/app";
 import { loginStyle } from './LoginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import { makePostStyle } from './LoginStyle';
+import StateContext from './StateContext.js';
 
 export const MakePost = ({navigation}) => {
-// State for chat channels and messages
-//const [selectedMessages, setSelectedMessages] = React.useState([]);
-//const [textInputValue, setTextInputValue] = useState('');
+
+const loggedInProps = useContext(StateContext);
+
 const [isComposingMessage, setIsComposingMessage] = React.useState(false);
 const [post, setTextInputValue] = React.useState('');
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+const [usingFirestore, setUsingFirestore] = useState(true);
 
 function postMessage() {
   console.log(`postMessage; usingFirestore=${usingFirestore}`);
   const now = new Date();
   const newMessage = {
-    author: loggedInUser.email, 
+    author: loggedInProps.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
     category: selectedCategory, 
-    content: textInputValue, 
+    content: post, 
   }
 
   if (usingFirestore) {
-    firebasePostMessage(newMessage);
-  } else {
-    setLocalMessageDB([...localMessageDB, newMessage]);
-    setIsComposingMessage(false);
-  }
+    postMessage(newMessage);
+  } 
   setTextInputValue('');
 }
 
@@ -50,7 +49,7 @@ function cancelButton() {
                 style={styles.pickerStyles}
                 mode='dropdown'
                 selectedValue= 'Select Category'
-                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
                 {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
               </Picker>
                 <Button mode = "contained" 

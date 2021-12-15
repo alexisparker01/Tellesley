@@ -4,9 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
+import {
+  getFirestore, 
+  collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
 import { loginStyle } from './LoginStyle';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import StateContext from './StateContext.js';
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
@@ -17,9 +23,6 @@ import StateContext from './StateContext.js';
     appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
     measurementId: "G-18020KJETB"
   };
-  
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
   
 
 export const LoginScreen = ({navigation}) => {
@@ -34,7 +37,7 @@ export const LoginScreen = ({navigation}) => {
         return;
       }
       
-      signInWithEmailAndPassword(auth, loggedInProps.email, loggedInProps.password)
+      signInWithEmailAndPassword(loggedInProps.auth, loggedInProps.email, loggedInProps.password)
         .then((userCredential) => {
           checkEmailVerification();
          loggedInProps.setEmail('');
@@ -57,13 +60,13 @@ export const LoginScreen = ({navigation}) => {
     }
   
     function checkEmailVerification() {
-      if (auth.currentUser) {
-        if (auth.currentUser.emailVerified) {
-          loggedInProps.setLoggedInUser(auth.currentUser);
+      if (loggedInProps.auth.currentUser) {
+        if (loggedInProps.auth.currentUser.emailVerified) {
+          loggedInProps.setLoggedInUser(loggedInProps.auth.currentUser);
           navigation.navigate('Feed');
           setErrorMsg('')
         } else {
-          setErrorMsg(`Please verify ${auth.currentUser.email} by clicking the link sent.`)
+          setErrorMsg(`Please verify ${loggedInProps.auth.currentUser.email} by clicking the link sent.`)
         }
       }
     }

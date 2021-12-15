@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
-import { loginStyle, signUpStyle } from './components/LoginStyle';
+import { loginStyle} from './components/LoginStyle';
 import {EditProfile} from './components/EditProfile';
 import { LoginScreen } from './components/login'; 
 import { SignUpScreen } from './components/SignUpScreen';
@@ -12,10 +12,26 @@ import NavigationBar from './components/NavigationBar';
 import ViewProfile from './components/ViewProfile';
 import StateContext from './components/StateContext.js';
 import {Map} from './components/Map';
+import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {getFirestore, 
+   collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
 
 const Stack = createNativeStackNavigator();
 
 export default function App(props) {
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
+    authDomain: "tellesley.firebaseapp.com",
+    projectId: "tellesley",
+    storageBucket: "tellesley.appspot.com",
+    messagingSenderId: "827430407291",
+    appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
+    measurementId: "G-18020KJETB"
+  };
 
   //const [email, setEmail] = React.useState('');
   //const [password, setPassword] = React.useState('');
@@ -26,8 +42,14 @@ export default function App(props) {
   const [FName, setFName] = React.useState('Kate');
   const [LName, setLName] = React.useState('MacVicar');
   const [bio, setBio] = React.useState('Wellesley 2023');
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  const db = getFirestore(firebaseApp);
+
   const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, bio,
-    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio }
+    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio, 
+    firebaseApp, auth, db, firebaseConfig }
 
 
 

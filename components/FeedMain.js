@@ -11,12 +11,13 @@ import { getAuth,
         signInWithEmailAndPassword, 
         sendEmailVerification,
         signOut } from "firebase/auth";
+import { getFirestore, 
+          collection, doc, addDoc, setDoc,
+          query, where, getDocs} from "firebase/firestore";
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
 import { LoginScreen } from './login';
 import StateContext from './StateContext.js';
-
-
 
 const testMessages = 
 [
@@ -59,7 +60,7 @@ const MessageItem = props => {
     <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
     <Text style={styles.messageContent}>{props.message.posts}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
-    
+
   </View> 
 ); 
 }
@@ -73,6 +74,8 @@ export const Feed = ({navigation}) => {
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
+  const [useFirestore, setUseFirestore] = useState(testMessages.map( addTimestamp ));
+
 
   const [state, setState] = useState ({
       mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
@@ -94,17 +97,32 @@ useEffect(
   () => { 
     getMessagesForCategory(category); 
   },
-  [category, localMessageDB]
+  [category, useFirestore]
 ); 
 
 
   async function getMessagesForCategory(cat) {
     if (cat !== 'All') {
-      setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+      firebaseGetMessagesForCategory(cat);
+/*       setSelectedMessages(useFirestore.filter( msg => msg.category === cat));
     } else {
-      setSelectedMessages(localMessageDB);
+      setSelectedMessages(useFirestore);
+    }
+  } */
     }
   }
+
+async function firebaseGetMessagesForCategory(cat) {
+  const q = query(collection(loggedInProps.db, 'messages'), where('channel', '==', cat));
+  const querySnapshot = await getDocs(q);
+  // const messages = Array.from(querySnapshot).map( docToMessage );
+  let messages = []; 
+  querySnapshot.forEach(doc => {
+      messages.push(docToMessage(doc));
+  });
+  setSelectedMessages( messages );
+}
+
 
     // Returns a promise to add message to firestore
     async function addMessageToDB(message) {
