@@ -1,6 +1,5 @@
 
-import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
-import React, { Component } from 'react'
+import {StyleSheet} from 'react-native';
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //LOG IN PAGE STYLES
@@ -15,13 +14,15 @@ export const loginStyle = StyleSheet.create({
         },
         subuttons: {
          backgroundColor: "#919191",
-         color:'#000000',
          marginBottom: 15,
          marginTop: 0,
          marginLeft: 0,
          marginRight: 0,
          padding: 5,
          //width: '50%',
+      },
+      buttonText: {
+         color: "white",
       },
     content: {
         display: "flex",
@@ -38,7 +39,7 @@ export const loginStyle = StyleSheet.create({
         borderWidth: 1
     },
     view: {
-       width: "180%",
+       width: "80%",
     },
     appTitle: {
         margin: 24,
@@ -47,14 +48,16 @@ export const loginStyle = StyleSheet.create({
        textAlign: 'center',
        color: "white",
      },
-     littleText:  {
-         color: "white",
-         fontFamily: "Times New Roman",
-         fontSize: 20,
-     },
-     accentText: {
+     text1: {
          color: 'rgb(6,12,51)',
-         textAlign: 'center'
+         textAlign: 'center',
+         fontSize: 13,
+         textTransform: 'uppercase',
+     },
+     text2: {
+      color: 'rgb(6,12,51)',
+      textAlign: 'center',
+      fontSize: 13,
      }
 })
 
@@ -72,15 +75,6 @@ export const loginStyle = StyleSheet.create({
       color: "black",
 
 
-  },
-  signUpBtn: {
-    backgroundColor: "rgb(8,58,129)",
-    height: 50,
-    marginBottom: 15,
-    marginTop: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
   }
 }) 
 

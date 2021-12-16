@@ -1,9 +1,5 @@
-import React, { useState, Component } from 'react';
-import { NavigationContainer} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-
 
 function NavigationBar(props) {
 
@@ -56,8 +52,6 @@ const styles = StyleSheet.create({
       flexDirection:'row',
        alignItems:'center',
         height: 75,
-        marginLeft: '35%',
-        marginBottom: -7,
         backgroundColor: "white",
    },
    pictures: {

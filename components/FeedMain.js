@@ -1,18 +1,14 @@
-import React, {useState, useEffect, useContext, Component} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import React, {useState, useEffect, useContext} from 'react';
+import { FlatList, Button, Image, Text, View, StyleSheet, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton.js';
 import { initializeApp } from "firebase/app";
-import { getAuth, 
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
-        sendEmailVerification,
-        signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { MakePost } from './makePost.js';
 import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
+import { loginStyle } from './loginStyle.js';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const testMessages = 
 [
@@ -54,7 +50,7 @@ const MessageItem = props => {
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
     <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text>
     <Text style={styles.messageContent}>{props.message.posts}</Text>
-    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
+    <Button style={styles.delButton} title = "Delete"/>
   </View> 
 ); 
 }
@@ -64,7 +60,7 @@ export const Feed = ({navigation}) => {
 
   // State for chat channels and messages
   const [category,setCategory] = React.useState(categories);
-  const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+ // const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
@@ -136,10 +132,9 @@ useEffect(
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
       <View style = {styles.footer}>
-        <NewPostButton text="New Post" 
-                        color= 'rgb(8,58,129)' 
-                        onPress={() => navigation.navigate('New Post')}
-        />
+        <TouchableOpacity style = {loginStyle.buttons}
+                onPress={() => navigation.navigate('New Post')}
+        ><Text style = {loginStyle.buttonText}>New Post</Text></TouchableOpacity>
         <Text style = {styles.subTitleText}> Recent Activity </Text>
         <Picker
           style={styles.pickerStyles}
@@ -208,7 +203,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   pickerStyles:{
-    width:'30%',
+    width:'100%',
+    height: '45%',
     backgroundColor:'white',
     },
     icons: {
@@ -223,7 +219,7 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'40%',
+  width:'100%',
   marginTop: 5,
   marginBottom:5,
 },

@@ -8,7 +8,7 @@ function NewPostButton(props){
     </View>
   )
 
-  return <TouchableOpacity onPress = {props.onPress}>{content}</TouchableOpacity>
+  return <TouchableOpacity onPress = {props.onPress} title = {content}/>
 }
 export default NewPostButton;
 

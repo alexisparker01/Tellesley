@@ -11,9 +11,9 @@ export const LoginScreen = () => {
                     <Card.Content>
                         <TextInput placeholder="Email" keyboardType="email-address" style = {loginStyle.textFields}></TextInput>
                         <TextInput placeholder= "Password" secureTextEntry = {true} style = {loginStyle.textFields}></TextInput>
-                        <Button mode = "contained" style = {loginStyle.loginButtons}> Log in </Button>
+                        <Button mode = "contained" style = {loginStyle.loginButtons} title = "Log in"/>
                         <Text style = {loginStyle.accentText}> don't have an account? </Text>
-                        <Button> Sign up </Button>
+                        <Button title = "Sign up"/>
                     </Card.Content>
                 </Card>
             </View>

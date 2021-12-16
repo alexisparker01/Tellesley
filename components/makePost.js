@@ -1,11 +1,7 @@
-import React, {useState} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
-import { Card, Button, Text } from 'react-native-paper';
-import { initializeApp } from "firebase/app";
-import { loginStyle, makePostStyle } from './loginStyle.js';
-import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import React from 'react';
+import { SafeAreaView, View, TextInput, StyleSheet, Picker} from 'react-native';
+import { Button, Text } from 'react-native-paper';
+import { loginStyle } from './loginStyle';
 
 export const MakePost = ({navigation}) => {
 // State for chat channels and messages
@@ -55,8 +51,8 @@ function cancelButton() {
                 <Button mode = "contained" 
                        style = {styles.buttons} 
                       onPress={() => postMessage()}
-                      title="Post"/>
-                <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> Cancel </Button>
+                    ><Text style= {loginStyle.buttonText}> Post </Text></Button>
+                <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}><Text style= {loginStyle.buttonText}>Cancel</Text></Button>
       </SafeAreaView>
     </View>
      )
