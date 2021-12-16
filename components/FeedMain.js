@@ -200,9 +200,9 @@ async function firebaseGetMessagesForCategory(cat) {
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
       <View style = {styles.footer}>
-        <Button title = 'populate'
+{/*         <Button title = 'populate'
                 onPress = {() => populateFirestoreDB(testMessages)}> 
-        </Button>
+        </Button> */}
         <NewPostButton text="New Post" 
                         color= 'rgb(8,58,129)' 
                         onPress={() => navigation.navigate('New Post')}

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
-import { loginStyle} from './components/LoginStyle';
+import { loginStyle} from './components/loginStyle';
 import {EditProfile} from './components/EditProfile';
 import { LoginScreen } from './components/login'; 
 import { SignUpScreen } from './components/SignUpScreen';
