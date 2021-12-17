@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 
    postsBox: {
      borderColor: 'black',
-     border: 10,
+     borderRadius: 5,
      width: 100,
      height: 100,
    },

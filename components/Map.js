@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView, View, ImageBackground, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 import { initializeApp } from "firebase/app";
-import { loginStyle } from './loginStyle';
+import { loginStyle } from './loginStyle.js';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 
 export const Map = ({navigation}) => {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
 
 },
   textInputArea: {
-    textAlign: 'Left',
+    textAlign: 'left',
     backgroundColor: "white",
     fontSize: 17,
     borderWidth: 1,

@@ -13,6 +13,9 @@ export const loginStyle = StyleSheet.create({
            marginRight: 0,
            padding: 5,
         },
+        buttonText: {
+            color: 'white',
+        },
         subuttons: {
          backgroundColor: "#919191",
          color:'#000000',
@@ -28,8 +31,8 @@ export const loginStyle = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        flexDirections: "row",
         backgroundColor: "rgb(6,12,51)",
+        flexDirection: "row",
     },
     textFields: {
         marginBottom: 15,
@@ -38,7 +41,7 @@ export const loginStyle = StyleSheet.create({
         borderWidth: 1
     },
     view: {
-       width: "180%",
+       width: "90%",
     },
     appTitle: {
         margin: 24,

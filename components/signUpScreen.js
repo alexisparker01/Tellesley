@@ -1,6 +1,6 @@
 import React, {Component, useState, useContext} from 'react';
-import { View } from 'react-native';
-import { loginStyle, signUpStyle } from './LoginStyle';
+import { View, Text } from 'react-native';
+import { loginStyle, signUpStyle } from './loginStyle.js';
 import { Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app"; 
 import {getAuth, onAuthStateChanged,
@@ -32,6 +32,10 @@ export const SignUpScreen = ({navigation}) => {
       } */
       if (loggedInProps.password.length < 6) {
         setErrorMsg('Password too short');
+        return;
+      }
+      if (errorMsg === "Firebase: Error (auth/email-already-in-use)."){
+        setErrorMsg('Email already in use.');
         return;
       }
 
@@ -90,10 +94,9 @@ export const SignUpScreen = ({navigation}) => {
                           value={loggedInProps.password2} onChangeText={ textVal => loggedInProps.confirmPassword(textVal)} 
                           style = {signUpStyle.TextInputStyle}/> */}
                 <Button mode = "contained" 
-                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> Sign Up </Button>
-                        {errorMsg && (
-                      <p className="error"> {errorMsg} </p>
-                            )}
+                        style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}> <Text style = {loginStyle.buttonText}>Sign up </Text></Button>
+                       
+                       <Text style = {loginStyle.accentText}> {errorMsg} </Text>
               </View>
             </View>
         )

@@ -9,7 +9,7 @@ import {
   collection, doc, addDoc, setDoc,
   query, where, getDocs
 } from "firebase/firestore";
-import { loginStyle } from './LoginStyle';
+import { loginStyle } from './loginStyle.js';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import StateContext from './StateContext.js';
 
@@ -82,19 +82,19 @@ export const LoginScreen = ({navigation}) => {
                                     value = {loggedInProps.email}
                                     style = {loginStyle.textFields}
                                     onChangeText={ textVal => loggedInProps.setEmail(textVal)}></TextInput>
+
                         <TextInput placeholder= "Password" 
                                     secureTextEntry = {true} 
                                     style = {loginStyle.textFields}
                                     value={loggedInProps.password} 
                                     onChangeText={ textVal => loggedInProps.setPassword(textVal)}></TextInput>
-                                    {errorMsg && (
-                      <p className="error"> {errorMsg} </p>
-                            )}
+
+                                    <Text style = {loginStyle.accentText}> {errorMsg} </Text>                                    
                         <Button mode = "contained" 
                                 style = {loginStyle.buttons} 
-                                onPress={() => signInUserEmailPassword()}> Log in </Button>
-                        <Text style = {loginStyle.accentText}> don't have an account? </Text>
-                        <Button mode = "contained" style = {loginStyle.subuttons} onPress={() => navigation.navigate('Sign Up')}> Sign up </Button>
+                                onPress={() => signInUserEmailPassword()}> <Text style = {loginStyle.buttonText}>Log in </Text></Button>
+                        <Text style = {loginStyle.accentText}> Don't have an account? </Text>
+                        <Button mode = "contained" style = {loginStyle.subuttons} onPress={() => navigation.navigate('Sign Up')}> <Text style = {loginStyle.buttonText}>Sign up</Text> </Button>
 
                     </Card.Content>
                 </Card>

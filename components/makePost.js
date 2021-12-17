@@ -82,8 +82,7 @@ async function populateFirestoreDB(messages) {
 
       <View style = {styles.container}>
       <SafeAreaView style = {styles.container}>
-            <TextInput multiline = {true} 
-                      numberOfLines = {20} 
+            <TextInput multiline = "true"
                       editable style = {styles.textInputArea} 
                       maxLength={100} 
                       placeholder={"Dear Tellesley..."} 
@@ -99,8 +98,8 @@ async function populateFirestoreDB(messages) {
               </Picker>
                 <Button mode = "contained" 
                        style = {styles.buttons} 
-                      onPress= {postMessage}> Post </Button>
-                <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> Cancel </Button>
+                      onPress= {postMessage}> <Text style = {styles.buttonText}>Post</Text></Button>
+                <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> <Text style = {styles.buttonText}>Cancel </Text> </Button>
       </SafeAreaView>
     </View>
      )
@@ -117,23 +116,27 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(8,58,129)",
     marginBottom: 10,
     marginTop: 10,
-    marginLeft: '40%',
-    width: '20%',
+    marginLeft: '35%',
+    width: '30%',
     padding: 5,
+ },
+ buttonText: {
+  color: 'white',
  },
  subuttons: {
   backgroundColor: "#919191",
   color:'#000000',
-  marginLeft: '40%',
-  width: '20%',
+  marginLeft: '35%',
+  width: '30%',
   padding: 5,
 },
   textInputArea: {
-    textAlign: 'Left',
+    textAlign: 'left',
     backgroundColor: "white",
     fontSize: 17,
     borderWidth: 1,
     borderColor: "#9E9E9E",
+    height:"40%",
   },
   titleText: {
     textAlign: 'center',

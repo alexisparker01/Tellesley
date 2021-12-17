@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext } from 'react';
 import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './NewPostButton';
+import NewPostButton from './newPostButton';
 import { collection, doc, setDoc,
           query, where, getDocs} from "firebase/firestore";
-import { MakePost } from './MakePost';
-import NavigationBar from './NavigationBar';
+import { MakePost } from './makePost.js';
+import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
 const testMessages = 
@@ -113,7 +113,7 @@ useEffect(
   }
 
 async function firebaseGetMessagesForCategory(cat) {
-  const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
+  const q = query(collection(loggedInProps.db, 'messages'), where('category', '===', cat));
   const querySnapshot = await getDocs(q);
   // const messages = Array.from(querySnapshot).map( docToMessage );
   let messages = []; 
@@ -179,10 +179,10 @@ async function firebaseGetMessagesForCategory(cat) {
 {/*         <Button title = 'populate'
                 onPress = {() => populateFirestoreDB(testMessages)}> 
         </Button> */}
-        <NewPostButton text="New Post" 
+        <NewPostButton
                         color= 'rgb(8,58,129)' 
                         onPress={() => navigation.navigate('New Post')}
-        />
+        ><Text style = {styles.buttonText}>New Post</Text></NewPostButton>
         <Text style = {styles.subTitleText}> Recent Activity </Text>
         <Picker
           style={styles.pickerStyles}
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   pickerStyles:{
-    width:'30%',
+    width:'100%',
     marginBottom: 10,
     backgroundColor:'white',
     },
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'70%',
+  width:'100%',
   marginTop: 5,
   marginBottom:5,
 },
@@ -314,4 +314,8 @@ delButton: {
            marginRight: 0,
            padding: 5,
         },
+
+        buttonText: {
+          color: 'white',
+        }
 });
