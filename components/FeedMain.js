@@ -1,22 +1,11 @@
-import React, {useState, useEffect, useContext, Component} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import React, {useState, useEffect, useContext } from 'react';
+import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './NewPostButton';
-import SignUpScreen from './SignUpScreen';
-import { initializeApp } from "firebase/app";
-import { getAuth, 
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
-        sendEmailVerification,
-        signOut } from "firebase/auth";
-import { getFirestore, 
-          collection, doc, addDoc, setDoc,
+import { collection, doc, setDoc,
           query, where, getDocs} from "firebase/firestore";
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
-import { LoginScreen } from './login';
 import StateContext from './StateContext.js';
 
 const testMessages = 
