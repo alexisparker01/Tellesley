@@ -66,7 +66,7 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    {/* <Text style={styles.messageAuthor}>{props.message.fName} {props.message.lName}</Text> */}
+    <Text style={styles.messageAuthor}>{props.message.FName} {props.message.LName}</Text>
     <Text style={styles.messageContent}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 
@@ -113,21 +113,10 @@ useEffect(
   async function getMessagesForCategory(cat) {
     if (cat !== 'All') {
       firebaseGetMessagesForCategory(cat);
-/*       setSelectedMessages(useFirestore.filter( msg => msg.category === cat));
-    } else {
-      setSelectedMessages(useFirestore);
-    }
-  } */
     }
   }
 
   function docToMessage(msgDoc) {
-    // msgDoc has the form {id: timestampetring, 
-    //                   data: {timestamp: ..., 
-    //                          author: ..., 
-    //                          channel: ..., 
-    //                          content: ...}
-    // Need to add missing date field to data portion, reconstructed from timestamp
     console.log('docToMessage');
     const data = msgDoc.data();
     console.log(msgDoc.id, " => ", data);
@@ -180,14 +169,12 @@ async function firebaseGetMessagesForCategory(cat) {
       );
     }
   
-  
         // Peform one await for all the promises. 
         await Promise.all(
           messages.map( addMessageToDB ) 
         );
   }
 
-  
     return ( 
 
     <View style={styles.container}>

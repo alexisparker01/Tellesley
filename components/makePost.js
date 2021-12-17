@@ -7,6 +7,7 @@ import {getFirestore, collection, doc, addDoc, setDoc,query, where, getDocs
 } from "firebase/firestore";
 import StateContext from './StateContext.js';
 
+
 export const MakePost = ({navigation}) => {
 
 const loggedInProps = useContext(StateContext);
@@ -15,22 +16,24 @@ const [isComposingMessage, setIsComposingMessage] = React.useState(false);
 const [post, setTextInputValue] = React.useState('');
 const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 const [category,setCategory] = React.useState(categories);
+const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
 //do we even need this firestore const??
 const [usingFirestore, setUsingFirestore] = useState(true);
 
 function postMessage() {
-  console.log(`postMessage; usingFirestore=${usingFirestore}`);
+
   const now = new Date();
   const newMessage = {
     user: loggedInProps.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
     category: category, 
-    content: post, 
+    post: post, 
   }
-    postMessage(newMessage);
+    firebasePostMessage(newMessage)
     setTextInputValue('');
+    navigation.navigate('Feed')
 }
 
 function cancelButton() {
@@ -45,7 +48,7 @@ async function firebasePostMessage(msg) {
         'timestamp': msg.timestamp, 
         'user': msg.user, 
         'category': msg.category, 
-        'content': msg.post, 
+        'post': msg.post, 
       }
     );
 }
@@ -63,7 +66,7 @@ async function populateFirestoreDB(messages) {
         'timestamp': timestamp, 
         'user': message.user, 
         'category': message.category, 
-        'content': message.post, 
+        'post': message.post, 
       }
     );
   }
@@ -96,7 +99,7 @@ async function populateFirestoreDB(messages) {
               </Picker>
                 <Button mode = "contained" 
                        style = {styles.buttons} 
-                      onPress={() => postMessage()}> Post </Button>
+                      onPress= {postMessage}> Post </Button>
                 <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> Cancel </Button>
       </SafeAreaView>
     </View>
@@ -124,7 +127,6 @@ const styles = StyleSheet.create({
   marginLeft: '40%',
   width: '20%',
   padding: 5,
-
 },
   textInputArea: {
     textAlign: 'Left',
