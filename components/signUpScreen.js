@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { loginStyle, signUpStyle } from './loginStyle.js';
+import React, {Component, useState, useContext} from 'react';
+import { View } from 'react-native';
+import { loginStyle, signUpStyle } from './LoginStyle';
 import { Button, TextInput} from 'react-native-paper';
 import { initializeApp } from "firebase/app"; 
 import {getAuth,
@@ -9,48 +9,42 @@ import {getAuth,
         signOut} from "firebase/auth";
 import StateContext from './StateContext.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
-    authDomain: "tellesley.firebaseapp.com",
-    projectId: "tellesley",
-    storageBucket: "tellesley.appspot.com",
-    messagingSenderId: "827430407291",
-    appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
-    measurementId: "G-18020KJETB"
-  };
-  
-
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
 
 export const SignUpScreen = ({navigation}) => {
 
-  const loggedInProps = React.useContext(StateContext);
-  const [errorMsg, setErrorMsg] = React.useState('');
+  const loggedInProps = useContext(StateContext);
+
+  const [errorMsg, setErrorMsg] = useState('');
 
     function signUpUserEmailPassword() {
-      if (auth.currentUser) {
-        signOut(auth); // sign out auth's current user (who is not loggedInUser, 
+      console.log('called signUpUserEmailPassword');
+      if (loggedInProps.auth.currentUser) {
+        signOut(loggedInProps.auth); // sign out auth's current user (who is not loggedInUser, 
                        // or else we wouldn't be here
       }
       if (!loggedInProps.email.includes('@wellesley.edu')) {
         setErrorMsg('Not a valid email address.');
         return;
       }
+/*       if (loggedInProps.password!==password2) {
+          setErrorMsg('Passwords do not match');
+          return;
+      } */
       if (loggedInProps.password.length < 6) {
         setErrorMsg('Password too short.');
         return;
       }
 
      // Invoke Firebase authentication API for Email/Password sign up 
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(loggedInProps.auth, loggedInProps.email, loggedInProps.password)
     .then((userCredential) => {
 
       // Clear email/password inputs
-      const savedEmail = email; // Save for email verification
+      const savedEmail = loggedInProps.email; // Save for email verification
       loggedInProps.setEmail('');
       loggedInProps.setPassword('');
-      sendEmailVerification(auth.currentUser)
+      //loggedInProps.confirmPassword('');
+      sendEmailVerification(loggedInProps.auth.currentUser)
       .then(() => {
           setErrorMsg(`A verification email has been sent to ${savedEmail}. You will not be able to sign in until this email is verified.`); 
           // Email verification sent!
@@ -58,7 +52,9 @@ export const SignUpScreen = ({navigation}) => {
         });
     })
     .catch((error) => {
-      setErrorMsg('Sign up failed. Try again.');
+      const errorMessage = error.message;
+      //setErrorMsg('Sign up failed. Try again.');
+      {setErrorMsg(errorMessage)}
     });
   }
 
@@ -91,7 +87,12 @@ export const SignUpScreen = ({navigation}) => {
                             onChangeText={ textVal => loggedInProps.setPassword(textVal)} 
                             value={loggedInProps.password}
                             style = {signUpStyle.TextInputStyle}/>
-
+{/*                <TextInput label = "Confirm Password" 
+                          right = {<TextInput.Icon 
+                          name = "eye-off-outline"/>}
+                          activeUnderlineColor = 'rgb(6,12,51)'
+                          value={loggedInProps.password2} onChangeText={ textVal => loggedInProps.confirmPassword(textVal)} 
+                          style = {signUpStyle.TextInputStyle}/> */}
                 <Button mode = "contained" 
                         style = {loginStyle.buttons} onPress={() => signUpUserEmailPassword()}><Text style = {loginStyle.buttonText}>Sign up</Text></Button>
                        <Text>{errorMsg}</Text>

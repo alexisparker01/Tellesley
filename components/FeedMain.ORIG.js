@@ -1,53 +1,50 @@
-import React, {useState, useEffect, useContext } from 'react';
-import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import React, {useState, useEffect, useContext, Component} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { FlatList, Button, Image, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './NewPostButton';
-import { collection, doc, setDoc,
-          query, where, getDocs} from "firebase/firestore";
+import SignUpScreen from './SignUpScreen';
+import { initializeApp } from "firebase/app";
+import { getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        sendEmailVerification,
+        signOut } from "firebase/auth";
 import { MakePost } from './MakePost';
 import NavigationBar from './NavigationBar';
+import { LoginScreen } from './login';
 import StateContext from './StateContext.js';
-import { loginStyle } from './loginStyle.js';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const testMessages = 
 [
  {'user': 'km1@wellesley.edu',
  'date': new Date(2021, 10, 29, 13, 12, 46, 1234),
-  'post': 'Is there no hot water for anyone else in Shafer?',
+  'fName': 'Kate',
+  'lName': 'MacVicar', 
+  'password': 'kateamacv',
+  'posts': 'Is there no hot water for anyone else in Shafer?',
   'category': 'Life'
  },
  {'user': 'hz4@wellesley.edu',
  'date': new Date(2021, 9, 25, 13, 12, 47, 1234),
- 'post': 'I wish we could be done with finals now...',
+ 'fName': 'Hope',
+ 'lName': 'Zhu', 
+ 'password': 'hopezhu',
+ 'posts': 'Anyone want to take a walk around the lake?',
  'category': 'Life'
 },
 {'user': 'ap7@wellesley.edu',
-'date': new Date(2021, 10, 30, 17, 33, 52, 1234), 
-'post': 'has anyone taken CS235 before? Thoughts?',
+'date': new Date(2021, 10, 30, 17, 33, 52, 1234),
+'fName': 'Alexis',
+'lName': 'Parker', 
+'password': 'alexisparker',
+'posts': 'has anyone taken CS235 before? Thoughts?',
 'category': 'Classes'
 },
 ]
 
-const testProfiles = [
-  {
-    'user': 'km1@wellesley.edu',
-    'FName': 'Kate',
-    'LName': 'MacVicar'
-  },
-  {
-    'user': 'ap7@wellesley.edu',
-    'FName': 'Alexis',
-    'LName': 'Parker'
-  },
-  {
-    'user': 'hz4@wellesley.edu',
-    'FName': 'Hope',
-    'LName': 'Zhu'
-  },
-]
-
-const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
  
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -57,10 +54,8 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.message.FName} {props.message.LName}</Text>
-    <Text style={styles.messageContent}>{props.message.post}</Text>
-    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
-
+    <Text style={styles.messageAuthor}>{props.message.author}</Text>
+    <Text style={styles.messageContent}>{props.message.content}</Text>
   </View> 
 ); 
 }
@@ -69,13 +64,11 @@ export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   // State for chat channels and messages
-  const [category,setCategory] = React.useState(categories);
+  const [category,setCategory] = useState(categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
-  const [useFirestore, setUseFirestore] = useState(testMessages.map( addTimestamp ));
-
 
   const [state, setState] = useState ({
       mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
@@ -87,44 +80,19 @@ export const Feed = ({navigation}) => {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-  useEffect(() => {
-    getMessagesForCategory(category);  
-    return () => {
-    }
-  }, []);
-
-useEffect(
-  () => { 
-    getMessagesForCategory(category); 
-  },
-  [category, useFirestore]
-); 
+   useEffect(
+    () => { 
+      getMessagesForCategory(selectedCategory); 
+      setTextInputValue('');
+    },
+    [selectedCategory]
+  ); 
 
 
   async function getMessagesForCategory(cat) {
-    if (cat !== 'All') {
-      firebaseGetMessagesForCategory(cat);
-    }
+    setSelectedMessages(localMessageDB.filter( msg => msg.category === cat));
+    //console.log(msg);
   }
-
-  function docToMessage(msgDoc) {
-    console.log('docToMessage');
-    const data = msgDoc.data();
-    console.log(msgDoc.id, " => ", data);
-    return {...data, post: data.content , date: new Date(data.timestamp)}
-  }
-
-async function firebaseGetMessagesForCategory(cat) {
-  const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
-  const querySnapshot = await getDocs(q);
-  // const messages = Array.from(querySnapshot).map( docToMessage );
-  let messages = []; 
-  querySnapshot.forEach(doc => {
-      messages.push(docToMessage(doc));
-  });
-  setSelectedMessages( messages );
-}
-
 
     // Returns a promise to add message to firestore
     async function addMessageToDB(message) {
@@ -132,55 +100,35 @@ async function firebaseGetMessagesForCategory(cat) {
       const timestampString = timestamp.toString();
 
       // Add a new document in collection "messages"
-      return setDoc(doc(loggedInProps.db, "messages", timestampString), 
+      return setDoc(doc(db, "messages", timestampString), 
         {
           'timestamp': timestamp, 
-          'user': message.user, 
-          'category': message.category, 
+          'author': message.user, 
+          'channel': message.category, 
           'content': message.post, 
         }
       );
   }
 
-  async function populateFirestoreDB(messages) {
-
-    // Returns a promise to add message to firestore
-    async function addMessageToDB(message) {
-      const timestamp = message.date.getTime(); // millsecond timestamp
-      const timestampString = timestamp.toString();
   
-      // Add a new document in collection "messages"
-      return setDoc(doc(loggedInProps.db, "messages", timestampString), 
-        {
-          'timestamp': timestamp, 
-          'user': message.user, 
-          'category': message.category, 
-          'content': message.post, 
-        }
-      );
-    }
-  
-        // Peform one await for all the promises. 
-        await Promise.all(
-          messages.map( addMessageToDB ) 
-        );
-  }
-
     return ( 
 
     <View style={styles.container}>
-    {/* remove arrow going back to login page -> change to "logout" button */}
+    
     {/* upper white section */}
       <View style = {styles.header}>
       <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
+      <Image 
+        style={styles.icons}
+        source={{
+          url: state.profileIcon,
+        }}
+      />
       </View>
 
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
       <View style = {styles.footer}>
-{/*         <Button title = 'populate'
-                onPress = {() => populateFirestoreDB(testMessages)}> 
-        </Button> */}
         <NewPostButton text="New Post" 
                         color= 'rgb(8,58,129)' 
                         onPress={() => navigation.navigate('New Post')}
@@ -193,8 +141,6 @@ async function firebaseGetMessagesForCategory(cat) {
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
           {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
-
-
         {(selectedMessages.length === 0) ? 
          <Text>No messages to display</Text> :
          <FlatList style={styles.messageList}
@@ -203,6 +149,9 @@ async function firebaseGetMessagesForCategory(cat) {
             keyExtractor={item => item.timestamp} 
             />
         }
+        </View>
+        <View style = {styles.postContainer}>
+
         </View>
         <NavigationBar navigation = {navigation} />
       </View>
@@ -217,12 +166,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   postContainer: {
+    flex: 0.5,
     backgroundColor: 'white',
     borderColor: 'rgb(222,222,222)',
     borderWidth: 2,
     fontSize: 18,
-    paddingTop:10,
-    paddingBottom:10,
   },
     header: {
     flex: 1,
@@ -254,7 +202,6 @@ const styles = StyleSheet.create({
   },
   pickerStyles:{
     width:'30%',
-    marginBottom: 10,
     backgroundColor:'white',
     },
     icons: {
@@ -269,9 +216,8 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'70%',
+  width:'90%',
   marginTop: 5,
-  marginBottom:5,
 },
 messageItem: {
   marginTop: 5,
@@ -283,37 +229,14 @@ messageItem: {
 },
 messageDateTime: {
   paddingLeft: 5,
-  marginBottom: 3,
-  fontSize: 14,
   color:'gray',
 },
 messageAuthor: {
   paddingLeft: 5,
-  paddingBottom: 3,
-  fontSize: 14,
-  color:'rgb(8,58,129)',
+  color:'blue',
 },
 messageContent: {
-  paddingLeft: 10,
-  paddingBottom: 3,
-  padding:5,
-  fontSize: 15,
+  padding: 5,
   color:'black',
 },
-delButton: {
-  padding: 16,
-    width: 100,
-    borderRadius: 24,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    backgroundColor: 'rgb(8,58,129)'
-},
-        buttons: {
-           backgroundColor: "rgb(8,58,129)",
-           marginBottom: 15,
-           marginTop: 0,
-           marginLeft: 0,
-           marginRight: 0,
-           padding: 5,
-        },
 });

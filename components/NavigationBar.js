@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
        alignItems:'center',
         height: 75,
         backgroundColor: "white",
+        display: 'flex'
    },
    pictures: {
     height: 30,

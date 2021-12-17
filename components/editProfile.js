@@ -49,39 +49,26 @@ function goBack() {
    navigation.navigate('Profile');
 }
 
-function handleSubmit() {
+function handleSaveChanges() {
    handleFirstnameChange;
    handleBioChange;
    handleLastnameChange;
    navigation.navigate('Profile');
 }
 
- 
       return (
-
          <ScrollView style = {styles.container}>
-
-
-        
-
-<TouchableOpacity
-               style = {styles.cancelButton}
-               onPress = {
-                  () => goBack()
-               }>
-                <Text style = {styles.text}> Cancel </Text>
-            </TouchableOpacity>
-            <Text style ={styles.title}>Edit Profile</Text>
-
+      
+            <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
             <Image 
-        style={styles.profilePicture}
-        source={{
-          uri: 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
-        }}
-      />
+                  style={styles.profilePicture}
+                  source={{
+                  uri: state.profilePicture,
+                  }}
+            />
+            </View>
 
-
-            <View style = {{flexDirection:'row', alignItems:'center'}}>
+            <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
             <Text style = {styles.inputLabels}>First Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
@@ -94,7 +81,7 @@ function handleSubmit() {
 
 
 
-<View style = {{flexDirection:'row', alignItems:'center'}}>
+<View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
 <Text style = {styles.inputLabels}>Last Name: </Text> 
             <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
@@ -104,7 +91,7 @@ function handleSubmit() {
                onChangeText = {handleLastnameChange}
                />
 </View>
-<View style = {{flexDirection:'row', alignItems:'center'}}>
+ <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
 
 <Text style = {styles.inputLabels}>Bio: </Text> 
             <TextInput style = {styles.inputBio}
@@ -115,45 +102,37 @@ function handleSubmit() {
                onChangeText = {handleBioChange}
                />
 </View>
-      
+       <View style = {{flexDirection:'row', alignItems:'center', justifyContent: 'center'}}>
+
             <TouchableOpacity
                style = {styles.button}
                onPress = {
-                  () => handleSubmit()
+                  () => handleSaveChanges()
                }>
                <Text style = {styles.text}> Save Changes </Text>
             </TouchableOpacity>
+            </View>
             <NavigationBar navigation = {navigation} />
             </ScrollView>
-
-       
-        
-   
- 
         )
       }
    }
 export default EditProfile
-
-
-
-
 
 const styles = StyleSheet.create({
    container: {
       paddingTop: 23,
       backgroundColor: 'white',
    },
+
    input: {
       margin: 15,
       height: 40,
       color: 'black',
-      borderColor: 'black',
+      borderColor: '#9E9E9E',
       borderWidth: 1,
       width: 200,
       backgroundColor: 'white',
-      
-      
    },
    inputBio: {
       margin: 15,
@@ -161,7 +140,7 @@ const styles = StyleSheet.create({
       width: 300,
       color: 'black',
       backgroundColor: 'white',
-      borderColor: "black",
+      borderColor: "#9E9E9E",
       borderWidth: 1
    },
    button: {
@@ -169,13 +148,24 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 15,
       height: 40,
+      width: "30%",
+      textAlign: 'center',
+      borderTopLeftRadius: 5, 
+      borderTopRightRadius: 5,
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5,
    },
    cancelButton: {
       margin: 10,
       width: 80,
       padding: 10,
       height: 40,
-      backgroundColor: '#002776',
+      textAlign: 'center',
+      borderTopLeftRadius: 5, 
+      borderTopRightRadius: 5,
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5,
+      backgroundColor: '#919191',
    },
 
    text:{
@@ -183,18 +173,19 @@ const styles = StyleSheet.create({
    },
   
    inputLabels:{
-      marginLeft: 40,
+      marginLeft: 0,
       color: 'black',
 
    },
    hidden: {
       opacity: 0, height: 0
    },
+
    profilePicture: {
      height: 150,
      width: 150,
      padding: 30,
-     marginLeft: 150,
+     marginLeft: 0,
      resizeMode: 'cover', 
      borderRadius: 400/2,
    },

@@ -79,6 +79,10 @@ const styles = StyleSheet.create({
       marginTop: 25,
       marginBottom: 15,
       padding: 5,
+      borderTopLeftRadius: 5, 
+      borderTopRightRadius: 5,
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5,
    },
    username: {
      padding: 10,

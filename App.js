@@ -2,32 +2,57 @@ import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
-import { loginStyle } from './components/loginStyle.js';
-import {EditProfile} from './components/editProfile.js';
-import { LoginScreen } from './components/login.js'; 
-import { SignUpScreen } from './components/signUpScreen.js';
-import {Feed} from './components/FeedMain.js';
-import {MakePost} from './components/makePost.js';
-import NavigationBar from './components/NavigationBar.js';
-import ViewProfile from './components/ViewProfile.js';
+import { loginStyle} from './components/loginStyle';
+import {EditProfile} from './components/EditProfile';
+import { LoginScreen } from './components/login'; 
+import { SignUpScreen } from './components/SignUpScreen';
+import {Feed} from './components/FeedMain';
+import {MakePost} from './components/MakePost';
+import NavigationBar from './components/NavigationBar';
+import ViewProfile from './components/ViewProfile';
 import StateContext from './components/StateContext.js';
-import {Map} from './components/Map.js';
+import {Map} from './components/Map';
+import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {getFirestore, 
+   collection, doc, addDoc, setDoc,
+  query, where, getDocs
+} from "firebase/firestore";
 
 const Stack = createNativeStackNavigator();
 
 export default function App(props) {
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyDzOBepKDW9x_3RYmXF1tIEj-hHJAcZ2lk",
+    authDomain: "tellesley.firebaseapp.com",
+    projectId: "tellesley",
+    storageBucket: "tellesley.appspot.com",
+    messagingSenderId: "827430407291",
+    appId: "1:827430407291:web:de6ab2a30cfe7dca42e6de",
+    measurementId: "G-18020KJETB"
+  };
+
   //const [email, setEmail] = React.useState('');
   //const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('km1@wellesley.edu');
   const [password, setPassword] = React.useState('kateamacv');
-  const [loggedInUser, setLoggedInUser] = React.useState(null);
-  const logOutUser = username => (setloggedInUser(null));
+  const [password2, setpassword2] = useState('kateamacv');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [FName, setFName] = React.useState('Kate');
   const [LName, setLName] = React.useState('MacVicar');
   const [bio, setBio] = React.useState('Wellesley 2023');
-  const loggedInProps = {loggedInUser,logOutUser, email,password, FName, LName, bio,
-    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio }
+
+  const [loggedInUser, setLoggedInUser] = React.useState(null);
+  const logOutUser = username => (setloggedInUser(null));
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const auth = getAuth(firebaseApp);
+  const db = getFirestore(firebaseApp);
+
+  const loggedInProps = {loggedInUser,logOutUser, email,password, password2, confirmPassword, FName, LName, bio,
+    setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
+    firebaseApp, auth, db, firebaseConfig }
 
 
 
