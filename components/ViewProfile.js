@@ -1,12 +1,16 @@
 import React, { useState, useContext, Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
+import { FlatList, View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
+import { collection, doc, setDoc,
+   query, where, getDocs} from "firebase/firestore";
 import StateContext from './StateContext.js';
  
 export const ViewProfile = ({navigation}) => {{
+
+   const [userMessages, setUserMessages] = React.useState([]);
 
    const loggedInProps = useContext(StateContext);
    const [state, setState] = useState ({
@@ -15,6 +19,16 @@ export const ViewProfile = ({navigation}) => {{
       currentUser: true,
    })
 
+  async function getUserMessagesFB(us) {
+      const q = query(collection(loggedInProps.db, 'messages'), where('user', '===', us));
+      const querySnapshot = await getDocs(q);
+      //const messages = Array.from(querySnapshot).map( docToMessage );
+      let userMsgs = []; 
+      querySnapshot.forEach(doc => {
+          userMsgs.push(docToMessage(doc));
+      });
+      setUserMessages( userMsgs );
+    }
 
       return (
     
@@ -38,6 +52,11 @@ export const ViewProfile = ({navigation}) => {{
             </TouchableOpacity>
             <View style = {styles.footer}>
             <Text style = {styles.username}> Posts </Text>
+            <FlatList style={styles.messageList}
+            data={getUserMessagesFB(loggedInProps.email)} 
+            renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
+            keyExtractor={item => item.timestamp} 
+            />
             </View> 
          </View>
          <NavigationBar navigation = {navigation} />
@@ -55,6 +74,11 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       fontFamily: "Time New Roman",
    },
+   messageList: {
+      width:'100%',
+      marginTop: 5,
+      marginBottom:5,
+    },
    header: {
       flex: 1,
       height: "100%",

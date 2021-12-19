@@ -44,8 +44,6 @@ const testProfiles = [
     'LName': 'Zhu'
   },
 ]
-
-const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
  
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -67,7 +65,7 @@ export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   // State for chat channels and messages
-  const [category,setCategory] = React.useState(categories);
+  const [category,setCategory] = React.useState(loggedInProps.categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
@@ -115,12 +113,12 @@ useEffect(
 async function firebaseGetMessagesForCategory(cat) {
   const q = query(collection(loggedInProps.db, 'messages'), where('category', '===', cat));
   const querySnapshot = await getDocs(q);
-  // const messages = Array.from(querySnapshot).map( docToMessage );
+  //const messages = Array.from(querySnapshot).map( docToMessage );
   let messages = []; 
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
   });
-  setSelectedMessages( messages );
+  setSelectedMessages(messages);
 }
 
 
@@ -189,7 +187,7 @@ async function firebaseGetMessagesForCategory(cat) {
           mode='dropdown'
           selectedValue={category}
           onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
-          {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
+          {loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
 
 

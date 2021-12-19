@@ -50,9 +50,12 @@ export default function App(props) {
   const auth = getAuth(firebaseApp);
   const db = getFirestore(firebaseApp);
 
+  const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
+
   const loggedInProps = {loggedInUser,logOutUser, email,password, password2, confirmPassword, FName, LName, bio,
     setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
-    firebaseApp, auth, db, firebaseConfig }
+    firebaseApp, auth, db, firebaseConfig, categories }
+
 
 
 

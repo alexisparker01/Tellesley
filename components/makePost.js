@@ -14,8 +14,7 @@ const loggedInProps = useContext(StateContext);
 
 const [isComposingMessage, setIsComposingMessage] = React.useState(false);
 const [post, setTextInputValue] = React.useState('');
-const categories = ['Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
-const [category,setCategory] = React.useState(categories);
+const [category,setCategory] = React.useState(loggedInProps.categories);
 const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
 //do we even need this firestore const??
@@ -94,7 +93,7 @@ async function populateFirestoreDB(messages) {
                 mode='dropdown'
                 selectedValue= {category}
                 onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
-                {categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
+                {loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
               </Picker>
                 <Button mode = "contained" 
                        style = {styles.buttons} 
