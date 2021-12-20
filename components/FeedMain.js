@@ -54,7 +54,7 @@ const MessageItem = props => {
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
     <Text style={styles.messageAuthor}>{props.message.FName} {props.message.LName}</Text>
-    <Text style={styles.messageContent}>{props.message.post}</Text>
+    <Text style={styles.messagePost}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 
   </View> 
@@ -83,23 +83,26 @@ export const Feed = ({navigation}) => {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-  useEffect(() => {
-    getMessagesForCategory(category);  
-    return () => {
-    }
-  }, []);
 
 useEffect(
   () => { 
-    getMessagesForCategory(category); 
+    getMessagesForCategory(selectedCategory); 
   },
-  [category, useFirestore]
+  [selectedCategory, useFirestore]
 ); 
 
 
   async function getMessagesForCategory(cat) {
     if (cat !== 'All') {
       firebaseGetMessagesForCategory(cat);
+    }else {
+      const q = query(collection(loggedInProps.db, 'messages'));
+      const querySnapshot = await getDocs(q);
+      let messages = []; 
+      querySnapshot.forEach(doc => {
+          messages.push(docToMessage(doc));
+      });
+      setSelectedMessages(messages);
     }
   }
 
@@ -107,7 +110,7 @@ useEffect(
     console.log('docToMessage');
     const data = msgDoc.data();
     console.log(msgDoc.id, " => ", data);
-    return {...data, post: data.content , date: new Date(data.timestamp)}
+    return {...data,  date: new Date(data.timestamp)}
   }
 
 async function firebaseGetMessagesForCategory(cat) {
@@ -132,8 +135,8 @@ async function firebaseGetMessagesForCategory(cat) {
         {
           'timestamp': timestamp, 
           'user': message.user, 
-          'category': message.category, 
-          'content': message.post, 
+          'category': message.selectedCategory, 
+          'post': message.post, 
         }
       );
   }
@@ -150,8 +153,8 @@ async function firebaseGetMessagesForCategory(cat) {
         {
           'timestamp': timestamp, 
           'user': message.user, 
-          'category': message.category, 
-          'content': message.post, 
+          'category': message.selectedCategory, 
+          'post': message.post, 
         }
       );
     }

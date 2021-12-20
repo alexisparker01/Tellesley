@@ -17,8 +17,6 @@ const [post, setTextInputValue] = React.useState('');
 const [category,setCategory] = React.useState(loggedInProps.categories);
 const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
-//do we even need this firestore const??
-const [usingFirestore, setUsingFirestore] = useState(true);
 
 function postMessage() {
 
@@ -27,7 +25,7 @@ function postMessage() {
     user: loggedInProps.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
-    category: category, 
+    category: selectedCategory, 
     post: post, 
   }
     firebasePostMessage(newMessage)
@@ -46,7 +44,7 @@ async function firebasePostMessage(msg) {
       {
         'timestamp': msg.timestamp, 
         'user': msg.user, 
-        'category': msg.category, 
+        'category': msg.selectedCategory, 
         'post': msg.post, 
       }
     );
@@ -64,7 +62,7 @@ async function populateFirestoreDB(messages) {
       {
         'timestamp': timestamp, 
         'user': message.user, 
-        'category': message.category, 
+        'category': message.selectedCategory, 
         'post': message.post, 
       }
     );
