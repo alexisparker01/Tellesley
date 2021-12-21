@@ -70,7 +70,7 @@ export const Feed = ({navigation}) => {
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
-  const [useFirestore, setUseFirestore] = useState(testMessages.map( addTimestamp ));
+  const [useFirestore, setUseFirestore] = useState(true);
 
 
   const [state, setState] = useState ({
@@ -87,8 +87,9 @@ export const Feed = ({navigation}) => {
 useEffect(
   () => { 
     getMessagesForCategory(selectedCategory); 
+    setTextInputValue('');
   },
-  [selectedCategory, useFirestore]
+  [selectedCategory, ]
 ); 
 
 
@@ -107,6 +108,12 @@ useEffect(
   }
 
   function docToMessage(msgDoc) {
+    // msgDoc has the form {id: timestampstring, 
+    //                   data: {timestamp: ..., 
+    //                          author: ..., 
+    //                          channel: ..., 
+    //                          content: ...}
+    // Need to add missing date field to data portion, reconstructed from timestamp
     console.log('docToMessage');
     const data = msgDoc.data();
     console.log(msgDoc.id, " => ", data);
@@ -120,6 +127,8 @@ async function firebaseGetMessagesForCategory(cat) {
   let messages = []; 
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
+      console.log("HERE ARE THE MESSAGES")
+      console.log(messages)
   });
   setSelectedMessages(messages);
 }

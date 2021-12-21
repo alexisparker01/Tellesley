@@ -89,9 +89,9 @@ async function populateFirestoreDB(messages) {
               <Picker
                 style={styles.pickerStyles}
                 mode='dropdown'
-                selectedValue= {category}
-                onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
-                {loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
+                selectedValue= {selectedCategory}
+                onValueChange={(itemValue, itemIndex) => setselectedCategory(itemValue)}>
+                {loggedInProps.categories.map(cat => <Picker.Item key={cat} label={cat} value={cat}/>)}
               </Picker>
                 <Button mode = "contained" 
                        style = {styles.buttons} 
