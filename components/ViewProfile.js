@@ -11,7 +11,7 @@ import StateContext from './StateContext.js';
 export const ViewProfile = ({navigation}) => {{
 
    const [userMessages, setUserMessages] = React.useState([]);
-
+   const [selectedMessages, setSelectedMessages] = React.useState([]);
    const loggedInProps = useContext(StateContext);
 
    const [state, setState] = useState ({
@@ -19,6 +19,18 @@ export const ViewProfile = ({navigation}) => {{
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
    })
+
+   const MessageItem = props => { 
+      return (
+      <View style={styles.postContainer}>
+        <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
+        <Text style={styles.messageAuthor}>{props.user.FName} {props.user.LName}</Text>
+        <Text style={styles.messagePost}>{props.message.post}</Text>
+        <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
+    
+      </View> 
+    ); 
+    }
 
    function docToMessage(msgDoc) {
       // msgDoc has the form {id: timestampstring, 
@@ -33,8 +45,30 @@ export const ViewProfile = ({navigation}) => {{
       return {...data,  date: new Date(data.timestamp)}
     }
 
-  async function getUserMessagesFB(us) {
-      const q = query(collection(loggedInProps.db, 'messages'), where('user', '===', us));
+    
+  async function populateFirestoreUsers(users) {
+
+   // Returns a promise to add user to firestore
+   async function addUserToDB(user) {
+ 
+     // Add a new document in collection "users"
+     return setDoc(doc(loggedInProps.db, "users"), 
+       { 
+         'user': user.email, 
+         'FName': user.FName, 
+         'LName': user.LName, 
+       }
+     );
+   }
+ 
+       // Peform one await for all the promises. 
+       await Promise.all(
+         users.map( addUserToDB ) 
+       );
+ }
+
+  async function getUserMessagesDB(us) {
+      const q = query(collection(loggedInProps.db, 'users'), where('user', '===', us));
       const querySnapshot = await getDocs(q);
       //const messages = Array.from(querySnapshot).map( docToMessage );
       let userMsgs = []; 
@@ -67,11 +101,14 @@ export const ViewProfile = ({navigation}) => {{
             <View style = {styles.footer}>
             <Text style = {styles.username}> Posts </Text>
 
+            {(selectedMessages.length === 0) ? 
+            <Text>No messages to display</Text> :
             <FlatList style={styles.messageList}
-            data={getUserMessagesFB(loggedInProps.user)} 
+            data={selectedMessages} 
             renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
             keyExtractor={item => item.timestamp} 
             />
+         }
 
             </View> 
          </View>

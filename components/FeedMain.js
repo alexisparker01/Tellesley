@@ -27,6 +27,7 @@ const testMessages =
 },
 ]
 
+
 const testProfiles = [
   {
     'user': 'km1@wellesley.edu',
@@ -44,6 +45,7 @@ const testProfiles = [
     'LName': 'Zhu'
   },
 ]
+
  
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -53,7 +55,7 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.message.FName} {props.message.LName}</Text>
+    <Text style={styles.messageAuthor}>{props.user.FName} {props.user.LName}</Text>
     <Text style={styles.messagePost}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 
@@ -70,7 +72,7 @@ export const Feed = ({navigation}) => {
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   //const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
-  const [useFirestore, setUseFirestore] = useState(query(collection(loggedInProps.db, 'messages')));
+  const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
   function addTimestamp(message) {
     return {...message, timestamp:message.date.getTime()}
@@ -85,44 +87,45 @@ useEffect(
   [selectedCategory, useFirestore]
 ); 
 
+function docToMessage(msgDoc) {
+  // msgDoc has the form {id: timestampstring, 
+  //                   data: {timestamp: ..., 
+  //                          author: ..., 
+  //                          channel: ..., 
+  //                          content: ...}
+  // Need to add missing date field to data portion, reconstructed from timestamp
+  console.log('docToMessage');
+  const data = msgDoc.data();
+  console.log(msgDoc.id, " => ", data);
+  return {...data,  date: new Date(data.timestamp)}
+}
 
-  async function getMessagesForCategory(cat) {
-    if (cat !== 'All') {
-      firebaseGetMessagesForCategory(cat);
-  }else{
-    const q = query(collection(loggedInProps.db, 'messages'));
-    const querySnapshot = await getDocs(q);
-    //const messages = Array.from(querySnapshot).map( docToMessage );
-    let messages = []; 
-    querySnapshot.forEach(doc => {
-        messages.push(docToMessage(doc));
-    });
-    setSelectedMessages(messages);
-  }
-  }
-
-  function docToMessage(msgDoc) {
-    // msgDoc has the form {id: timestampstring, 
-    //                   data: {timestamp: ..., 
-    //                          author: ..., 
-    //                          channel: ..., 
-    //                          content: ...}
-    // Need to add missing date field to data portion, reconstructed from timestamp
-    console.log('docToMessage');
-    const data = msgDoc.data();
-    console.log(msgDoc.id, " => ", data);
-    return {...data,  date: new Date(data.timestamp)}
-  }
-
-async function firebaseGetMessagesForCategory(cat) {
-  const q = query(collection(loggedInProps.db, 'messages'), where('category', '===', cat));
+async function firebaseGetAllMessages(){
+  const q = query(collection(loggedInProps.db, 'messages'));
   const querySnapshot = await getDocs(q);
-  //const messages = Array.from(querySnapshot).map( docToMessage );
   let messages = []; 
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
   });
   setSelectedMessages(messages);
+}
+
+async function firebaseGetMessagesForCategory(cat) {
+  const q = query(collection(loggedInProps.db, 'messages'), where('category', '===', cat));
+  const querySnapshot = await getDocs(q);
+  let messages = []; 
+  querySnapshot.forEach(doc => {
+      messages.push(docToMessage(doc));
+  });
+  setSelectedMessages(messages);
+}
+
+async function getMessagesForCategory(cat) {
+  if (cat !== 'All') {
+    firebaseGetMessagesForCategory(cat);
+}else{
+    firebaseGetAllMessages();
+}
 }
 
   async function populateFirestoreDB(messages) {
@@ -148,6 +151,7 @@ async function firebaseGetMessagesForCategory(cat) {
           messages.map( addMessageToDB ) 
         );
   }
+
 
     return ( 
 

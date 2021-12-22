@@ -7,6 +7,7 @@ import {getAuth, onAuthStateChanged,
         createUserWithEmailAndPassword,
         sendEmailVerification,
         signOut} from "firebase/auth";
+import { collection, doc, setDoc, query, where, getDocs} from "firebase/firestore";
 import StateContext from './StateContext.js';
 
 
@@ -61,6 +62,7 @@ export const SignUpScreen = ({navigation}) => {
       {setErrorMsg(errorMessage)}
     });
   }
+
 
 
         return (
