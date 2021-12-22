@@ -57,8 +57,9 @@ const MessageItem = props => {
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
     <Text style={styles.messageAuthor}>{props.FName} {props.LName}</Text>
     <Text style={styles.messagePost}>{props.message.post}</Text>
-    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
-
+    <TouchableOpacity mode = "contained" 
+                                style = {styles.buttons} 
+                > <Text style = {styles.buttonText}>Delete </Text></TouchableOpacity>
   </View> 
 ); 
 }
@@ -286,24 +287,17 @@ messageContent: {
   fontSize: 15,
   color:'black',
 },
-delButton: {
-  padding: 16,
-    width: 100,
-    borderRadius: 24,
-    alignItems: 'center', 
-    justifyContent: 'center',
-    backgroundColor: 'rgb(8,58,129)'
+buttons: {
+  backgroundColor: "rgb(8,58,129)",
+  marginBottom: 15,
+  marginTop: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  padding: 5,
+  width: '50%',
 },
-        buttons: {
-           backgroundColor: "rgb(8,58,129)",
-           marginBottom: 15,
-           marginTop: 0,
-           marginLeft: 0,
-           marginRight: 0,
-           padding: 5,
-        },
-
-        buttonText: {
-          color: 'white',
-        }
+buttonText: {
+   color: 'white',
+   textAlign:'center',
+},
 });
