@@ -65,12 +65,12 @@ export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
 
   // State for chat channels and messages
-  const [category,setCategory] = React.useState(loggedInProps.categories);
+  //const [category,setCategory] = React.useState(loggedInProps.categories);
   const [selectedCategory, setSelectedCategory] = React.useState('Classes');
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
-  const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
-  const [useFirestore, setUseFirestore] = useState(true);
+  //const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
+  const [useFirestore, setUseFirestore] = useState(query(collection(loggedInProps.db, 'messages')));
 
   function addTimestamp(message) {
     return {...message, timestamp:message.date.getTime()}
@@ -82,15 +82,24 @@ useEffect(
     getMessagesForCategory(selectedCategory); 
     setTextInputValue('');
   },
-  [selectedCategory, localMessageDB]
+  [selectedCategory, useFirestore]
 ); 
 
 
   async function getMessagesForCategory(cat) {
     if (cat !== 'All') {
       firebaseGetMessagesForCategory(cat);
+  }else{
+    const q = query(collection(loggedInProps.db, 'messages'));
+    const querySnapshot = await getDocs(q);
+    //const messages = Array.from(querySnapshot).map( docToMessage );
+    let messages = []; 
+    querySnapshot.forEach(doc => {
+        messages.push(docToMessage(doc));
+    });
+    setSelectedMessages(messages);
   }
-}
+  }
 
   function docToMessage(msgDoc) {
     // msgDoc has the form {id: timestampstring, 
@@ -128,7 +137,7 @@ async function firebaseGetMessagesForCategory(cat) {
         {
           'timestamp': timestamp, 
           'user': message.user, 
-          'category': message.selectedCategory, 
+          'category': message.category, 
           'post': message.post, 
         }
       );

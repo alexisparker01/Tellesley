@@ -13,7 +13,7 @@ export const ViewProfile = ({navigation}) => {{
    const [userMessages, setUserMessages] = React.useState([]);
 
    const loggedInProps = useContext(StateContext);
-   
+
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
@@ -68,7 +68,7 @@ export const ViewProfile = ({navigation}) => {{
             <Text style = {styles.username}> Posts </Text>
 
             <FlatList style={styles.messageList}
-            data={getUserMessagesFB(loggedInProps.email)} 
+            data={getUserMessagesFB(loggedInProps.user)} 
             renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
             keyExtractor={item => item.timestamp} 
             />

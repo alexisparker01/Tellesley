@@ -14,6 +14,7 @@ const loggedInProps = useContext(StateContext);
 
 
 const [post, setTextInputValue] = React.useState('');
+const [category,setCategory] = React.useState(loggedInProps.categories);
 const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
 
@@ -43,7 +44,7 @@ async function firebasePostMessage(msg) {
       {
         'timestamp': msg.timestamp, 
         'user': msg.user, 
-        'category': msg.selectedCategory, 
+        'category': msg.category, 
         'post': msg.post, 
       }
     );
@@ -61,7 +62,7 @@ async function populateFirestoreDB(messages) {
       {
         'timestamp': timestamp, 
         'user': message.user, 
-        'category': message.selectedCategory, 
+        'category': message.category, 
         'post': message.post, 
       }
     );
