@@ -55,7 +55,7 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.user.FName} {props.user.LName}</Text>
+    <Text style={styles.messageAuthor}>{props.FName} {props.LName}</Text>
     <Text style={styles.messagePost}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 

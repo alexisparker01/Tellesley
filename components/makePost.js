@@ -61,7 +61,7 @@ async function populateFirestoreDB(messages) {
     return setDoc(doc(loggedInProps.db, "messages", timestampString), 
       {
         'timestamp': timestamp, 
-        'user': message.user, 
+        'user': loggedInProps.email, 
         'category': message.category, 
         'post': message.post, 
       }

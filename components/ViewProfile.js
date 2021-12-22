@@ -45,28 +45,6 @@ export const ViewProfile = ({navigation}) => {{
       return {...data,  date: new Date(data.timestamp)}
     }
 
-    
-  async function populateFirestoreUsers(users) {
-
-   // Returns a promise to add user to firestore
-   async function addUserToDB(user) {
- 
-     // Add a new document in collection "users"
-     return setDoc(doc(loggedInProps.db, "users"), 
-       { 
-         'user': user.email, 
-         'FName': user.FName, 
-         'LName': user.LName, 
-       }
-     );
-   }
- 
-       // Peform one await for all the promises. 
-       await Promise.all(
-         users.map( addUserToDB ) 
-       );
- }
-
   async function getUserMessagesDB(us) {
       const q = query(collection(loggedInProps.db, 'users'), where('user', '===', us));
       const querySnapshot = await getDocs(q);

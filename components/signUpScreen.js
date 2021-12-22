@@ -7,7 +7,7 @@ import {getAuth, onAuthStateChanged,
         createUserWithEmailAndPassword,
         sendEmailVerification,
         signOut} from "firebase/auth";
-import { collection, doc, setDoc, query, where, getDocs} from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc, query, where, getDocs} from "firebase/firestore";
 import StateContext from './StateContext.js';
 
 
@@ -17,8 +17,13 @@ export const SignUpScreen = ({navigation}) => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  const newUser = {
+    user: loggedInProps.email, 
+    FName: loggedInProps.FName, 
+    LName: loggedInProps.LName,
+  }
+
     function signUpUserEmailPassword() {
-      console.log('called signUpUserEmailPassword');
       if (loggedInProps.auth.currentUser) {
         signOut(loggedInProps.auth); // sign out auth's current user (who is not loggedInUser, 
                        // or else we wouldn't be here
@@ -39,7 +44,7 @@ export const SignUpScreen = ({navigation}) => {
         setErrorMsg('Email already in use.');
         return;
       }
-
+      firebaseAddUser(newUser);
      // Invoke Firebase authentication API for Email/Password sign up 
     createUserWithEmailAndPassword(loggedInProps.auth, loggedInProps.email, loggedInProps.password)
     .then((userCredential) => {
@@ -63,7 +68,36 @@ export const SignUpScreen = ({navigation}) => {
     });
   }
 
+  // async function populateFirestoreUsers(users) {
 
+  //   // Returns a promise to add user to firestore
+  //   async function addUserToDB(user) {
+  
+  //     // Add a new document in collection "users"
+  //     return setDoc(doc(loggedInProps.db, "users"), 
+  //       { 
+  //         'user': user.email, 
+  //         'FName': user.FName, 
+  //         'LName': user.LName, 
+  //       }
+  //     );
+  //   }
+  
+  //       // Peform one await for all the promises. 
+  //       await Promise.all(
+  //         users.map( addUserToDB ) 
+  //       );
+  // }
+
+  async function firebaseAddUser(user) {
+    await setDoc(doc(loggedInProps.db, "users", user.email), 
+        {
+          'user': user.email, 
+           'FName': user.FName, 
+           'LName': user.LName,
+        }
+      );
+  }
 
         return (
           <View>
