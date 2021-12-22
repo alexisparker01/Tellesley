@@ -13,11 +13,25 @@ export const ViewProfile = ({navigation}) => {{
    const [userMessages, setUserMessages] = React.useState([]);
 
    const loggedInProps = useContext(StateContext);
+   
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
    })
+
+   function docToMessage(msgDoc) {
+      // msgDoc has the form {id: timestampstring, 
+      //                   data: {timestamp: ..., 
+      //                          author: ..., 
+      //                          channel: ..., 
+      //                          content: ...}
+      // Need to add missing date field to data portion, reconstructed from timestamp
+      console.log('docToMessage');
+      const data = msgDoc.data();
+      console.log(msgDoc.id, " => ", data);
+      return {...data,  date: new Date(data.timestamp)}
+    }
 
   async function getUserMessagesFB(us) {
       const q = query(collection(loggedInProps.db, 'messages'), where('user', '===', us));
@@ -52,11 +66,13 @@ export const ViewProfile = ({navigation}) => {{
             </TouchableOpacity>
             <View style = {styles.footer}>
             <Text style = {styles.username}> Posts </Text>
+
             <FlatList style={styles.messageList}
             data={getUserMessagesFB(loggedInProps.email)} 
             renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
             keyExtractor={item => item.timestamp} 
             />
+
             </View> 
          </View>
          <NavigationBar navigation = {navigation} />

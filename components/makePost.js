@@ -12,9 +12,8 @@ export const MakePost = ({navigation}) => {
 
 const loggedInProps = useContext(StateContext);
 
-const [isComposingMessage, setIsComposingMessage] = React.useState(false);
+
 const [post, setTextInputValue] = React.useState('');
-const [category,setCategory] = React.useState(loggedInProps.categories);
 const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
 
@@ -90,7 +89,7 @@ async function populateFirestoreDB(messages) {
                 style={styles.pickerStyles}
                 mode='dropdown'
                 selectedValue= {selectedCategory}
-                onValueChange={(itemValue, itemIndex) => setselectedCategory(itemValue)}>
+                onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
                 {loggedInProps.categories.map(cat => <Picker.Item key={cat} label={cat} value={cat}/>)}
               </Picker>
                 <Button mode = "contained" 

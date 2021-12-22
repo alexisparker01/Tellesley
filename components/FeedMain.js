@@ -72,13 +72,6 @@ export const Feed = ({navigation}) => {
   const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
   const [useFirestore, setUseFirestore] = useState(true);
 
-
-  const [state, setState] = useState ({
-      mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
-      feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
-      profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
-  })
-
   function addTimestamp(message) {
     return {...message, timestamp:message.date.getTime()}
   } 
@@ -89,23 +82,15 @@ useEffect(
     getMessagesForCategory(selectedCategory); 
     setTextInputValue('');
   },
-  [selectedCategory, ]
+  [selectedCategory, localMessageDB]
 ); 
 
 
   async function getMessagesForCategory(cat) {
     if (cat !== 'All') {
       firebaseGetMessagesForCategory(cat);
-    }else {
-      const q = query(collection(loggedInProps.db, 'messages'));
-      const querySnapshot = await getDocs(q);
-      let messages = []; 
-      querySnapshot.forEach(doc => {
-          messages.push(docToMessage(doc));
-      });
-      setSelectedMessages(messages);
-    }
   }
+}
 
   function docToMessage(msgDoc) {
     // msgDoc has the form {id: timestampstring, 
@@ -127,28 +112,9 @@ async function firebaseGetMessagesForCategory(cat) {
   let messages = []; 
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
-      console.log("HERE ARE THE MESSAGES")
-      console.log(messages)
   });
   setSelectedMessages(messages);
 }
-
-
-    // Returns a promise to add message to firestore
-    async function addMessageToDB(message) {
-      const timestamp = message.date.getTime(); // millsecond timestamp
-      const timestampString = timestamp.toString();
-
-      // Add a new document in collection "messages"
-      return setDoc(doc(loggedInProps.db, "messages", timestampString), 
-        {
-          'timestamp': timestamp, 
-          'user': message.user, 
-          'category': message.selectedCategory, 
-          'post': message.post, 
-        }
-      );
-  }
 
   async function populateFirestoreDB(messages) {
 
@@ -197,11 +163,10 @@ async function firebaseGetMessagesForCategory(cat) {
         <Picker
           style={styles.pickerStyles}
           mode='dropdown'
-          selectedValue={category}
-          onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}>
+          selectedValue={selectedCategory}
+          onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
           {loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
         </Picker>
-
 
         {(selectedMessages.length === 0) ? 
          <Text>No messages to display</Text> :
