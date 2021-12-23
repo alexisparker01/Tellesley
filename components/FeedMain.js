@@ -13,6 +13,11 @@ export const Feed = ({navigation}) => {
 
 const loggedInProps = useContext(StateContext);
 
+
+const[count, setCount] = useState(0);
+const likers = React.useState([]);
+const [isLiked, setIsLiked] = useState(false);
+
   function formatDateTime(date) {
     return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
   }
@@ -25,6 +30,8 @@ const loggedInProps = useContext(StateContext);
       <Text style={styles.messageAuthor}>{props.message.user}</Text>
       <Text style={styles.messageContent}>{props.message.post}</Text>
       <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
+      <Text>{count}</Text>
   
     </View> 
   ); 
@@ -114,6 +121,20 @@ async function getMessagesForCategory(cat) {
           messages.map( addMessageToDB ) 
         );
   }
+
+  function like(){
+    if(!isLiked)
+      //indexOf returns -1 if the element is not found in the array
+      if(likers.indexOf(loggedInProps.loggedInUser.email) === -1){
+        likers.push(loggedInProps.loggedInUser.email)
+        setCount(count + 1);
+
+      }else{
+        //make it true to indicate the post is liked
+        setIsLiked(!isLiked);
+      }
+    } 
+  
 
     return ( 
 
@@ -253,6 +274,16 @@ messageCategory: {
   padding:5,
   fontSize: 15,
   color:'black',
+},
+likeButton: {
+  backgroundColor: "#919191",
+  marginBottom: 4,
+  marginTop: 4,
+  textAlign: 'center',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 5,
+  width: '10%',
 },
 buttons: {
   backgroundColor: "rgb(8,58,129)",

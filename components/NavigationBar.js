@@ -7,23 +7,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 function NavigationBar(props) {
 
-   const [state, setState] = useState ({
-      mapIcon: 'https://cdn-icons-png.flaticon.com/512/149/149442.png', 
+   const [state, setState] = useState ({ 
       feedIcon: 'https://cdn-icons-png.flaticon.com/512/25/25694.png',
       profileIcon: 'https://cdn-icons-png.flaticon.com/512/64/64572.png',
    })
 
    return (
       <View style = {styles.container}>
-      
-      <TouchableOpacity onPress= {() => props.navigation.navigate('Map')}>
-         <Image 
-         style={styles.pictures}
-         source={{
-            uri: state.mapIcon,
-         }}
-         />
-      </TouchableOpacity>
 
          <TouchableOpacity onPress= {() => props.navigation.navigate('Feed')}>
          <Image 

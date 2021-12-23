@@ -11,7 +11,6 @@ import {MakePost} from './components/makePost.js';
 import NavigationBar from './components/NavigationBar.js';
 import ViewProfile from './components/ViewProfile.js';
 import StateContext from './components/StateContext.js';
-import {Map} from './components/Map';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import {getFirestore, 
@@ -44,7 +43,6 @@ export default function App(props) {
   const [bio, setBio] = React.useState('Wellesley 2023');
 
   const [loggedInUser, setLoggedInUser] = React.useState(null);
-  const [loggedInUserFName, setLoggedInUserFName] = React.useState('');
   
   const logOutUser = username => (setloggedInUser(null));
 
@@ -54,7 +52,7 @@ export default function App(props) {
 
   const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-  const loggedInProps = {loggedInUser,logOutUser, loggedInUserFName, setLoggedInUserFName, email ,password, password2, confirmPassword, FName, LName, bio,
+  const loggedInProps = {loggedInUser,logOutUser, email ,password, password2, confirmPassword, FName, LName, bio,
     setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
     firebaseApp, auth, db, firebaseConfig, categories }
 
@@ -71,7 +69,6 @@ export default function App(props) {
           <Stack.Screen name="New Post" component={MakePost}/>
           <Stack.Screen name="Profile" component={ViewProfile}/>
           <Stack.Screen name="EditProfile" component={EditProfile}/>
-          <Stack.Screen name="Map" component={Map}/>
       
         </Stack.Navigator>
       </NavigationContainer> 
