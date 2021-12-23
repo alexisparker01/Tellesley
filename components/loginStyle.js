@@ -41,7 +41,7 @@ export const loginStyle = StyleSheet.create({
         borderWidth: 1
     },
     view: {
-       width: "90%",
+       width: "70%",
     },
     appTitle: {
         margin: 24,

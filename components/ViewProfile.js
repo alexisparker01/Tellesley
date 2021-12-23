@@ -17,6 +17,7 @@ export const ViewProfile = ({navigation}) => {{
    const loggedInProps = useContext(StateContext);
    const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
+
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
@@ -66,8 +67,18 @@ export const ViewProfile = ({navigation}) => {{
       return {...data,  date: new Date(data.timestamp)}
     }
 
-  async function getMessagesForUser(us) {
+    async function getFName(us){
       const q = query(collection(loggedInProps.db, 'users'), where('email', '==', us));
+      const querySnapshot = await getDocs(q);
+      let getName = [];
+      querySnapshot.forEach(doc => {
+         getName.push(docToMessage(doc))
+      })
+    }
+
+  async function getMessagesForUser(us) {
+     //gets the user object with this email
+      const q = query(collection(loggedInProps.db, 'messages'), where('email', '==', us));
       const querySnapshot = await getDocs(q);
 
       let userMsgs = []; 

@@ -52,6 +52,8 @@ export const SignUpScreen = ({navigation}) => {
           // ...
         });
 
+        loggedInProps.setLoggedInUserFName(loggedInProps.FName);
+        
         const newUser = {
           email: loggedInProps.email, 
           FName: loggedInProps.FName, 
@@ -67,27 +69,6 @@ export const SignUpScreen = ({navigation}) => {
       {setErrorMsg(errorMessage)}
     });
   }
-
-  // async function populateFirestoreUsers(users) {
-
-  //   // Returns a promise to add user to firestore
-  //   async function addUserToDB(user) {
-  
-  //     // Add a new document in collection "users"
-  //     return setDoc(doc(loggedInProps.db, "users"), 
-  //       { 
-  //         'user': user.email, 
-  //         'FName': user.FName, 
-  //         'LName': user.LName, 
-  //       }
-  //     );
-  //   }
-  
-  //       // Peform one await for all the promises. 
-  //       await Promise.all(
-  //         users.map( addUserToDB ) 
-  //       );
-  // }
 
   async function firebaseAddUser(user) {
     console.log('add user', JSON.stringify(user));

@@ -9,21 +9,13 @@ import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
 
-function formatDateTime(date) {
-  return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
-}
-
-
 export const Feed = ({navigation}) => {
-  const loggedInProps = useContext(StateContext);
 
- //if user email field === messages user field: 
-/*   async function deletePost(timestampString){
-    await deleteDoc(doc(loggedInProps.db, "messages", timestampString))
+const loggedInProps = useContext(StateContext);
 
-    await Promise.all();
-  } */
-
+  function formatDateTime(date) {
+    return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
+  }
   
   const MessageItem = props => { 
     return (
@@ -58,17 +50,12 @@ useEffect(
 ); 
 
 function docToMessage(msgDoc) {
-  // msgDoc has the form {id: timestampstring, 
-  //                   data: {timestamp: ..., 
-  //                          author: ..., 
-  //                          channel: ..., 
-  //                          content: ...}
-  // Need to add missing date field to data portion, reconstructed from timestamp
   console.log('docToMessage');
   const data = msgDoc.data();
   console.log(msgDoc.id, " => ", data);
   return {...data,  date: new Date(data.timestamp)}
 }
+
 
 async function firebaseGetAllMessages(){
   const q = query(collection(loggedInProps.db, 'messages'));
@@ -128,15 +115,16 @@ async function getMessagesForCategory(cat) {
         );
   }
 
-
     return ( 
 
     <View style={styles.container}>
     {/* remove arrow going back to login page -> change to "logout" button */}
     {/* upper white section */}
       <View style = {styles.header}>
+      
       <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
       </View>
+
 
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
@@ -212,7 +200,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   pickerStyles:{
-    width:'100%',
+    width:'70%',
     marginBottom: 10,
     backgroundColor:'white',
     },
@@ -228,13 +216,13 @@ const styles = StyleSheet.create({
      }
 ,
 messageList: {
-  width:'100%',
+  width:'90%',
   marginTop: 5,
   marginBottom:5,
 },
 messageItem: {
-  marginTop: 5,
-  marginBottom: 5,
+  marginTop: 10,
+  marginBottom: 10,
   backgroundColor:'bisque',
   color:'black',
   borderWidth: 1,
@@ -269,6 +257,10 @@ messageCategory: {
 buttons: {
   backgroundColor: "rgb(8,58,129)",
   marginBottom: 15,
+  marginTop: 7,
+  textAlign: 'center',
+  alignItems: 'center',
+  justifyContent: 'center',
   padding: 5,
   width: '40%',
 },
