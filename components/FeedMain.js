@@ -98,6 +98,10 @@ async function getMessagesForCategory(cat) {
 }
 }
 
+function deleteMessage(message){
+  console.log(message)
+}
+
   async function populateFirestoreDB(messages) {
 
     // Returns a promise to add message to firestore
