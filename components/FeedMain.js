@@ -55,16 +55,10 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-<<<<<<< Updated upstream
-    <Text style={styles.messageAuthor}>{props.FName} {props.LName}</Text>
-    <Text style={styles.messagePost}>{props.message.post}</Text>
-    <TouchableOpacity mode = "contained" style = {styles.buttons}> <Text style = {styles.buttonText}> Delete </Text></TouchableOpacity>
-=======
     <Text style={styles.messageAuthor}>{props.message.user}</Text>
     <Text style={styles.messageContent}>{props.message.post}</Text>
     <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
 
->>>>>>> Stashed changes
   </View> 
 ); 
 }
