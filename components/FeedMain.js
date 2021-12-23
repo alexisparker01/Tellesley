@@ -57,9 +57,7 @@ const MessageItem = props => {
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
     <Text style={styles.messageAuthor}>{props.FName} {props.LName}</Text>
     <Text style={styles.messagePost}>{props.message.post}</Text>
-    <TouchableOpacity mode = "contained" 
-                                style = {styles.buttons} 
-                > <Text style = {styles.buttonText}>Delete </Text></TouchableOpacity>
+    <TouchableOpacity mode = "contained" style = {styles.buttons}> <Text style = {styles.buttonText}> Delete </Text></TouchableOpacity>
   </View> 
 ); 
 }
@@ -166,13 +164,10 @@ async function getMessagesForCategory(cat) {
       {/*The footer is the gray part, but its height doesn't extend for
       some reason? The amount of gray is static and I don't know how to fix it. */}
       <View style = {styles.footer}>
-{/*         <Button title = 'populate'
-                onPress = {() => populateFirestoreDB(testMessages)}> 
-        </Button> */}
         <NewPostButton
                         color= 'rgb(8,58,129)' 
                         onPress={() => navigation.navigate('New Post')}
-        ><Text style = {styles.buttonText}>New Post</Text></NewPostButton>
+                        ><Text style = {styles.buttonText}>New Post</Text></NewPostButton>
         <Text style = {styles.subTitleText}> Recent Activity </Text>
         <Picker
           style={styles.pickerStyles}
