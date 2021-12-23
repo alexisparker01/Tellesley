@@ -1,4 +1,4 @@
-import React, { useState, useContext, Component } from 'react'
+import React, { useState, useEffect, useContext, Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FlatList, View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
@@ -11,14 +11,25 @@ import StateContext from './StateContext.js';
 export const ViewProfile = ({navigation}) => {{
 
    const [userMessages, setUserMessages] = React.useState([]);
+   const [textInputValue, setTextInputValue] = useState('');
+   const [selectedCategory, setSelectedCategory] = React.useState('All');
    const [selectedMessages, setSelectedMessages] = React.useState([]);
    const loggedInProps = useContext(StateContext);
+   const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
       profilePicture: 'https://th.bing.com/th/id/OIP.vIq_QWTLmuEoct13lW83UwHaHa?pid=ImgDet&rs=1',
       currentUser: true,
    })
+
+   function formatDateTime(date) {
+      return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
+    }
+
+   function addTimestamp(message) {
+      return {...message, timestamp:message.date.getTime()}
+    } 
 
    const MessageItem = props => { 
       return (
@@ -32,7 +43,16 @@ export const ViewProfile = ({navigation}) => {{
     ); 
     }
 
-   function docToMessage(msgDoc) {
+    useEffect(
+      () => { 
+        getMessagesForUser(loggedInProps.loggedInUser.email);
+        //console.log("your email is:" + loggedInProps.loggedInUser.email);
+        setTextInputValue('');
+      },
+      [selectedCategory, useFirestore]
+    );
+
+    function docToMessage(msgDoc) {
       // msgDoc has the form {id: timestampstring, 
       //                   data: {timestamp: ..., 
       //                          author: ..., 
@@ -45,16 +65,18 @@ export const ViewProfile = ({navigation}) => {{
       return {...data,  date: new Date(data.timestamp)}
     }
 
-  async function getUserMessagesDB(us) {
-      const q = query(collection(loggedInProps.db, 'users'), where('user', '==', us));
+  async function getMessagesForUser(us) {
+      const q = query(collection(loggedInProps.db, 'users'), where('email', '==', us));
       const querySnapshot = await getDocs(q);
-      //const messages = Array.from(querySnapshot).map( docToMessage );
+
       let userMsgs = []; 
       querySnapshot.forEach(doc => {
           userMsgs.push(docToMessage(doc));
       });
-      setUserMessages( userMsgs );
+      setSelectedMessages( userMsgs );
+      console.log("User messages: " + selectedMessages);
     }
+
 
       return (
     

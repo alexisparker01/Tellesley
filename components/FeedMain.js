@@ -1,52 +1,14 @@
 import React, {useState, useEffect, useContext } from 'react';
-import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker, Alert } from 'react-native';
+import { FlatList, Text, View, StyleSheet, TouchableOpacity, Picker, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton';
 import { collection, doc, setDoc,
-          query, where, getDocs, deleteDoc, Firestore, DocumentSnapshot} from "firebase/firestore";
+          query, where, getDocs} from "firebase/firestore";
 import { MakePost } from './makePost.js';
 import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 
-const testMessages = 
-[
- {'user': 'km1@wellesley.edu',
- 'date': new Date(2021, 10, 29, 13, 12, 46, 1234),
-  'post': 'Is there no hot water for anyone else in Shafer?',
-  'category': 'Life'
- },
- {'user': 'hz4@wellesley.edu',
- 'date': new Date(2021, 9, 25, 13, 12, 47, 1234),
- 'post': 'I wish we could be done with finals now...',
- 'category': 'Life'
-},
-{'user': 'ap7@wellesley.edu',
-'date': new Date(2021, 10, 30, 17, 33, 52, 1234), 
-'post': 'has anyone taken CS235 before? Thoughts?',
-'category': 'Classes'
-},
-]
 
-
-const testProfiles = [
-  {
-    'user': 'km1@wellesley.edu',
-    'FName': 'Kate',
-    'LName': 'MacVicar'
-  },
-  {
-    'user': 'ap7@wellesley.edu',
-    'FName': 'Alexis',
-    'LName': 'Parker'
-  },
-  {
-    'user': 'hz4@wellesley.edu',
-    'FName': 'Hope',
-    'LName': 'Zhu'
-  },
-]
-
- 
 function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
 }
@@ -77,20 +39,16 @@ export const Feed = ({navigation}) => {
   }
 
   // State for chat channels and messages
-  //const [category,setCategory] = React.useState(loggedInProps.categories);
   const [selectedCategory, setSelectedCategory] = React.useState('All');
   console.log("the current catergory is: " + selectedCategory);
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
-  //const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
   const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
   function addTimestamp(message) {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-
- 
 useEffect(
   () => { 
     getMessagesForCategory(selectedCategory); 
@@ -121,6 +79,7 @@ async function firebaseGetAllMessages(){
   });
   messages.reverse();
   setSelectedMessages(messages);
+
 }
 
 async function firebaseGetMessagesForCategory(cat) {
