@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext } from 'react';
-import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import { FlatList, Button, Text, View, StyleSheet, TouchableOpacity, Picker, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import NewPostButton from './newPostButton';
 import { collection, doc, setDoc,
-          query, where, getDocs} from "firebase/firestore";
+          query, where, getDocs, deleteDoc, Firestore, DocumentSnapshot} from "firebase/firestore";
 import { MakePost } from './makePost.js';
 import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
@@ -51,21 +51,30 @@ function formatDateTime(date) {
   return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
 }
 
-const MessageItem = props => { 
-  return (
-  <View style={styles.postContainer}>
-    <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageCatergory}>{props.message.category}</Text>
-    <Text style={styles.messageAuthor}>{props.message.user}</Text>
-    <Text style={styles.messageContent}>{props.message.post}</Text>
-    <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
-
-  </View> 
-); 
-}
 
 export const Feed = ({navigation}) => {
   const loggedInProps = useContext(StateContext);
+
+ //if user email field === messages user field: 
+/*   async function deletePost(timestampString){
+    await deleteDoc(doc(loggedInProps.db, "messages", timestampString))
+
+    await Promise.all();
+  } */
+
+  
+  const MessageItem = props => { 
+    return (
+    <View style={styles.postContainer}>
+      <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
+      <Text style={styles.messageCategory}>{props.message.category}</Text>
+      <Text style={styles.messageAuthor}>{props.message.user}</Text>
+      <Text style={styles.messageContent}>{props.message.post}</Text>
+      <TouchableOpacity style={styles.buttons}onPress = { () => {deletePost(props.message.timestamp)}}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
+  
+    </View> 
+  ); 
+  }
 
   // State for chat channels and messages
   //const [category,setCategory] = React.useState(loggedInProps.categories);
@@ -79,6 +88,7 @@ export const Feed = ({navigation}) => {
   function addTimestamp(message) {
     return {...message, timestamp:message.date.getTime()}
   } 
+
 
  
 useEffect(
@@ -112,9 +122,6 @@ async function firebaseGetAllMessages(){
   messages.reverse();
   setSelectedMessages(messages);
 }
-
-
-
 
 async function firebaseGetMessagesForCategory(cat) {
   const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
@@ -293,7 +300,7 @@ messageContent: {
   fontSize: 15,
   color:'black',
 },
-messageCatergory: {
+messageCategory: {
   paddingLeft: 10,
   paddingBottom: 3,
   padding:5,
@@ -303,11 +310,8 @@ messageCatergory: {
 buttons: {
   backgroundColor: "rgb(8,58,129)",
   marginBottom: 15,
-  marginTop: 0,
-  marginLeft: 0,
-  marginRight: 0,
   padding: 5,
-  width: '50%',
+  width: '40%',
 },
 buttonText: {
    color: 'white',

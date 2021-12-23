@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
    container: {
       flex: 1,
       backgroundColor: 'white',
-      fontFamily: "Time New Roman",
+      fontFamily: "Times New Roman",
    },
    messageList: {
       width:'100%',
