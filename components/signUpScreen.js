@@ -17,12 +17,6 @@ export const SignUpScreen = ({navigation}) => {
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const newUser = {
-    user: loggedInProps.email, 
-    FName: loggedInProps.FName, 
-    LName: loggedInProps.LName,
-  }
-
     function signUpUserEmailPassword() {
       if (loggedInProps.auth.currentUser) {
         signOut(loggedInProps.auth); // sign out auth's current user (who is not loggedInUser, 
@@ -44,15 +38,12 @@ export const SignUpScreen = ({navigation}) => {
         setErrorMsg('Email already in use.');
         return;
       }
-      firebaseAddUser(newUser);
      // Invoke Firebase authentication API for Email/Password sign up 
     createUserWithEmailAndPassword(loggedInProps.auth, loggedInProps.email, loggedInProps.password)
-    .then((userCredential) => {
+    .then(async(userCredential) => {
 
       // Clear email/password inputs
       const savedEmail = loggedInProps.email; // Save for email verification
-      loggedInProps.setEmail('');
-      loggedInProps.setPassword('');
       //loggedInProps.confirmPassword('');
       sendEmailVerification(loggedInProps.auth.currentUser)
       .then(() => {
@@ -60,6 +51,15 @@ export const SignUpScreen = ({navigation}) => {
           // Email verification sent!
           // ...
         });
+
+        const newUser = {
+          email: loggedInProps.email, 
+          FName: loggedInProps.FName, 
+          LName: loggedInProps.LName,
+        }
+
+        await firebaseAddUser(newUser);
+
     })
     .catch((error) => {
       const errorMessage = error.message;
@@ -90,13 +90,13 @@ export const SignUpScreen = ({navigation}) => {
   // }
 
   async function firebaseAddUser(user) {
-    await setDoc(doc(loggedInProps.db, "users", user.email), 
-        {
-          'user': user.email, 
-           'FName': user.FName, 
-           'LName': user.LName,
-        }
-      );
+    console.log('add user', JSON.stringify(user));
+    await setDoc(doc(loggedInProps.db, "users", user.email), user);
+
+      loggedInProps.setEmail('');
+      loggedInProps.setPassword('');
+      loggedInProps.setLName('');
+      loggedInProps.setFName('');
   }
 
         return (

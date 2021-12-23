@@ -55,11 +55,13 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-    <Text style={styles.messageAuthor}>{props.FName} {props.LName}</Text>
+    <Text style={styles.messageAuthor}>{props.FName} </Text>
     <Text style={styles.messagePost}>{props.message.post}</Text>
     <TouchableOpacity mode = "contained" 
-                                style = {styles.buttons} 
-                > <Text style = {styles.buttonText}>Delete </Text></TouchableOpacity>
+                      style = {styles.buttons} 
+                >
+        <Text style = {styles.buttonText}>Delete </Text>
+    </TouchableOpacity>
   </View> 
 ); 
 }
@@ -178,9 +180,9 @@ async function getMessagesForCategory(cat) {
           style={styles.pickerStyles}
           mode='dropdown'
           selectedValue={selectedCategory}
-          onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
-          {loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)}
-        </Picker>
+          onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>{
+          loggedInProps.categories.map(clr => <Picker.Item key={clr} label={clr} value={clr}/>)
+          }</Picker>
 
         {(selectedMessages.length === 0) ? 
          <Text>No messages to display</Text> :

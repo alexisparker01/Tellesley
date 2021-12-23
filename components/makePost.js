@@ -19,10 +19,10 @@ const [selectedCategory, setSelectedCategory] = React.useState('Classes');
 
 
 function postMessage() {
-
+console.log('post message: loggedInProps.loggedInUser.email', loggedInProps.loggedInUser.email);
   const now = new Date();
   const newMessage = {
-    user: loggedInProps.email, 
+    user: loggedInProps.loggedInUser.email, 
     date: now, 
     timestamp: now.getTime(), // millsecond timestamp
     category: selectedCategory, 
@@ -38,6 +38,7 @@ function cancelButton() {
 }
 
 async function firebasePostMessage(msg) {
+  console.log('firebase post message', JSON.stringify(msg));
   // Add a new document in collection "messages"
   const timestampString = msg.timestamp.toString();
   await setDoc(doc(loggedInProps.db, "messages", timestampString), 

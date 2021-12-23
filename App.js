@@ -52,7 +52,7 @@ export default function App(props) {
 
   const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-  const loggedInProps = {loggedInUser,logOutUser, email,password, password2, confirmPassword, FName, LName, bio,
+  const loggedInProps = {loggedInUser,logOutUser, email ,password, password2, confirmPassword, FName, LName, bio,
     setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
     firebaseApp, auth, db, firebaseConfig, categories }
 
