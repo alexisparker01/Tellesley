@@ -55,9 +55,10 @@ const MessageItem = props => {
   return (
   <View style={styles.postContainer}>
     <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
+    <Text style={styles.messageCatergory}>{props.message.category}</Text>
     <Text style={styles.messageAuthor}>{props.message.user}</Text>
     <Text style={styles.messageContent}>{props.message.post}</Text>
-    <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
+    <TouchableOpacity><Button style={styles.buttons} title='Delete'></Button></TouchableOpacity>
 
   </View> 
 ); 
@@ -68,7 +69,8 @@ export const Feed = ({navigation}) => {
 
   // State for chat channels and messages
   //const [category,setCategory] = React.useState(loggedInProps.categories);
-  const [selectedCategory, setSelectedCategory] = React.useState('Classes');
+  const [selectedCategory, setSelectedCategory] = React.useState('All');
+  console.log("the current catergory is: " + selectedCategory);
   const [selectedMessages, setSelectedMessages] = React.useState([]);
   const [textInputValue, setTextInputValue] = useState('');
   //const [localMessageDB, setLocalMessageDB] = useState(testMessages.map( addTimestamp ));
@@ -78,7 +80,7 @@ export const Feed = ({navigation}) => {
     return {...message, timestamp:message.date.getTime()}
   } 
 
-
+ 
 useEffect(
   () => { 
     getMessagesForCategory(selectedCategory); 
@@ -110,19 +112,24 @@ async function firebaseGetAllMessages(){
   setSelectedMessages(messages);
 }
 
+
+
+
 async function firebaseGetMessagesForCategory(cat) {
-  const q = query(collection(loggedInProps.db, 'messages'), where('category', '===', cat));
+  const q = query(collection(loggedInProps.db, 'messages'), where('category', '==', cat));
   const querySnapshot = await getDocs(q);
   let messages = []; 
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
+      console.log("this is the doc in cat firebase messages " + doc);
   });
   setSelectedMessages(messages);
 }
 
 async function getMessagesForCategory(cat) {
-  if (cat !== 'All') {
+  if (cat != 'All') {
     firebaseGetMessagesForCategory(cat);
+
 }else{
     firebaseGetAllMessages();
 }
@@ -277,6 +284,13 @@ messageAuthor: {
   color:'rgb(8,58,129)',
 },
 messageContent: {
+  paddingLeft: 10,
+  paddingBottom: 3,
+  padding:5,
+  fontSize: 15,
+  color:'black',
+},
+messageCatergory: {
   paddingLeft: 10,
   paddingBottom: 3,
   padding:5,
