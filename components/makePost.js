@@ -79,7 +79,7 @@ async function populateFirestoreDB(messages) {
 
      return (
 
-      <KeyboardAwareScrollView contentCOntainerStyle = {styles.container}
+      <KeyboardAwareScrollView contentContainerStyle = {styles.container}
                                 resetScrollToCoords = {{x: 0, Y:0}}
                                 scrollEnabled = {false}
       >
