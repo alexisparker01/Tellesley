@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, View, Text, TouchableOpacity, TextInput, StyleSheet, Image} from 'react-native'
+import { FlatList, View, Text, TouchableOpacity, TextInput, Button, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
 import { collection, doc, setDoc,
@@ -31,13 +31,14 @@ export const ViewProfile = ({navigation}) => {{
       return {...message, timestamp:message.date.getTime()}
     } 
 
-   const MessageItem = props => { 
+    const MessageItem = props => { 
       return (
       <View style={styles.postContainer}>
         <Text style={styles.messageDateTime}>{formatDateTime(props.message.date)}</Text>
-        <Text style={styles.messageAuthor}>{props.user.FName} {props.user.LName}</Text>
-        <Text style={styles.messagePost}>{props.message.post}</Text>
-        <TouchableOpacity><Button style={styles.delButton}>Delete</Button></TouchableOpacity>
+        <Text style={styles.messageCategory}>{props.message.category}</Text>
+        <Text style={styles.messageAuthor}>{props.message.user}</Text>
+        <Text style={styles.messageContent}>{props.message.post}</Text>
+        <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
     
       </View> 
     ); 
@@ -80,7 +81,7 @@ export const ViewProfile = ({navigation}) => {{
 
       return (
     
-      <ScrollView style = {styles.container}>
+      <View style = {styles.container}>
          <View style = {styles.header}> 
             <Text style = {styles.username}>{loggedInProps.FName}</Text>
             <Image 
@@ -104,16 +105,16 @@ export const ViewProfile = ({navigation}) => {{
             {(selectedMessages.length === 0) ? 
             <Text>No messages to display</Text> :
             <FlatList style={styles.messageList}
-            data={selectedMessages} 
-            renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
-            keyExtractor={item => item.timestamp} 
+               data={selectedMessages} 
+               renderItem={ datum => <MessageItem message={datum.item}></MessageItem>} 
+               keyExtractor={item => item.timestamp} 
             />
-         }
+            }
 
             </View> 
          </View>
          <NavigationBar navigation = {navigation} />
-      </ScrollView>
+      </View>
    
       )
          }
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
       fontFamily: "Times New Roman",
    },
    messageList: {
-      width:'100%',
+      width:'90%',
       marginTop: 5,
       marginBottom:5,
     },
@@ -144,8 +145,8 @@ const styles = StyleSheet.create({
       marginTop: 10,
       height: "100%",
       width: "90%",
-      borderTopLeftRadius: 1000, 
-      borderTopRightRadius: 1000, 
+      borderTopLeftRadius: 800, 
+      borderTopRightRadius: 800, 
       paddingVertical: 50, 
       paddingHorizontal: 30,
       alignItems: 'center',
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 5,
       borderBottomLeftRadius: 5,
       borderBottomRightRadius: 5,
+      textAlign: 'center'
    },
    username: {
      padding: 10,

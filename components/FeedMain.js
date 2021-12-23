@@ -32,7 +32,7 @@ export const Feed = ({navigation}) => {
       <Text style={styles.messageCategory}>{props.message.category}</Text>
       <Text style={styles.messageAuthor}>{props.message.user}</Text>
       <Text style={styles.messageContent}>{props.message.post}</Text>
-      <TouchableOpacity style={styles.buttons}onPress = { () => {deletePost(props.message.timestamp)}}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
   
     </View> 
   ); 
