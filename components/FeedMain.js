@@ -58,7 +58,7 @@ const MessageItem = props => {
     <Text style={styles.messageCatergory}>{props.message.category}</Text>
     <Text style={styles.messageAuthor}>{props.message.user}</Text>
     <Text style={styles.messageContent}>{props.message.post}</Text>
-    <TouchableOpacity><Button style={styles.buttons} title='Delete'></Button></TouchableOpacity>
+    <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
 
   </View> 
 ); 
