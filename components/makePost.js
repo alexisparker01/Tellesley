@@ -1,7 +1,8 @@
 import React, {useState, useContext} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, View, TextInput, DismissKeyboard, TouchableOpacity, StyleSheet, Picker} from 'react-native';
+import { SafeAreaView, View, TextInput, Keyboard, DismissKeyboard, TouchableOpacity, StyleSheet, Picker, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Card, Button, Text } from 'react-native-paper';
 import {getFirestore, collection, doc, addDoc, setDoc,query, where, getDocs
 } from "firebase/firestore";
@@ -78,15 +79,20 @@ async function populateFirestoreDB(messages) {
 
      return (
 
-      <View style = {styles.container}>
+      <KeyboardAwareScrollView contentCOntainerStyle = {styles.container}
+                                resetScrollToCoords = {{x: 0, Y:0}}
+                                scrollEnabled = {false}
+      >
       <SafeAreaView style = {styles.container}>
             <TextInput multiline = "true"
+                      onPress = {Keyboard.dismiss}
                       editable style = {styles.textInputArea} 
                       maxLength={100} 
                       placeholder={"Dear Tellesley..."} 
                       value = {post}
                       onChangeText={text => setTextInputValue(text)}
             />
+
               <Picker
                 style={styles.pickerStyles}
                 mode='dropdown'
@@ -99,7 +105,7 @@ async function populateFirestoreDB(messages) {
                       onPress= {postMessage}> <Text style = {styles.buttonText}>Post</Text></Button>
                 <Button mode = "contained" style = {styles.subuttons} onPress={() => cancelButton()}> <Text style = {styles.buttonText}>Cancel </Text> </Button>
       </SafeAreaView>
-    </View>
+    </KeyboardAwareScrollView>
      )
 }
 
