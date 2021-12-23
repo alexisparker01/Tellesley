@@ -109,6 +109,7 @@ async function firebaseGetAllMessages(){
   querySnapshot.forEach(doc => {
       messages.push(docToMessage(doc));
   });
+  messages.reverse();
   setSelectedMessages(messages);
 }
 
@@ -123,6 +124,8 @@ async function firebaseGetMessagesForCategory(cat) {
       messages.push(docToMessage(doc));
       console.log("this is the doc in cat firebase messages " + doc);
   });
+
+  messages.reverse();
   setSelectedMessages(messages);
 }
 

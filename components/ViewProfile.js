@@ -46,7 +46,7 @@ export const ViewProfile = ({navigation}) => {{
     }
 
   async function getUserMessagesDB(us) {
-      const q = query(collection(loggedInProps.db, 'users'), where('user', '===', us));
+      const q = query(collection(loggedInProps.db, 'users'), where('user', '==', us));
       const querySnapshot = await getDocs(q);
       //const messages = Array.from(querySnapshot).map( docToMessage );
       let userMsgs = []; 
