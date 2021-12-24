@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40,
     color:'#5d5d5d',
-    fontFamily: 'Times New Roman'
   },
   pickerStyles:{
     width:'37%',

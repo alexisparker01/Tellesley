@@ -216,13 +216,11 @@ const styles = StyleSheet.create({
     color: "rgb(6,12,51)",
     margin: 24,
     fontSize: 41,
-    fontFamily: "Times New Roman",
     textAlign: 'center',
   },
   subTitleText: {
     margin: 24,
     fontSize: 25,
-    fontFamily: "Times New Roman",
     textAlign: 'center'
   },
   pickerStyles:{

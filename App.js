@@ -31,13 +31,11 @@ export default function App(props) {
 
   //const [email, setEmail] = React.useState('');
   //const [password, setPassword] = React.useState('');
-  const [email, setEmail] = React.useState('km1@wellesley.edu');
-  const [password, setPassword] = React.useState('kateamacv');
-  const [password2, setpassword2] = useState('kateamacv');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [FName, setFName] = React.useState('Kate');
-  const [LName, setLName] = React.useState('MacVicar');
-  const [bio, setBio] = React.useState('Wellesley 2023');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [FName, setFName] = React.useState('');
+  const [LName, setLName] = React.useState('');
+  const [bio, setBio] = React.useState('');
 
   const [loggedInUser, setLoggedInUser] = React.useState(null);
   const logOutUser = username => (setLoggedInUser(null));
@@ -48,8 +46,8 @@ export default function App(props) {
 
   const categories = ['All','Classes', 'Events', 'FAQ', 'Life', 'Free&ForSale'];
 
-  const loggedInProps = {loggedInUser,logOutUser, email ,password, password2, confirmPassword, FName, LName, bio,
-    setEmail, setPassword, setpassword2, setConfirmPassword, setLoggedInUser, setFName, setLName, setBio, 
+  const loggedInProps = {loggedInUser,logOutUser, email ,password, FName, LName, bio,
+    setEmail, setPassword, setLoggedInUser, setFName, setLName, setBio, 
     firebaseApp, auth, db, firebaseConfig, categories }
 
 
