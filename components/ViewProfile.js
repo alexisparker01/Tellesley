@@ -147,6 +147,8 @@ export default ViewProfile
 const styles = StyleSheet.create({
    container: {
       flex: 1,
+      alignContent: 'center',
+      justifyContent: 'center',
       backgroundColor: 'white',
       fontFamily: "Times New Roman",
    },
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
       flex: 1,
       height: "100%",
       justifyContent: 'center',
+      alignContent: 'center',
       alignItems: 'center',
       backgroundColor: 'rgb(233,233,233)',
     },
@@ -175,6 +178,9 @@ const styles = StyleSheet.create({
       backgroundColor: 'white'
     },
    buttons: {
+      textAlign: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
       backgroundColor: "rgb(8,58,129)",
       marginTop: 15,
       marginBottom: 15,
@@ -184,7 +190,6 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 5,
       borderBottomLeftRadius: 5,
       borderBottomRightRadius: 5,
-      textAlign: 'center',
       width: '30%'
    },
    username: {
