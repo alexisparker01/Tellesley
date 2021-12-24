@@ -147,8 +147,8 @@ const styles = StyleSheet.create({
       marginTop: 10,
       height: "100%",
       width: "90%",
-      borderTopLeftRadius: 800, 
-      borderTopRightRadius: 800, 
+      borderTopLeftRadius: 700, 
+      borderTopRightRadius: 700, 
       paddingVertical: 50, 
       paddingHorizontal: 30,
       alignItems: 'center',
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     },
    buttons: {
       backgroundColor: "rgb(8,58,129)",
-      marginTop: 25,
+      marginTop: 15,
       marginBottom: 15,
       padding: 5,
       borderTopLeftRadius: 5, 
@@ -172,19 +172,12 @@ const styles = StyleSheet.create({
      color: '#343535',
    },
     profilePicture: {
-     height: 120,
-     width: 120,
+     height: 100,
+     width: 100,
      padding: 30,
      marginTop: 10,
      resizeMode: 'cover', 
      borderRadius: 400/2,
-   },
-
-   postsBox: {
-     borderColor: 'black',
-     borderRadius: 5,
-     width: 100,
-     height: 100,
    },
 
    text:{
@@ -204,5 +197,49 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 15,
       height: 40,
-   },
+   }, 
+    postContainer: {
+      backgroundColor: '#eeeded',
+      borderColor: 'rgb(222,222,222)',
+      borderWidth: 2,
+      fontSize: 18,
+      paddingTop:10,
+      paddingBottom:10,
+      marginLeft: 10
+    },
+    messageItem: {
+      marginTop: 10,
+      marginBottom: 10,
+      backgroundColor:'bisque',
+      color:'black',
+      borderWidth: 1,
+      borderColor: 'blue',
+    },
+    messageDateTime: {
+      paddingLeft: 5,
+      marginBottom: 3,
+      fontSize: 14,
+      color:'gray',
+    },
+    messageAuthor: {
+      paddingLeft: 5,
+      paddingBottom: 3,
+      marginLeft: 10,
+      fontSize: 14,
+      color:'rgb(8,58,129)',
+    },
+    messageContent: {
+      paddingLeft: 10,
+      paddingBottom: 3,
+      padding:5,
+      fontSize: 15,
+      color:'black',
+    },
+    messageCategory: {
+      paddingLeft: 10,
+      paddingBottom: 3,
+      padding:5,
+      fontSize: 15,
+      color:'black',
+    },
 })
