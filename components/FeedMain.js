@@ -30,9 +30,10 @@ const [isLiked, setIsLiked] = useState(false);
       <Text style={styles.messageAuthor}>{props.message.user}</Text>
       <Text style={styles.messageContent}>{props.message.post}</Text>
       <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
-      <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
-      <Text>{count}</Text>
-  
+      <View style = {{flexDirection:'row', marginRight: 10}}>
+        <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
+        <Text style = {styles.countStyle}> {count} </Text>
+      </View>
     </View> 
   ); 
   }
@@ -280,24 +281,31 @@ messageCategory: {
   color:'black',
 },
 likeButton: {
-  backgroundColor: "#919191",
-  marginBottom: 4,
-  marginTop: 4,
+  backgroundColor: "#cfcfcf",
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  borderBottomLeftRadius: 30,
+  borderBottomRightRadius: 30,
   textAlign: 'center',
   alignItems: 'center',
   justifyContent: 'center',
   padding: 5,
-  width: '10%',
+  marginLeft: 10,
+  width: '7%',
 },
 buttons: {
   backgroundColor: "rgb(8,58,129)",
   marginBottom: 15,
   marginTop: 7,
+  marginLeft: 10,
   textAlign: 'center',
   alignItems: 'center',
   justifyContent: 'center',
   padding: 5,
   width: '40%',
+},
+countStyle: {
+fontSize: 16
 },
 buttonText: {
    color: 'white',

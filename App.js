@@ -43,12 +43,7 @@ export default function App(props) {
   const [bio, setBio] = React.useState('Wellesley 2023');
 
   const [loggedInUser, setLoggedInUser] = React.useState(null);
-<<<<<<< Updated upstream
-  
-  const logOutUser = username => (setloggedInUser(null));
-=======
   const logOutUser = username => (setLoggedInUser(null));
->>>>>>> Stashed changes
 
   const firebaseApp = initializeApp(firebaseConfig);
   const auth = getAuth(firebaseApp);
