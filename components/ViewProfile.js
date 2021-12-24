@@ -67,18 +67,9 @@ export const ViewProfile = ({navigation}) => {{
       return {...data,  date: new Date(data.timestamp)}
     }
 
-    async function getFName(us){
-      const q = query(collection(loggedInProps.db, 'users'), where('email', '==', us));
-      const querySnapshot = await getDocs(q);
-      let getName = [];
-      querySnapshot.forEach(doc => {
-         getName.push(docToMessage(doc))
-      })
-    }
-
   async function getMessagesForUser(us) {
      //gets the user object with this email
-      const q = query(collection(loggedInProps.db, 'messages'), where('email', '==', us));
+      const q = query(collection(loggedInProps.db, 'messages'), where('user', '==', us));
       const querySnapshot = await getDocs(q);
 
       let userMsgs = []; 
@@ -86,7 +77,7 @@ export const ViewProfile = ({navigation}) => {{
           userMsgs.push(docToMessage(doc));
       });
       setSelectedMessages( userMsgs );
-      console.log("User messages: " + selectedMessages);
+      console.log("User messages: " + userMsgs);
     }
 
 

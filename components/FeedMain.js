@@ -302,7 +302,7 @@ buttons: {
   alignItems: 'center',
   justifyContent: 'center',
   padding: 5,
-  width: '40%',
+  width: '30%',
 },
 countStyle: {
 fontSize: 16
