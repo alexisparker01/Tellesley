@@ -105,7 +105,7 @@ export const ViewProfile = ({navigation}) => {{
     
       <View style = {styles.container}>
          <View style = {styles.header}> 
-            <Text style = {styles.username}>{loggedInProps.FName}</Text>
+            <Text style = {styles.username}>{loggedInProps.loggedInUser.email}</Text>
             <Image 
                   style={styles.profilePicture}
                   source={{

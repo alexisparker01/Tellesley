@@ -7,7 +7,7 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore, 
   collection, doc, addDoc, setDoc,
-  query, where, getDocs
+  query, where, getDocs, getDoc
 } from "firebase/firestore";
 import { loginStyle } from './loginStyle.js';
 import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
@@ -57,6 +57,7 @@ export const LoginScreen = ({navigation}) => {
           }
           else {setErrorMsg(errorMessage)}
         });
+
     }
   
     function checkEmailVerification() {
@@ -71,13 +72,6 @@ export const LoginScreen = ({navigation}) => {
       }
     }
 
-    function getFName(){
-        //getting user that corresponds to logged in email
-        const q = query(collection(loggedInProps.db, 'users'), where('email', '==', loggedInProps.loggedInUser.email ));
-        console.log("Here is q: " + q);
-        //loggedInProps.setFname(loggedInProps.dd(collection("users")));
-        //loggedInProps.setLName();
-    }
 
     return (
       <View style = {loginStyle.content}>
