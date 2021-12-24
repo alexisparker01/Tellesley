@@ -23,7 +23,7 @@ export const SignUpScreen = ({navigation}) => {
                        // or else we wouldn't be here
       }
       if (!loggedInProps.email.includes('@wellesley.edu')) {
-        setErrorMsg('Not a valid email address');
+        setErrorMsg('A Wellesley College email address is required to access Tellesley.');
         return;
       }
 /*       if (loggedInProps.password!==password2) {

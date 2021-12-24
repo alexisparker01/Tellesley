@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
@@ -11,12 +11,9 @@ import {MakePost} from './components/makePost.js';
 import NavigationBar from './components/NavigationBar.js';
 import ViewProfile from './components/ViewProfile.js';
 import StateContext from './components/StateContext.js';
-import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import { getAuth} from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import {getFirestore, 
-   collection, doc, addDoc, setDoc,
-  query, where, getDocs
-} from "firebase/firestore";
+import {getFirestore } from "firebase/firestore";
 
 const Stack = createNativeStackNavigator();
 
