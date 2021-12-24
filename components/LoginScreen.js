@@ -1,16 +1,8 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, View, TextInput} from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore, 
-  collection, doc, addDoc, setDoc,
-  query, where, getDocs, getDoc
-} from "firebase/firestore";
 import { loginStyle } from './loginStyle.js';
-import { getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import StateContext from './StateContext.js';
 
 

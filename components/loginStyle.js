@@ -1,6 +1,5 @@
 
-import {View, Text, TouchableOpacity, TextInput, StyleSheet} from 'react-native';
-import React, { Component } from 'react'
+import { StyleSheet} from 'react-native';
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //LOG IN PAGE STYLES

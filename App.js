@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 //most of the below lines are only here for testing purposes
 import { loginStyle} from './components/loginStyle.js';
-import {EditProfile} from './components/editProfile.js';
-import { LoginScreen } from './components/login.js'; 
-import { SignUpScreen } from './components/signUpScreen.js';
-import {Feed} from './components/FeedMain.js';
-import {MakePost} from './components/makePost.js';
-import NavigationBar from './components/NavigationBar.js';
+import {EditProfile} from './components/EditProfile.js';
+import { LoginScreen } from './components/LoginScreen.js'; 
+import { SignUpScreen } from './components/SignUpScreen.js';
+import {Feed} from './components/Feed.js';
+import {MakePost} from './components/MakePost.js';
 import ViewProfile from './components/ViewProfile.js';
 import StateContext from './components/StateContext.js';
 import { getAuth} from "firebase/auth";
