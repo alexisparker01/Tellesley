@@ -57,12 +57,6 @@ export const LoginScreen = ({navigation}) => {
           }
           else {setErrorMsg(errorMessage)}
         });
-
-        //getting user that corresponds to logged in email
-        const q = query(collection(loggedInProps.db, 'users'), where('email', '==', loggedInProps.loggedInUser.email ));
-        console.log("Here is q: " + q);
-        //loggedInProps.setFname(loggedInProps.dd(collection("users")));
-        //loggedInProps.setLName();
     }
   
     function checkEmailVerification() {
@@ -75,6 +69,14 @@ export const LoginScreen = ({navigation}) => {
           setErrorMsg(`Please verify ${loggedInProps.auth.currentUser.email} by clicking the link sent.`)
         }
       }
+    }
+
+    function getFName(){
+        //getting user that corresponds to logged in email
+        const q = query(collection(loggedInProps.db, 'users'), where('email', '==', loggedInProps.loggedInUser.email ));
+        console.log("Here is q: " + q);
+        //loggedInProps.setFname(loggedInProps.dd(collection("users")));
+        //loggedInProps.setLName();
     }
 
     return (

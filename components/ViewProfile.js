@@ -17,9 +17,9 @@ export const ViewProfile = ({navigation}) => {{
    const loggedInProps = useContext(StateContext);
    const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
-   const[count, setCount] = useState(0);
+/*    const[count, setCount] = useState(0);
    const likers = React.useState([]);
-   const [isLiked, setIsLiked] = useState(false);
+   const [isLiked, setIsLiked] = useState(false); */
 
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
@@ -42,10 +42,10 @@ export const ViewProfile = ({navigation}) => {{
         <Text style={styles.messageCategory}>{props.message.category}</Text>
         <Text style={styles.messageAuthor}>{props.message.user}</Text>
         <Text style={styles.messageContent}>{props.message.post}</Text>
-        <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
+       {/*  <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity> */}
         <View style = {{flexDirection:'row', marginRight: 10}}>
-          <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
-          <Text style = {styles.countStyle}> {count} </Text>
+{/*           <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
+          <Text style = {styles.countStyle}> {count} </Text> */}
         </View>
       </View> 
     ); 
@@ -87,7 +87,7 @@ export const ViewProfile = ({navigation}) => {{
     }
 
     
-  function like(){
+/*   function like(){
    if(!isLiked)
      //indexOf returns -1 if the element is not found in the array
      if(likers.indexOf(loggedInProps.loggedInUser.email) === -1){
@@ -99,7 +99,7 @@ export const ViewProfile = ({navigation}) => {{
        setIsLiked(!isLiked);
      }
    } 
-
+ */
 
       return (
     

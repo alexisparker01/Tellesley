@@ -14,9 +14,9 @@ export const Feed = ({navigation}) => {
 const loggedInProps = useContext(StateContext);
 
 
-const[count, setCount] = useState(0);
+/* const[count, setCount] = useState(0);
 const likers = React.useState([]);
-const [isLiked, setIsLiked] = useState(false);
+const [isLiked, setIsLiked] = useState(false); */
 
   function formatDateTime(date) {
     return `${date.toLocaleDateString('en-US')} ${date.toLocaleTimeString('en-US')}`; 
@@ -29,10 +29,10 @@ const [isLiked, setIsLiked] = useState(false);
       <Text style={styles.messageCategory}>{props.message.category}</Text>
       <Text style={styles.messageAuthor}>{props.message.user}</Text>
       <Text style={styles.messageContent}>{props.message.post}</Text>
-      <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
+      {/* <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity> */}
       <View style = {{flexDirection:'row', marginRight: 10}}>
-        <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
-        <Text style = {styles.countStyle}> {count} </Text>
+{/*         <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
+        <Text style = {styles.countStyle}> {count} </Text> */}
       </View>
     </View> 
   ); 
@@ -127,7 +127,7 @@ function deleteMessage(message){
         );
   }
 
-  function like(){
+/*   function like(){
     if(!isLiked)
       //indexOf returns -1 if the element is not found in the array
       if(likers.indexOf(loggedInProps.loggedInUser.email) === -1){
@@ -138,7 +138,7 @@ function deleteMessage(message){
         //make it true to indicate the post is liked
         setIsLiked(!isLiked);
       }
-    } 
+    }  */
   
 
     return ( 
