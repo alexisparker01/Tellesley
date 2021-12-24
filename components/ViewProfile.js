@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, View, Text, TouchableOpacity, TextInput, Button, StyleSheet, Image} from 'react-native'
+import { FlatList, View, Text, TouchableOpacity, TextInput, Button, Picker, StyleSheet, Image} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NavigationBar from './NavigationBar';
 import { collection, doc, setDoc,
@@ -17,6 +17,9 @@ export const ViewProfile = ({navigation}) => {{
    const loggedInProps = useContext(StateContext);
    const [useFirestore, setUseFirestore] = useState(selectedMessages.map( addTimestamp));
 
+   const[count, setCount] = useState(0);
+   const likers = React.useState([]);
+   const [isLiked, setIsLiked] = useState(false);
 
    const [state, setState] = useState ({
       bio: 'Wellesley College 2023',
@@ -40,7 +43,10 @@ export const ViewProfile = ({navigation}) => {{
         <Text style={styles.messageAuthor}>{props.message.user}</Text>
         <Text style={styles.messageContent}>{props.message.post}</Text>
         <TouchableOpacity style={styles.buttons}><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
-    
+        <View style = {{flexDirection:'row', marginRight: 10}}>
+          <TouchableOpacity style={styles.likeButton}onPress = {like()}><Text>Like</Text></TouchableOpacity>
+          <Text style = {styles.countStyle}> {count} </Text>
+        </View>
       </View> 
     ); 
     }
@@ -79,6 +85,20 @@ export const ViewProfile = ({navigation}) => {{
       setSelectedMessages( userMsgs );
       console.log("User messages: " + userMsgs);
     }
+
+    
+  function like(){
+   if(!isLiked)
+     //indexOf returns -1 if the element is not found in the array
+     if(likers.indexOf(loggedInProps.loggedInUser.email) === -1){
+       likers.push(loggedInProps.loggedInUser.email)
+       setCount(count + 1);
+
+     }else{
+       //make it true to indicate the post is liked
+       setIsLiked(!isLiked);
+     }
+   } 
 
 
       return (
@@ -158,12 +178,14 @@ const styles = StyleSheet.create({
       backgroundColor: "rgb(8,58,129)",
       marginTop: 15,
       marginBottom: 15,
+      marginLeft: 10,
       padding: 5,
       borderTopLeftRadius: 5, 
       borderTopRightRadius: 5,
       borderBottomLeftRadius: 5,
       borderBottomRightRadius: 5,
-      textAlign: 'center'
+      textAlign: 'center',
+      width: '30%'
    },
    username: {
      padding: 10,
@@ -241,5 +263,18 @@ const styles = StyleSheet.create({
       padding:5,
       fontSize: 15,
       color:'black',
+    },
+    likeButton: {
+      backgroundColor: "#cfcfcf",
+      borderTopLeftRadius: 30,
+      borderTopRightRadius: 30,
+      borderBottomLeftRadius: 30,
+      borderBottomRightRadius: 30,
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 5,
+      marginLeft: 10,
+      width: '20%',
     },
 })

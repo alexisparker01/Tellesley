@@ -291,7 +291,7 @@ likeButton: {
   justifyContent: 'center',
   padding: 5,
   marginLeft: 10,
-  width: '7%',
+  width: '15%',
 },
 buttons: {
   backgroundColor: "rgb(8,58,129)",
