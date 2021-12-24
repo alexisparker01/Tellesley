@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Button, Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 function NewPostButton(props){
   const content = (

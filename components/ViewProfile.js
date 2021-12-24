@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useContext, Component } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, View, Text, TouchableOpacity, TextInput, Button, Picker, StyleSheet, Image} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useState, useEffect, useContext } from 'react'
+import { FlatList, View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
 import NavigationBar from './NavigationBar';
-import { collection, doc, setDoc,
-   query, where, getDocs} from "firebase/firestore";
+import { collection, query, where, getDocs} from "firebase/firestore";
 import StateContext from './StateContext.js';
  
 export const ViewProfile = ({navigation}) => {{

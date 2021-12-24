@@ -1,10 +1,9 @@
 import React, {useState, useEffect, useContext } from 'react';
-import { FlatList, Text, View, StyleSheet, TouchableOpacity, Picker, Alert } from 'react-native';
+import { FlatList, Text, View, StyleSheet, Picker } from 'react-native';
 import Constants from 'expo-constants';
-import NewPostButton from './newPostButton';
+import NewPostButton from './NewPostButton';
 import { collection, doc, setDoc,
           query, where, getDocs} from "firebase/firestore";
-import { MakePost } from './makePost.js';
 import NavigationBar from './NavigationBar.js';
 import StateContext from './StateContext.js';
 

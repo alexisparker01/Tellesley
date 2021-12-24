@@ -1,13 +1,9 @@
-import React, {Component, useState, useContext} from 'react';
+import React, { useState, useContext} from 'react';
 import { View, Text } from 'react-native';
 import { loginStyle, signUpStyle } from './loginStyle.js';
 import { Button, TextInput} from 'react-native-paper';
-import { initializeApp } from "firebase/app"; 
-import {getAuth, onAuthStateChanged,
-        createUserWithEmailAndPassword,
-        sendEmailVerification,
-        signOut} from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, query, where, getDocs} from "firebase/firestore";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import StateContext from './StateContext.js';
 
 

@@ -1,11 +1,8 @@
-import React, {useState, useContext} from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView, View, TextInput, Keyboard, DismissKeyboard, TouchableOpacity, StyleSheet, Picker, ScrollView, TouchableWithoutFeedback} from 'react-native';
+import React, { useContext} from 'react';
+import { SafeAreaView, TextInput, Keyboard, StyleSheet, Picker } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Card, Button, Text } from 'react-native-paper';
-import {getFirestore, collection, doc, addDoc, setDoc,query, where, getDocs
-} from "firebase/firestore";
+import { Button, Text } from 'react-native-paper';
+import { doc, setDoc } from "firebase/firestore";
 import StateContext from './StateContext.js';
 
 
