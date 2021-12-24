@@ -148,7 +148,7 @@ function deleteMessage(message){
     {/* upper white section */}
       <View style = {styles.header}>
       
-      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.FName}! </Text>
+      <Text style={{fontSize: 15, alignItems: 'right'}}> Welcome, {loggedInProps.loggedInUser.email}! </Text>
       </View>
 
 
