@@ -57,6 +57,12 @@ export const LoginScreen = ({navigation}) => {
           }
           else {setErrorMsg(errorMessage)}
         });
+
+        //getting user that corresponds to logged in email
+        const q = query(collection(loggedInProps.db, 'users'), where('email', '==', loggedInProps.loggedInUser.email ));
+        console.log("Here is q: " + q);
+        //loggedInProps.setFname(loggedInProps.dd(collection("users")));
+        //loggedInProps.setLName();
     }
   
     function checkEmailVerification() {

@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       justifyContent: 'center',
       backgroundColor: 'white',
-      fontFamily: "Times New Roman",
    },
    messageList: {
       width:'90%',
